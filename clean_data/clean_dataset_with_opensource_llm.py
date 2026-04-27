@@ -8,7 +8,7 @@ Evaluates each combination against the gold label column (relation_present)
 and writes accuracy / precision / recall / F1 to the log and to a summary file.
 
 Usage:
-    CUDA_VISIBLE_DEVICES=4,5,6 python clean_dataset_with_opensource_llm.py
+    CUDA_VISIBLE_DEVICES=0 python clean_dataset_with_opensource_llm.py
     CUDA_VISIBLE_DEVICES=4,5,6 python clean_dataset_with_opensource_llm.py --input outputs/prepared_gold_dataset.csv
     CUDA_VISIBLE_DEVICES=4,5,6 python clean_dataset_with_opensource_llm.py 2>&1 | tee llm_run.txt
 """
@@ -47,19 +47,20 @@ RELATION_COLS = {
     "template": "template_relation", # natural-language template sentence
 }
 
-# Models: id, short tag, model type ("instruct" uses chat template, "base" uses completion)
+# Models: id, short tag, model type ("instruct" uses chat template, "base" uses completion),
+#         max_new_tokens overrides the default (reasoning models need room for the thinking block)
 LLM_MODELS = [
-    {"id": "google/gemma-3-27b-it",          "tag": "gemma3",   "type": "instruct"},
     {"id": "dicta-il/DictaLM-3.0-24B-Base",  "tag": "dictalm3", "type": "base"},
-    {"id": "CohereLabs/aya-expanse-32b",      "tag": "aya32b",   "type": "instruct"},
+    {"id": "CohereLabs/aya-expanse-32b",           "tag": "aya32b",   "type": "instruct"},
+    {"id": "google/gemma-3-27b-it",               "tag": "gemma3",   "type": "instruct"},
 ]
 
 PROMPT_LANGS   = ["he", "en"]          # Hebrew and English prompts
 RELATION_TYPES = ["triplet", "template"]
 
 LLM_BATCH_SIZE    = 16     # vLLM handles batching internally; used as HF fallback batch size
-LLM_MAX_NEW_TOKENS = 10    # we only need yes/no, a few tokens suffice
-LLM_MAX_INPUT_LEN  = 1024  # tokenizer truncation length
+LLM_MAX_NEW_TOKENS = 32    # we only need yes/no, a few tokens suffice
+LLM_MAX_INPUT_LEN  = 2048  # tokenizer truncation length
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -255,25 +256,26 @@ _NO_TOKENS  = {"no",  "לא"}
 
 def parse_yes_no(raw: str) -> str:
     """
-    Extract yes/no from model generation. Returns 'yes', 'no', or 'unknown'.
+    Extract yes/no from model generation. Returns '1', '0', or 'unknown'.
+    Strips <think>...</think> reasoning blocks first (reasoning models).
     Prioritises the first non-empty token, then falls back to substring search.
     """
-    cleaned = raw.strip()
+    cleaned = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL).strip()
     tokens = re.split(r"[\s.,!?:;()\[\]\"']+", cleaned)
     tokens = [t.lower() for t in tokens if t]
 
     if tokens:
         if tokens[0] in _YES_TOKENS:
-            return "yes"
+            return "1"
         if tokens[0] in _NO_TOKENS:
-            return "no"
+            return "0"
 
     # Fallback: substring search (whole word)
     lower = cleaned.lower()
     if re.search(r"\byes\b", lower) or "כן" in lower:
-        return "yes"
+        return "1"
     if re.search(r"\bno\b",  lower) or "לא" in lower:
-        return "no"
+        return "0"
 
     return "unknown"
 
@@ -303,6 +305,7 @@ def load_llm(model_id: str, log: logging.Logger, n_gpus: int = 1):
     log.info(f"    backend: HuggingFace + flash_attention_2")
     tokenizer = transformers.AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
     tokenizer.padding_side = "left"
+    tokenizer.truncation_side = "left" # Better to lose the system prompt than the strict output constraint, but 2048 prevents both.
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
@@ -348,6 +351,20 @@ def unload_llm(model, log: logging.Logger):
 # Generation
 # ---------------------------------------------------------------------------
 
+_BASE_STOP_STRINGS = ["\n", "כן", "לא", "yes", "no"]
+
+
+def _stop_token_ids(tokenizer, stop_strings: list[str]) -> list[int]:
+    """Return single-token IDs for each stop string (with and without leading space)."""
+    ids: set[int] = set()
+    for s in stop_strings:
+        for variant in [s, " " + s]:
+            toks = tokenizer.encode(variant, add_special_tokens=False)
+            if len(toks) == 1:
+                ids.add(toks[0])
+    return list(ids)
+
+
 def classify_rows(
     rows: list[dict],
     model,
@@ -358,6 +375,7 @@ def classify_rows(
     batch_size: int,
     log: logging.Logger,
     desc: str,
+    max_new_tokens: int = LLM_MAX_NEW_TOKENS,
 ) -> tuple[list[str], list[str]]:
     """
     Returns (parsed_labels, raw_outputs) — one entry per row.
@@ -369,8 +387,9 @@ def classify_rows(
     # --- vLLM path ---
     if VLLM_AVAILABLE and isinstance(model, vLLM):
         sampling_params = SamplingParams(
-            max_tokens=LLM_MAX_NEW_TOKENS,
+            max_tokens=max_new_tokens,
             temperature=0,
+            stop=_BASE_STOP_STRINGS if model_type == "base" else [],
         )
         log.info(f"    vLLM generating {n} prompts (continuous batching)...")
         outputs = model.generate(prompts, sampling_params)
@@ -384,6 +403,12 @@ def classify_rows(
     # --- HuggingFace path ---
     parsed, raws = [], []
     log_every = max(1, (n // batch_size) // 4)
+
+    hf_stop_kwargs = {}
+    if model_type == "base":
+        stop_ids = _stop_token_ids(tokenizer, _BASE_STOP_STRINGS)
+        if stop_ids:
+            hf_stop_kwargs["eos_token_id"] = [tokenizer.eos_token_id] + stop_ids
 
     for batch_idx, start in enumerate(
         tqdm(range(0, n, batch_size), desc=f"    {desc}", leave=False,
@@ -404,11 +429,12 @@ def classify_rows(
         with torch.no_grad():
             output_ids = model.generate(
                 **encodings,
-                max_new_tokens=LLM_MAX_NEW_TOKENS,
+                max_new_tokens=max_new_tokens,
                 do_sample=False,
                 temperature=None,
                 top_p=None,
                 pad_token_id=tokenizer.pad_token_id,
+                **hf_stop_kwargs,
             )
 
         for out in output_ids:
@@ -429,7 +455,7 @@ def classify_rows(
 
 def compute_metrics(labels: list[str], gold: list[str]) -> dict:
     """
-    labels: "yes"/"no"/"unknown"  (unknown treated as "no")
+    labels: "1"/"0"/"unknown"  (unknown treated as "0")
     gold:   "1" / "0"
     """
     TP = FP = FN = TN = 0
@@ -437,7 +463,7 @@ def compute_metrics(labels: list[str], gold: list[str]) -> dict:
     for pred, g in zip(labels, gold):
         if pred == "unknown":
             unknown += 1
-        pos = pred == "yes"
+        pos = pred == "1"
         gold_pos = g == "1"
         if pos and gold_pos:       TP += 1
         elif pos and not gold_pos: FP += 1
@@ -594,23 +620,30 @@ def main():
         model, tokenizer = load_llm(model_id, log, n_gpus=n_gpus)
         log.info(f"    loaded in {_fmt_duration(time.time() - t_model)}")
 
+        max_new_tokens = model_cfg.get("max_new_tokens", LLM_MAX_NEW_TOKENS)
+
         for combo_idx, (lang, rel_type) in enumerate(combos, 1):
             clean_col = f"llm_clean_{tag}_{lang}_{rel_type}"
             raw_col   = f"llm_raw_{tag}_{lang}_{rel_type}"
             desc      = f"{tag}/{lang}/{rel_type}"
 
-            log.info(f"  [{combo_idx}/{len(combos)}]  lang={lang}  rel_type={rel_type}")
+            log.info("*" * 70)
+            log.info(f"  STARTING COMBINATION {combo_idx}/{len(combos)}")
+            log.info(f"    model:     {tag}  ({model_id})")
+            log.info(f"    lang:      {lang}")
+            log.info(f"    rel_type:  {rel_type}")
+            log.info("*" * 70)
             log.info(f"    output cols: {clean_col}, {raw_col}")
             log.info(f"    relation col: {RELATION_COLS[rel_type]}")
 
             # Log one example prompt for transparency
             example_prompt = build_prompt(model_type, lang, rel_type, rows[0], tokenizer)
-            log.info(f"    example prompt (row 0):\n{'-'*40}\n{example_prompt[:600]}\n{'-'*40}")
-
+            log.info(f"    example prompt (row 0):\n{'-'*40}\n{example_prompt}\n{'-'*40}")
             t0 = time.time()
             parsed, raws = classify_rows(
                 rows, model, tokenizer, model_type, lang, rel_type,
                 batch_size=args.batch_size, log=log, desc=desc,
+                max_new_tokens=max_new_tokens,
             )
             elapsed = time.time() - t0
 
@@ -622,14 +655,22 @@ def main():
             rps     = n_rows / elapsed if elapsed > 0 else float("inf")
 
             # Count each label
-            counts = {v: parsed.count(v) for v in ("yes", "no", "unknown")}
-            log.info(f"    done  ({_fmt_duration(elapsed)}, {rps:.1f} rows/s)")
-            log.info(f"    predictions: yes={counts['yes']}, no={counts['no']}, unknown={counts['unknown']}")
-            log.info(f"    confusion:   TP={metrics['TP']}  FP={metrics['FP']}  "
-                     f"FN={metrics['FN']}  TN={metrics['TN']}")
-            log.info(f"    metrics:     accuracy={metrics['accuracy']:.4f}  "
-                     f"precision={metrics['precision']:.4f}  "
-                     f"recall={metrics['recall']:.4f}  F1={metrics['f1']:.4f}")
+            counts = {v: parsed.count(v) for v in ("1", "0", "unknown")}
+            m = metrics
+            log.info(f"  {'=' * 66}")
+            log.info(f"  RESULT  {tag} | {lang} | {rel_type}")
+            log.info(f"  {'─' * 66}")
+            log.info(
+                f"  {'acc':>6} {'prec':>6} {'rec':>6} {'f1':>6}   "
+                f"{'TP':>5} {'FP':>5} {'FN':>5} {'TN':>5}   "
+                f"{'unk':>4}  {'rows/s':>7}  {'time':>8}"
+            )
+            log.info(
+                f"  {m['accuracy']:>6.3f} {m['precision']:>6.3f} {m['recall']:>6.3f} {m['f1']:>6.3f}   "
+                f"  {m['TP']:>4}   {m['FP']:>4}   {m['FN']:>4}   {m['TN']:>4}   "
+                f"{m['unknown']:>4}  {rps:>7.1f}  {_fmt_duration(elapsed):>8}"
+            )
+            log.info(f"  {'=' * 66}")
 
             log.info(f"    examples (first 3 rows):")
             for r, label, raw in zip(rows[:3], parsed[:3], raws[:3]):
@@ -645,14 +686,14 @@ def main():
         unload_llm(model, log)
         log.info(f"  [{tag}] total time: {_fmt_duration(model_total)}")
 
-    # --- Save CSV ---
-    t0 = time.time()
-    fieldnames = list(dict.fromkeys(rows[0].keys()))
-    with open(output_path, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(rows)
-    log.info(f"[save]  {n_rows} rows written to {output_path}  ({_fmt_duration(time.time() - t0)})")
+        # --- Save CSV after each model ---
+        t0 = time.time()
+        fieldnames = list(dict.fromkeys(rows[0].keys()))
+        with open(output_path, "w", encoding="utf-8", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+        log.info(f"[save]  {n_rows} rows written to {output_path}  ({_fmt_duration(time.time() - t0)})")
 
     # --- Summary ---
     total = time.time() - wall_start

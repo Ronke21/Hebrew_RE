@@ -30,7 +30,7 @@ from tqdm import tqdm
 # Hyperparameters / macros
 # ---------------------------------------------------------------------------
 
-INPUT_FILE   = "outputs/prepared_gold_dataset.csv"
+INPUT_FILE   = "outputs/prepared_gold_dataset_gemma_3_27b_it.csv"
 OUTPUT_FILE  = "outputs/api_llm_classified.csv"
 LOG_FILE     = "outputs/api_llm_classify.log"
 SUMMARY_FILE = "outputs/api_llm_summary.txt"
@@ -74,12 +74,26 @@ RETRY_BASE_DELAY = 2.0   # seconds; doubles each retry
 # Logging
 # ---------------------------------------------------------------------------
 
+class TqdmToLogger:
+    """Redirect tqdm output to a logger at INFO level."""
+    def __init__(self, logger):
+        self._logger = logger
+
+    def write(self, msg):
+        msg = msg.strip()
+        if msg:
+            self._logger.info(msg)
+
+    def flush(self):
+        pass
+
+
 def setup_logger(log_path: str) -> logging.Logger:
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     logger = logging.getLogger("clean_dataset_with_api_llm")
     logger.setLevel(logging.INFO)
     fmt = logging.Formatter("%(asctime)s  %(levelname)s  %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
-    fh = logging.FileHandler(log_path, encoding="utf-8")
+    fh = logging.FileHandler(log_path, mode="w", encoding="utf-8")
     fh.setFormatter(fmt)
     ch = logging.StreamHandler()
     ch.setFormatter(fmt)
@@ -258,13 +272,15 @@ def classify_rows(
         raw, in_tok, out_tok = call_api(client, model_id, messages)
         return idx, raw, in_tok, out_tok
 
-    log_every = max(1, len(rows) // 4)
+    n = len(rows)
+    log_every = max(1, n // 4)
+    t_start = time.time()
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=n_workers) as executor:
         futures = {executor.submit(_process, (i, r)): i for i, r in enumerate(rows)}
         for done_count, future in enumerate(
-            tqdm(concurrent.futures.as_completed(futures), total=len(rows),
-                 desc=f"    {desc}", leave=False), 1
+            tqdm(concurrent.futures.as_completed(futures), total=n,
+                 desc=f"    {desc}", leave=False, file=TqdmToLogger(log)), 1
         ):
             idx, raw, in_tok, out_tok = future.result()
             parsed[idx]   = parse_yes_no(raw)
@@ -272,10 +288,16 @@ def classify_rows(
             total_in_tok  += in_tok
             total_out_tok += out_tok
 
-            if done_count % log_every == 0 or done_count == len(rows):
-                log.info(f"    progress: {done_count}/{len(rows)} "
-                         f"({100*done_count/len(rows):.0f}%)  "
-                         f"tokens so far: in={total_in_tok}, out={total_out_tok}")
+            if done_count % log_every == 0 or done_count == n:
+                elapsed = time.time() - t_start
+                rps = done_count / elapsed if elapsed > 0 else 0
+                eta = (n - done_count) / rps if rps > 0 else 0
+                log.info(
+                    f"    progress: {done_count}/{n} ({100*done_count/n:.0f}%)  "
+                    f"elapsed={_fmt_duration(elapsed)}  speed={rps:.1f} rows/s  "
+                    f"ETA={_fmt_duration(eta)}  "
+                    f"tokens so far: in={total_in_tok:,}, out={total_out_tok:,}"
+                )
 
     return parsed, raws, total_in_tok, total_out_tok
 
@@ -474,12 +496,14 @@ def main():
             raw_col   = f"llm_raw_{tag}_{lang}_{rel_type}"
             desc      = f"{tag}/{lang}/{rel_type}"
 
-            log.info(f"  [{combo_idx}/{len(combos)}]  lang={lang}  rel_type={rel_type}")
+            log.info(f"  [{combo_idx}/{len(combos)}]  model={tag}  lang={lang}  "
+                     f"rel_type={rel_type}  hypothesis_col={RELATION_COLS[rel_type]}")
             log.info(f"    output cols: {clean_col}, {raw_col}")
 
             # Log one example prompt
             example_msgs = build_messages(lang, rel_type, rows[0])
-            log.info(f"    example prompt (row 0):\n{'-'*40}")
+            log.info(f"    example prompt (row 0):")
+            log.info(f"    {'-'*40}")
             for msg in example_msgs:
                 log.info(f"    [{msg['role']}] {msg['content'][:400]}")
             log.info(f"    {'-'*40}")
@@ -508,6 +532,11 @@ def main():
             log.info(f"    metrics:     accuracy={metrics['accuracy']:.4f}  "
                      f"precision={metrics['precision']:.4f}  "
                      f"recall={metrics['recall']:.4f}  F1={metrics['f1']:.4f}")
+
+            log.info(f"    examples (first 3 rows):")
+            for r, label, raw in zip(rows[:3], parsed[:3], raws[:3]):
+                log.info(f"      hypothesis: {r[RELATION_COLS[rel_type]]!r}")
+                log.info(f"      raw={raw!r}  parsed={label}  gold={r[args.label_col]}")
 
             run_stats.append({
                 "model": tag, "lang": lang, "rel_type": rel_type,
