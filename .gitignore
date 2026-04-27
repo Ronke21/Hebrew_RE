@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Model weights (large binaries)
+*.bin
+*.safetensors
+*.npy
+*.pt
+*.ckpt
+*.ot
+spiece.model
+sentencepiece.bpe.model
+vocab.txt
+
+# TensorBoard logs
+events.out.tfevents.*
+
+# Large data files
+data/crocodile_heb25_full_dataset_3124k.csv
+
+# Generated outputs
+outputs/
+
+# ARCHIVE generated data
+ARCHIVE/gemma3/
+ARCHIVE/kfold_rc/
+ARCHIVE/results/
+
+# Claude internal
+.claude/
