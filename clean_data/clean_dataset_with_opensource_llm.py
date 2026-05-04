@@ -8,9 +8,10 @@ Evaluates each combination against the gold label column (relation_present)
 and writes accuracy / precision / recall / F1 to the log and to a summary file.
 
 Usage:
-    CUDA_VISIBLE_DEVICES=0 python clean_dataset_with_opensource_llm.py
+    CUDA_VISIBLE_DEVICES=5,6,7 python clean_dataset_with_opensource_llm.py 2>&1 | tee opensource_llm_run_temp.txt
+    CUDA_VISIBLE_DEVICES=6,7 python clean_dataset_with_opensource_llm.py
     CUDA_VISIBLE_DEVICES=4,5,6 python clean_dataset_with_opensource_llm.py --input outputs/prepared_gold_dataset.csv
-    CUDA_VISIBLE_DEVICES=4,5,6 python clean_dataset_with_opensource_llm.py 2>&1 | tee llm_run.txt
+    CUDA_VISIBLE_DEVICES=6,7 python clean_dataset_with_opensource_llm.py 2>&1 | tee llm_run_temp.txt
 """
 
 import os
@@ -24,11 +25,19 @@ import torch
 import transformers
 from tqdm import tqdm
 
+# --- PATCH START ---
+# Restores compatibility between vLLM and transformers >= 5.0.0
+if not hasattr(transformers.PreTrainedTokenizerBase, "all_special_tokens_extended"):
+    transformers.PreTrainedTokenizerBase.all_special_tokens_extended = property(lambda self: self.all_special_tokens)
+# --- PATCH END ---
+
 try:
     from vllm import LLM as vLLM, SamplingParams
     VLLM_AVAILABLE = True
 except ImportError:
     VLLM_AVAILABLE = False
+
+VLLM_AVAILABLE = False
 
 # ---------------------------------------------------------------------------
 # Hyperparameters / macros
@@ -50,8 +59,9 @@ RELATION_COLS = {
 # Models: id, short tag, model type ("instruct" uses chat template, "base" uses completion),
 #         max_new_tokens overrides the default (reasoning models need room for the thinking block)
 LLM_MODELS = [
+    {"id": "Qwen/Qwen3-30B-A3B-Instruct-2507", "tag": "qwen3",   "type": "instruct"},
     {"id": "dicta-il/DictaLM-3.0-24B-Base",  "tag": "dictalm3", "type": "base"},
-    {"id": "CohereLabs/aya-expanse-32b",           "tag": "aya32b",   "type": "instruct"},
+    {"id": "CohereLabs/aya-expanse-32b",           "tag": "cohere_aya32b",   "type": "instruct"},
     {"id": "google/gemma-3-27b-it",               "tag": "gemma3",   "type": "instruct"},
 ]
 
@@ -287,12 +297,20 @@ def parse_yes_no(raw: str) -> str:
 def load_llm(model_id: str, log: logging.Logger, n_gpus: int = 1):
     log.info(f"    path: {model_id}")
 
+    # Dynamically determine the best dtype based on hardware architecture
+    if torch.cuda.is_available():
+        major_capability, _ = torch.cuda.get_device_capability()
+        # Ampere (8.0) and above support bfloat16 natively
+        vllm_dtype, pt_dtype = ("bfloat16", torch.bfloat16) if major_capability >= 8 else ("float16", torch.float16)
+    else:
+        vllm_dtype, pt_dtype = ("float16", torch.float16)
+
     if VLLM_AVAILABLE:
-        log.info(f"    backend: vLLM  (tensor_parallel_size={n_gpus})")
+        log.info(f"    backend: vLLM  (tensor_parallel_size={n_gpus}, dtype={vllm_dtype})")
         llm = vLLM(
             model=model_id,
             tensor_parallel_size=n_gpus,
-            dtype="bfloat16",
+            dtype=vllm_dtype,
             trust_remote_code=True,
             max_model_len=LLM_MAX_INPUT_LEN + LLM_MAX_NEW_TOKENS,
             gpu_memory_utilization=0.90,
@@ -302,10 +320,10 @@ def load_llm(model_id: str, log: logging.Logger, n_gpus: int = 1):
         return llm, tokenizer
 
     # HuggingFace fallback with flash attention and larger batch
-    log.info(f"    backend: HuggingFace + flash_attention_2")
+    log.info(f"    backend: HuggingFace + flash_attention_2 (dtype={pt_dtype})")
     tokenizer = transformers.AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
     tokenizer.padding_side = "left"
-    tokenizer.truncation_side = "left" # Better to lose the system prompt than the strict output constraint, but 2048 prevents both.
+    tokenizer.truncation_side = "left" 
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
@@ -313,7 +331,7 @@ def load_llm(model_id: str, log: logging.Logger, n_gpus: int = 1):
         model = transformers.AutoModelForCausalLM.from_pretrained(
             model_id,
             device_map="auto",
-            torch_dtype=torch.bfloat16,
+            torch_dtype=pt_dtype,
             trust_remote_code=True,
             attn_implementation="flash_attention_2",
         )
@@ -323,14 +341,14 @@ def load_llm(model_id: str, log: logging.Logger, n_gpus: int = 1):
         model = transformers.AutoModelForCausalLM.from_pretrained(
             model_id,
             device_map="auto",
-            torch_dtype=torch.bfloat16,
+            torch_dtype=pt_dtype,
             trust_remote_code=True,
         )
+        
     model.eval()
     n_params = sum(p.numel() for p in model.parameters()) / 1e9
-    log.info(f"    ready  ({n_params:.1f}B params, device_map=auto, bfloat16)")
+    log.info(f"    ready  ({n_params:.1f}B params, device_map=auto, {pt_dtype})")
     return model, tokenizer
-
 
 def unload_llm(model, log: logging.Logger):
     if VLLM_AVAILABLE and isinstance(model, vLLM):
@@ -484,10 +502,35 @@ def compute_metrics(labels: list[str], gold: list[str]) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Majority voting
+# ---------------------------------------------------------------------------
+
+def compute_majority(rows: list[dict], col_names: list[str]) -> list[str]:
+    """
+    For each row, majority vote across `col_names`.
+    'unknown' votes are excluded from counting.
+    Ties (or no valid votes) → 'unknown'.
+    """
+    results = []
+    for row in rows:
+        votes = [row[col] for col in col_names if col in row and row[col] in ("1", "0")]
+        ones  = votes.count("1")
+        zeros = votes.count("0")
+        if ones > zeros:
+            results.append("1")
+        elif zeros > ones:
+            results.append("0")
+        else:
+            results.append("unknown")
+    return results
+
+
+# ---------------------------------------------------------------------------
 # Summary file
 # ---------------------------------------------------------------------------
 
-def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger, total: float):
+def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger, total: float,
+                  majority_stats: list[dict] | None = None):
     lines = []
     lines.append("=" * 100)
     lines.append("LLM CLASSIFICATION SUMMARY")
@@ -507,7 +550,7 @@ def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger,
         rps = rows_total / t if t > 0 else float("inf")
         lines.append(f"  {m:<12}  {_fmt_duration(t)}  ({rps:.1f} rows/s across all combos)")
 
-    # Metrics table
+    # Per-model metrics table
     lines.append("")
     hdr = (
         f"  {'model':<10} {'lang':<4} {'rel_type':<10} "
@@ -527,6 +570,27 @@ def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger,
             f"{m['TP']:>5} {m['FP']:>5} {m['FN']:>5} {m['TN']:>5}  "
             f"{m['unknown']:>4}  {rps:>7.1f}  {_fmt_duration(s['time']):>8}"
         )
+
+    # Majority vote table
+    if majority_stats:
+        lines.append("")
+        lines.append("Majority vote columns:")
+        hdr2 = (
+            f"  {'column':<40} "
+            f"{'acc':>6} {'prec':>6} {'rec':>6} {'f1':>6}  "
+            f"{'TP':>5} {'FP':>5} {'FN':>5} {'TN':>5}  "
+            f"{'unk':>4}  {'voters':>6}"
+        )
+        lines.append(hdr2)
+        lines.append("  " + "-" * (len(hdr2) - 2))
+        for s in majority_stats:
+            m = s["metrics"]
+            lines.append(
+                f"  {s['col']:<40} "
+                f"{m['accuracy']:>6.3f} {m['precision']:>6.3f} {m['recall']:>6.3f} {m['f1']:>6.3f}  "
+                f"{m['TP']:>5} {m['FP']:>5} {m['FN']:>5} {m['TN']:>5}  "
+                f"{m['unknown']:>4}  {s['n_voters']:>6}"
+            )
 
     lines.append("=" * 100)
     text = "\n".join(lines)
@@ -695,9 +759,68 @@ def main():
             writer.writerows(rows)
         log.info(f"[save]  {n_rows} rows written to {output_path}  ({_fmt_duration(time.time() - t0)})")
 
+    # --- Majority voting ---
+    log.info("=" * 70)
+    log.info("[majority]  computing majority-vote columns")
+    majority_stats: list[dict] = []
+
+    # 1. Per (lang, rel_type): majority across all models
+    for lang, rel_type in combos:
+        source_cols = [f"llm_clean_{m['tag']}_{lang}_{rel_type}" for m in LLM_MODELS]
+        col = f"llm_majority_{lang}_{rel_type}"
+        labels = compute_majority(rows, source_cols)
+        for r, label in zip(rows, labels):
+            r[col] = label
+        metrics = compute_metrics(labels, gold)
+        majority_stats.append({"col": col, "n_voters": len(LLM_MODELS), "metrics": metrics})
+        m = metrics
+        log.info(f"  {col}: acc={m['accuracy']:.3f} prec={m['precision']:.3f} "
+                 f"rec={m['recall']:.3f} f1={m['f1']:.3f}  unk={m['unknown']}")
+
+    # 2. Best-per-model majority: pick each model's best (lang, rel_type) by F1, then vote
+    best_cols = []
+    for model_cfg in LLM_MODELS:
+        tag = model_cfg["tag"]
+        model_runs = [s for s in run_stats if s["model"] == tag]
+        best = max(model_runs, key=lambda s: s["metrics"]["f1"])
+        best_cols.append(f"llm_clean_{tag}_{best['lang']}_{best['rel_type']}")
+        log.info(f"  best combo for {tag}: {best['lang']}/{best['rel_type']} "
+                 f"(F1={best['metrics']['f1']:.3f})")
+    col = "llm_majority_best_per_model"
+    labels = compute_majority(rows, best_cols)
+    for r, label in zip(rows, labels):
+        r[col] = label
+    metrics = compute_metrics(labels, gold)
+    majority_stats.append({"col": col, "n_voters": len(best_cols), "metrics": metrics})
+    m = metrics
+    log.info(f"  {col}: acc={m['accuracy']:.3f} prec={m['precision']:.3f} "
+             f"rec={m['recall']:.3f} f1={m['f1']:.3f}  unk={m['unknown']}")
+
+    # 3. Overall majority across all (model × lang × rel_type) combinations
+    all_cols = [f"llm_clean_{m['tag']}_{lang}_{rel_type}"
+                for m in LLM_MODELS for lang, rel_type in combos]
+    col = "llm_majority_all"
+    labels = compute_majority(rows, all_cols)
+    for r, label in zip(rows, labels):
+        r[col] = label
+    metrics = compute_metrics(labels, gold)
+    majority_stats.append({"col": col, "n_voters": len(all_cols), "metrics": metrics})
+    m = metrics
+    log.info(f"  {col}: acc={m['accuracy']:.3f} prec={m['precision']:.3f} "
+             f"rec={m['recall']:.3f} f1={m['f1']:.3f}  unk={m['unknown']}")
+
+    # --- Final CSV save (with majority columns) ---
+    t0 = time.time()
+    fieldnames = list(dict.fromkeys(rows[0].keys()))
+    with open(output_path, "w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+    log.info(f"[save]  {n_rows} rows written with majority columns  ({_fmt_duration(time.time() - t0)})")
+
     # --- Summary ---
     total = time.time() - wall_start
-    write_summary(run_stats, summary_path, log, total)
+    write_summary(run_stats, summary_path, log, total, majority_stats=majority_stats)
     log.info(f"Summary written to {summary_path}")
 
 

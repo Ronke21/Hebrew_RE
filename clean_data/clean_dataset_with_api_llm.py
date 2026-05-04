@@ -14,11 +14,13 @@ Usage:
     python clean_dataset_with_api_llm.py
     python clean_dataset_with_api_llm.py --input outputs/prepared_gold_dataset.csv
     python clean_dataset_with_api_llm.py --workers 16
+    python clean_dataset_with_api_llm.py --debug          # run on first 10 rows only (quick validation)
 """
 
 import os
 import re
 import csv
+import json
 import time
 import logging
 import argparse
@@ -30,10 +32,12 @@ from tqdm import tqdm
 # Hyperparameters / macros
 # ---------------------------------------------------------------------------
 
-INPUT_FILE   = "outputs/prepared_gold_dataset_gemma_3_27b_it.csv"
-OUTPUT_FILE  = "outputs/api_llm_classified.csv"
-LOG_FILE     = "outputs/api_llm_classify.log"
-SUMMARY_FILE = "outputs/api_llm_summary.txt"
+INPUT_FILE         = "outputs/prepared_gold_dataset_gemma_3_27b_it.csv"
+OUTPUT_FILE        = "outputs/api_llm_classified.csv"
+LOG_FILE           = "outputs/api_llm_classify.log"
+SUMMARY_FILE       = "outputs/api_llm_summary.txt"
+ERROR_ANALYSIS_FILE = "outputs/api_llm_error_analysis.txt"
+PROMPTS_FILE        = "outputs/api_llm_prompts.jsonl"
 
 LABEL_COL = "relation_present"    # gold label: "1" = present, "0" = absent
 
@@ -51,24 +55,25 @@ RELATION_COLS = {
 # API models: id on OpenRouter, short tag, and price per 1M tokens (USD, from openrouter.ai)
 API_MODELS = [
     {
-        "id":  "openai/gpt-5.4",
-        "tag": "gpt54",
-        "prices_per_1m": {"input": 2.50, "output": 15.0},
+        "id":  "openai/gpt-5.1",
+        "tag": "gpt51",
+        "prices_per_1m": {"input": 0.518, "output": 10.0},
     },
     {
-        "id":  "google/gemini-3.1-pro-preview",
-        "tag": "gemini31_pro",
-        "prices_per_1m": {"input": 2.0, "output": 12.0},
+        "id":  "google/gemini-2.5-pro",
+        "tag": "gemini25_pro",
+        "prices_per_1m": {"input": 0.881, "output": 10.01},
     },
 ]
 
 PROMPT_LANGS   = ["he", "en"]
-RELATION_TYPES = ["triplet", "template"]
+RELATION_TYPES = ["triplet"] #["triplet", "template"]
 
-LLM_MAX_TOKENS = 10      # we only need yes/no
-MAX_WORKERS    = 8       # concurrent API requests per combo
-MAX_RETRIES    = 3       # retries on API error
-RETRY_BASE_DELAY = 2.0   # seconds; doubles each retry
+LLM_MAX_TOKENS = 16      # minimum accepted by Azure-backed models (e.g. GPT via OpenRouter)
+MAX_WORKERS    = 4       # concurrent API requests per combo (increase via --workers to go faster)
+MAX_RETRIES      = 5       # retries on API error
+RETRY_BASE_DELAY = 2.0   # seconds; doubles each retry (non-429)
+RETRY_429_DELAY  = 60.0  # seconds to wait on rate-limit (429) before retrying
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -200,18 +205,18 @@ _YES_TOKENS = {"yes", "כן"}
 _NO_TOKENS  = {"no",  "לא"}
 
 def parse_yes_no(raw: str) -> str:
-    cleaned = raw.strip()
+    cleaned = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL).strip()
     tokens = [t.lower() for t in re.split(r"[\s.,!?:;()\[\]\"']+", cleaned) if t]
     if tokens:
         if tokens[0] in _YES_TOKENS:
-            return "yes"
+            return "1"
         if tokens[0] in _NO_TOKENS:
-            return "no"
+            return "0"
     lower = cleaned.lower()
     if re.search(r"\byes\b", lower) or "כן" in lower:
-        return "yes"
+        return "1"
     if re.search(r"\bno\b",  lower) or "לא" in lower:
-        return "no"
+        return "0"
     return "unknown"
 
 
@@ -222,7 +227,8 @@ def parse_yes_no(raw: str) -> str:
 def call_api(client, model_id: str, messages: list[dict]) -> tuple[str, int, int]:
     """
     Call OpenRouter and return (raw_text, input_tokens, output_tokens).
-    Retries up to MAX_RETRIES times with exponential backoff.
+    Retries up to MAX_RETRIES times. 429 rate-limit errors wait RETRY_429_DELAY
+    seconds before retrying; other errors use exponential backoff.
     """
     for attempt in range(MAX_RETRIES):
         try:
@@ -236,11 +242,14 @@ def call_api(client, model_id: str, messages: list[dict]) -> tuple[str, int, int
             usage = response.usage
             return raw, usage.prompt_tokens, usage.completion_tokens
         except Exception as e:
-            if attempt < MAX_RETRIES - 1:
-                delay = RETRY_BASE_DELAY * (2 ** attempt)
-                time.sleep(delay)
-            else:
+            is_last = attempt == MAX_RETRIES - 1
+            if is_last:
                 return f"ERROR: {e}", 0, 0
+            err_str = str(e)
+            if "429" in err_str or "rate limit" in err_str.lower():
+                time.sleep(RETRY_429_DELAY)
+            else:
+                time.sleep(RETRY_BASE_DELAY * (2 ** attempt))
 
 
 # ---------------------------------------------------------------------------
@@ -311,7 +320,7 @@ def compute_metrics(labels: list[str], gold: list[str]) -> dict:
     for pred, g in zip(labels, gold):
         if pred == "unknown":
             unknown += 1
-        pos      = pred == "yes"
+        pos      = pred == "1"
         gold_pos = g == "1"
         if pos and gold_pos:        TP += 1
         elif pos and not gold_pos:  FP += 1
@@ -329,6 +338,25 @@ def compute_metrics(labels: list[str], gold: list[str]) -> dict:
             "recall": recall, "f1": f1, "unknown": unknown}
 
 
+def compute_majority(rows: list[dict], col_names: list[str]) -> list[str]:
+    """
+    Majority vote across `col_names` for each row.
+    'unknown' votes are excluded. Ties or no valid votes → 'unknown'.
+    """
+    results = []
+    for row in rows:
+        votes = [row[col] for col in col_names if col in row and row[col] in ("1", "0")]
+        ones  = votes.count("1")
+        zeros = votes.count("0")
+        if ones > zeros:
+            results.append("1")
+        elif zeros > ones:
+            results.append("0")
+        else:
+            results.append("unknown")
+    return results
+
+
 def _estimate_cost(in_tok: int, out_tok: int, prices: dict) -> float:
     return (in_tok * prices["input"] + out_tok * prices["output"]) / 1_000_000
 
@@ -337,7 +365,8 @@ def _estimate_cost(in_tok: int, out_tok: int, prices: dict) -> float:
 # Summary
 # ---------------------------------------------------------------------------
 
-def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger, total: float):
+def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger, total: float,
+                  majority_stats=None):
     lines = []
     lines.append("=" * 110)
     lines.append("API LLM CLASSIFICATION SUMMARY")
@@ -386,6 +415,27 @@ def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger,
             f"{m['unknown']:>4}  {rps:>7.1f}  ${s['cost']:>7.4f}  {_fmt_duration(s['time']):>8}"
         )
 
+    # Majority vote table
+    if majority_stats:
+        lines.append("")
+        lines.append("Majority vote columns:")
+        hdr2 = (
+            f"  {'column':<40} "
+            f"{'acc':>6} {'prec':>6} {'rec':>6} {'f1':>6}  "
+            f"{'TP':>5} {'FP':>5} {'FN':>5} {'TN':>5}  "
+            f"{'unk':>4}  {'voters':>6}"
+        )
+        lines.append(hdr2)
+        lines.append("  " + "-" * (len(hdr2) - 2))
+        for s in majority_stats:
+            m = s["metrics"]
+            lines.append(
+                f"  {s['col']:<40} "
+                f"{m['accuracy']:>6.3f} {m['precision']:>6.3f} {m['recall']:>6.3f} {m['f1']:>6.3f}  "
+                f"{m['TP']:>5} {m['FP']:>5} {m['FN']:>5} {m['TN']:>5}  "
+                f"{m['unknown']:>4}  {s['n_voters']:>6}"
+            )
+
     lines.append("=" * 110)
     text = "\n".join(lines)
 
@@ -393,6 +443,112 @@ def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger,
         f.write(text + "\n")
     for line in lines:
         log.info(line)
+
+
+# ---------------------------------------------------------------------------
+# Error analysis
+# ---------------------------------------------------------------------------
+
+def write_error_analysis(
+    rows: list[dict],
+    run_stats: list[dict],
+    gold: list[str],
+    label_col: str,
+    error_path: str,
+    log: logging.Logger,
+    max_examples: int = 10,
+):
+    W = 100
+    lines = []
+
+    n_rows = len(rows)
+    n_pos  = gold.count("1")
+
+    lines.append("=" * W)
+    lines.append("  API LLM ERROR ANALYSIS")
+    lines.append(f"  Total rows         : {n_rows}")
+    lines.append(f"  Positive / Negative: {n_pos} / {n_rows - n_pos}  "
+                 f"({100*n_pos/n_rows:.1f}% / {100*(n_rows-n_pos)/n_rows:.1f}%)")
+    lines.append("=" * W)
+
+    # --- Section 1: per-combo FP / FN breakdown ---
+    lines.append("")
+    lines.append("=" * W)
+    lines.append("  SECTION 1 — PER-COMBO ERROR COUNTS")
+    lines.append("=" * W)
+    hdr = f"  {'combo':<35} {'F1':>6} {'FP':>5} {'FN':>5} {'unk':>5}  FP-rate  FN-rate"
+    lines.append(hdr)
+    lines.append("  " + "-" * (len(hdr) - 2))
+    for s in run_stats:
+        m     = s["metrics"]
+        combo = f"{s['model']}/{s['lang']}/{s['rel_type']}"
+        fp_rate = m["FP"] / (m["FP"] + m["TN"]) if (m["FP"] + m["TN"]) else 0
+        fn_rate = m["FN"] / (m["FN"] + m["TP"]) if (m["FN"] + m["TP"]) else 0
+        lines.append(
+            f"  {combo:<35} {m['f1']:>6.3f} {m['FP']:>5} {m['FN']:>5} {m['unknown']:>5}"
+            f"  {fp_rate:.3f}    {fn_rate:.3f}"
+        )
+
+    # --- Sections 2 & 3: FP and FN examples per combo ---
+    for s in run_stats:
+        tag      = s["model"]
+        lang     = s["lang"]
+        rel_type = s["rel_type"]
+        combo    = f"{tag}/{lang}/{rel_type}"
+        clean_col = f"llm_clean_{tag}_{lang}_{rel_type}"
+        raw_col   = f"llm_raw_{tag}_{lang}_{rel_type}"
+        hyp_col   = RELATION_COLS[rel_type]
+
+        fp_rows = [(i, r) for i, r in enumerate(rows)
+                   if r.get(clean_col) == "1" and r[label_col] == "0"]
+        fn_rows = [(i, r) for i, r in enumerate(rows)
+                   if r.get(clean_col) == "0" and r[label_col] == "1"]
+
+        for section_title, examples in [
+            (f"FALSE POSITIVES  [{combo}]  (predicted=1, gold=0)  — {len(fp_rows)} total", fp_rows),
+            (f"FALSE NEGATIVES  [{combo}]  (predicted=0, gold=1)  — {len(fn_rows)} total", fn_rows),
+        ]:
+            lines.append("")
+            lines.append("=" * W)
+            lines.append(f"  {section_title}")
+            lines.append("=" * W)
+            for i, (row_idx, row) in enumerate(examples[:max_examples]):
+                text_snip = row["text"].replace("\n", " ")[:150]
+                lines.append(f"  [row {row_idx}]")
+                lines.append(f"    text     : {text_snip!r}")
+                lines.append(f"    hypothesis: {row[hyp_col]!r}")
+                lines.append(f"    raw output: {row.get(raw_col, '')!r}")
+            if len(examples) > max_examples:
+                lines.append(f"  ... and {len(examples) - max_examples} more")
+
+    # --- Section 4: Hard rows — majority_all was wrong ---
+    lines.append("")
+    lines.append("=" * W)
+    all_clean_cols = [
+        f"llm_clean_{s['model']}_{s['lang']}_{s['rel_type']}" for s in run_stats
+    ]
+    hard = [
+        (i, r) for i, r in enumerate(rows)
+        if r.get("llm_majority_all") not in (None, "") and
+           r.get("llm_majority_all") != r[label_col]
+    ]
+    lines.append(f"  SECTION 4 — HARD ROWS: majority_all WRONG — {len(hard)} rows ({100*len(hard)/n_rows:.1f}%)")
+    lines.append("=" * W)
+    for row_idx, row in hard[:max_examples]:
+        text_snip = row["text"].replace("\n", " ")[:150]
+        lines.append(f"  [row {row_idx}]  gold={row[label_col]}  majority_all={row.get('llm_majority_all')}")
+        lines.append(f"    text: {text_snip!r}")
+        for col in all_clean_cols:
+            raw_col = col.replace("llm_clean_", "llm_raw_")
+            lines.append(f"    {col:<45} pred={row.get(col):<8} raw={row.get(raw_col, '')!r}")
+    if len(hard) > max_examples:
+        lines.append(f"  ... and {len(hard) - max_examples} more")
+
+    lines.append("=" * W)
+    text = "\n".join(lines)
+    with open(error_path, "w", encoding="utf-8") as f:
+        f.write(text + "\n")
+    log.info(f"Error analysis written to {error_path}")
 
 
 # ---------------------------------------------------------------------------
@@ -406,10 +562,14 @@ def main():
     parser.add_argument("--input",     default=INPUT_FILE,   help=f"Input CSV (default: {INPUT_FILE})")
     parser.add_argument("--output",    default=OUTPUT_FILE,  help=f"Output CSV (default: {OUTPUT_FILE})")
     parser.add_argument("--log",       default=LOG_FILE,     help=f"Log file (default: {LOG_FILE})")
-    parser.add_argument("--summary",   default=SUMMARY_FILE, help=f"Summary file (default: {SUMMARY_FILE})")
+    parser.add_argument("--summary",        default=SUMMARY_FILE,       help=f"Summary file (default: {SUMMARY_FILE})")
+    parser.add_argument("--error-analysis", default=ERROR_ANALYSIS_FILE, help=f"Error analysis file (default: {ERROR_ANALYSIS_FILE})")
+    parser.add_argument("--prompts",         default=PROMPTS_FILE,        help=f"Prompts+responses JSONL file (default: {PROMPTS_FILE})")
     parser.add_argument("--label-col", default=LABEL_COL,    help=f"Gold label column (default: {LABEL_COL})")
     parser.add_argument("--workers",   type=int, default=MAX_WORKERS,
                         help=f"Concurrent API requests (default: {MAX_WORKERS})")
+    parser.add_argument("--debug",     action="store_true",
+                        help="Run on first 10 rows only (for quick validation)")
     args = parser.parse_args()
 
     api_key = os.environ.get(OPENROUTER_API_KEY_ENV)
@@ -420,11 +580,13 @@ def main():
         )
 
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    input_path   = os.path.join(base, args.input)
-    output_path  = os.path.join(base, args.output)
-    log_path     = os.path.join(base, args.log)
-    summary_path = os.path.join(base, args.summary)
-    for p in (output_path, log_path, summary_path):
+    input_path         = os.path.join(base, args.input)
+    output_path        = os.path.join(base, args.output)
+    log_path           = os.path.join(base, args.log)
+    summary_path       = os.path.join(base, args.summary)
+    error_analysis_path = os.path.join(base, args.error_analysis)
+    prompts_path        = os.path.join(base, args.prompts)
+    for p in (output_path, log_path, summary_path, error_analysis_path, prompts_path):
         os.makedirs(os.path.dirname(p), exist_ok=True)
 
     log = setup_logger(log_path)
@@ -441,7 +603,7 @@ def main():
     log.info(f"  label col:    {args.label_col}")
     log.info(f"  workers:      {args.workers}")
     log.info(f"  max new tok:  {LLM_MAX_TOKENS}")
-    log.info(f"  max retries:  {MAX_RETRIES}")
+    log.info(f"  max retries:  {MAX_RETRIES}  (429 backoff: {RETRY_429_DELAY}s)")
     log.info(f"  models ({len(API_MODELS)}):")
     for m in API_MODELS:
         log.info(f"    [{m['tag']}]  {m['id']}  "
@@ -453,6 +615,9 @@ def main():
     t0 = time.time()
     with open(input_path, encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
+    if args.debug:
+        rows = rows[:10]
+        log.info("[debug]  truncated to first 10 rows")
     n_rows = len(rows)
     log.info(f"[load]  {n_rows} rows  ({_fmt_duration(time.time() - t0)})")
 
@@ -480,6 +645,7 @@ def main():
     )
 
     run_stats: list[dict] = []
+    prompt_records: list[dict] = []
 
     # --- Main loop ---
     for model_idx, model_cfg in enumerate(API_MODELS, 1):
@@ -515,18 +681,28 @@ def main():
             )
             elapsed = time.time() - t0
 
-            for r, label, raw in zip(rows, parsed, raws):
+            for i, (r, label, raw) in enumerate(zip(rows, parsed, raws)):
                 r[clean_col] = label
                 r[raw_col]   = raw
+                prompt_records.append({
+                    "row_idx":  i,
+                    "model":    tag,
+                    "lang":     lang,
+                    "rel_type": rel_type,
+                    "messages": build_messages(lang, rel_type, r),
+                    "raw":      raw,
+                    "parsed":   label,
+                    "gold":     r[args.label_col],
+                })
 
             metrics = compute_metrics(parsed, gold)
             cost    = _estimate_cost(in_tok, out_tok, prices)
             rps     = n_rows / elapsed if elapsed > 0 else float("inf")
-            counts  = {v: parsed.count(v) for v in ("yes", "no", "unknown")}
+            counts  = {v: parsed.count(v) for v in ("1", "0", "unknown")}
 
             log.info(f"    done  ({_fmt_duration(elapsed)}, {rps:.1f} rows/s)")
             log.info(f"    tokens:      in={in_tok:,}, out={out_tok:,}, cost=${cost:.4f}")
-            log.info(f"    predictions: yes={counts['yes']}, no={counts['no']}, unknown={counts['unknown']}")
+            log.info(f"    predictions: yes={counts['1']}, no={counts['0']}, unknown={counts['unknown']}")
             log.info(f"    confusion:   TP={metrics['TP']}  FP={metrics['FP']}  "
                      f"FN={metrics['FN']}  TN={metrics['TN']}")
             log.info(f"    metrics:     accuracy={metrics['accuracy']:.4f}  "
@@ -547,19 +723,88 @@ def main():
 
         log.info(f"  [{tag}] total time: {_fmt_duration(time.time() - t_model)}")
 
-    # --- Save CSV ---
+        # --- Save CSV after each model (checkpoint) ---
+        t0 = time.time()
+        fieldnames = list(dict.fromkeys(rows[0].keys()))
+        with open(output_path, "w", encoding="utf-8", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+        log.info(f"[save]  {n_rows} rows written to {output_path}  ({_fmt_duration(time.time() - t0)})")
+
+    # --- Majority voting ---
+    log.info("=" * 70)
+    log.info("[majority]  computing majority-vote columns")
+    majority_stats: list[dict] = []
+
+    # 1. Per (lang, rel_type): majority across all models
+    for lang, rel_type in combos:
+        source_cols = [f"llm_clean_{m['tag']}_{lang}_{rel_type}" for m in API_MODELS]
+        col = f"llm_majority_{lang}_{rel_type}"
+        labels = compute_majority(rows, source_cols)
+        for r, label in zip(rows, labels):
+            r[col] = label
+        metrics = compute_metrics(labels, gold)
+        majority_stats.append({"col": col, "n_voters": len(API_MODELS), "metrics": metrics})
+        m = metrics
+        log.info(f"  {col}: acc={m['accuracy']:.3f} prec={m['precision']:.3f} "
+                 f"rec={m['recall']:.3f} f1={m['f1']:.3f}  unk={m['unknown']}")
+
+    # 2. Best-per-model majority: pick each model's best (lang, rel_type) by F1, then vote
+    best_cols = []
+    for model_cfg in API_MODELS:
+        tag = model_cfg["tag"]
+        model_runs = [s for s in run_stats if s["model"] == tag]
+        best = max(model_runs, key=lambda s: s["metrics"]["f1"])
+        best_cols.append(f"llm_clean_{tag}_{best['lang']}_{best['rel_type']}")
+        log.info(f"  best combo for {tag}: {best['lang']}/{best['rel_type']} "
+                 f"(F1={best['metrics']['f1']:.3f})")
+    col = "llm_majority_best_per_model"
+    labels = compute_majority(rows, best_cols)
+    for r, label in zip(rows, labels):
+        r[col] = label
+    metrics = compute_metrics(labels, gold)
+    majority_stats.append({"col": col, "n_voters": len(best_cols), "metrics": metrics})
+    m = metrics
+    log.info(f"  {col}: acc={m['accuracy']:.3f} prec={m['precision']:.3f} "
+             f"rec={m['recall']:.3f} f1={m['f1']:.3f}  unk={m['unknown']}")
+
+    # 3. Overall majority across all (model × lang × rel_type) combinations
+    all_cols = [f"llm_clean_{m['tag']}_{lang}_{rel_type}"
+                for m in API_MODELS for lang, rel_type in combos]
+    col = "llm_majority_all"
+    labels = compute_majority(rows, all_cols)
+    for r, label in zip(rows, labels):
+        r[col] = label
+    metrics = compute_metrics(labels, gold)
+    majority_stats.append({"col": col, "n_voters": len(all_cols), "metrics": metrics})
+    m = metrics
+    log.info(f"  {col}: acc={m['accuracy']:.3f} prec={m['precision']:.3f} "
+             f"rec={m['recall']:.3f} f1={m['f1']:.3f}  unk={m['unknown']}")
+
+    # --- Final CSV save (with majority columns) ---
     t0 = time.time()
     fieldnames = list(dict.fromkeys(rows[0].keys()))
     with open(output_path, "w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
-    log.info(f"[save]  {n_rows} rows written to {output_path}  ({_fmt_duration(time.time() - t0)})")
+    log.info(f"[save]  {n_rows} rows written with majority columns  ({_fmt_duration(time.time() - t0)})")
 
     # --- Summary ---
     total = time.time() - wall_start
-    write_summary(run_stats, summary_path, log, total)
+    write_summary(run_stats, summary_path, log, total, majority_stats=majority_stats)
     log.info(f"Summary written to {summary_path}")
+
+    # --- Prompts + responses JSONL ---
+    with open(prompts_path, "w", encoding="utf-8") as f:
+        for rec in prompt_records:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    log.info(f"Prompts log written to {prompts_path}  ({len(prompt_records)} records)")
+
+    # --- Error analysis ---
+    write_error_analysis(rows, run_stats, gold, args.label_col, error_analysis_path, log)
+    log.info(f"Error analysis written to {error_analysis_path}")
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ and writes accuracy / precision / recall / F1 to the log and to a summary file.
 Usage:
     CUDA_VISIBLE_DEVICES=0 python clean_dataset_with_nli.py
     CUDA_VISIBLE_DEVICES=2 python clean_dataset_with_nli.py --input outputs/prepared_gold_dataset.csv
-    CUDA_VISIBLE_DEVICES=4,5,6 python clean_dataset_with_nli.py 2>&1 | tee nli_run.txt
+    CUDA_VISIBLE_DEVICES=4 python clean_dataset_with_nli.py 2>&1 | tee nli_run_temp.txt
 """
 
 import os
@@ -140,6 +140,22 @@ def compute_metrics(scores: list[float], labels: list[str], threshold: float) ->
         "score_mean": mean, "score_median": median,
         "score_min": s_min, "score_max": s_max,
     }
+
+
+# ---------------------------------------------------------------------------
+# Ensemble (majority) voting
+# ---------------------------------------------------------------------------
+
+def compute_ensemble(rows: list[dict], conf_col_names: list[str]) -> list[float]:
+    """
+    Average confidence scores from `conf_col_names` for each row.
+    NLI-adapted equivalent of majority voting: soft ensemble of continuous scores.
+    """
+    results = []
+    for row in rows:
+        vals = [float(row[col]) for col in conf_col_names if col in row]
+        results.append(sum(vals) / len(vals) if vals else 0.0)
+    return results
 
 
 # ---------------------------------------------------------------------------
@@ -292,7 +308,7 @@ def run_nli(
 # ---------------------------------------------------------------------------
 
 def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger,
-                  total_time: float):
+                  total_time: float, ensemble_stats: list[dict] | None = None):
     lines = []
     lines.append("=" * 100)
     lines.append("NLI CLASSIFICATION SUMMARY")
@@ -311,7 +327,7 @@ def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger,
     for model, t in model_times.items():
         lines.append(f"  {model:<16}  {_fmt_duration(t)}")
 
-    # Metrics table — one row per (model, hypothesis, threshold)
+    # Per-model metrics table — one row per (model, hypothesis, threshold)
     lines.append("")
     hdr = (
         f"  {'model':<14} {'hypothesis':<22} {'thresh':>6}  "
@@ -334,6 +350,31 @@ def write_summary(run_stats: list[dict], summary_path: str, log: logging.Logger,
             )
             first = False
         lines.append("  " + "-" * (len(hdr) - 2))
+
+    # Ensemble table — one row per (ensemble_col, threshold)
+    if ensemble_stats:
+        lines.append("")
+        lines.append("Ensemble (averaged confidence) columns:")
+        hdr2 = (
+            f"  {'column':<36} {'thresh':>6}  "
+            f"{'acc':>6} {'prec':>6} {'rec':>6} {'f1':>6}  "
+            f"{'TP':>5} {'FP':>5} {'FN':>5} {'TN':>5}  "
+            f"{'mean_conf':>9}  {'voters':>6}"
+        )
+        lines.append(hdr2)
+        lines.append("  " + "-" * (len(hdr2) - 2))
+        for s in ensemble_stats:
+            first = True
+            for thresh, m in s["metrics_by_threshold"].items():
+                voters_str = str(s["n_voters"]) if first else ""
+                lines.append(
+                    f"  {s['col']:<36} {thresh:>6.1f}  "
+                    f"{m['accuracy']:>6.3f} {m['precision']:>6.3f} {m['recall']:>6.3f} {m['f1']:>6.3f}  "
+                    f"{m['TP']:>5} {m['FP']:>5} {m['FN']:>5} {m['TN']:>5}  "
+                    f"{m['score_mean']:>9.4f}  {voters_str:>6}"
+                )
+                first = False
+            lines.append("  " + "-" * (len(hdr2) - 2))
 
     lines.append("=" * 100)
     text = "\n".join(lines)
@@ -764,7 +805,64 @@ def main():
         unload_model(model, log)
         log.info(f"  [{tag}] total time (load + inference): {_fmt_duration(model_total)}")
 
-    # --- Save CSV ---
+    # --- Ensemble (majority) voting ---
+    log.info("=" * 70)
+    log.info("[ensemble]  computing ensemble columns (averaged confidence scores)")
+    ensemble_stats: list[dict] = []
+    hyp_cols = list(dict.fromkeys(h for _, h in PREMISE_HYPOTHESIS_PAIRS))
+
+    # 1. Per hypothesis: average confidence across all models
+    for hyp_col in hyp_cols:
+        source_cols = [f"confidence_{tag}_{hyp_col}" for _, tag in NLI_MODELS]
+        ens_col = f"nli_ensemble_{hyp_col}"
+        scores = compute_ensemble(rows, source_cols)
+        for r, score in zip(rows, scores):
+            r[ens_col] = f"{score:.4f}"
+        metrics_by_threshold = {
+            thresh: compute_metrics(scores, labels, thresh) for thresh in EVAL_THRESHOLDS
+        }
+        ensemble_stats.append({"col": ens_col, "n_voters": len(NLI_MODELS),
+                                "metrics_by_threshold": metrics_by_threshold})
+        best_f1 = max(m["f1"] for m in metrics_by_threshold.values())
+        log.info(f"  {ens_col}: best F1={best_f1:.3f}  (voters: {len(source_cols)})")
+
+    # 2. Best-per-model: for each model pick its best hyp_col by F1 at ANALYSIS_THRESHOLD, then average
+    best_cols = []
+    for _, tag in NLI_MODELS:
+        model_runs = [s for s in run_stats if s["model"] == tag]
+        best = max(model_runs,
+                   key=lambda s: _get_metrics_at(s, ANALYSIS_THRESHOLD)["f1"])
+        best_cols.append(f"confidence_{tag}_{best['hypothesis']}")
+        log.info(f"  best hyp for {tag}: {best['hypothesis']!r}  "
+                 f"(F1={_get_metrics_at(best, ANALYSIS_THRESHOLD)['f1']:.3f} at thresh={ANALYSIS_THRESHOLD})")
+    ens_col = "nli_ensemble_best_per_model"
+    scores = compute_ensemble(rows, best_cols)
+    for r, score in zip(rows, scores):
+        r[ens_col] = f"{score:.4f}"
+    metrics_by_threshold = {
+        thresh: compute_metrics(scores, labels, thresh) for thresh in EVAL_THRESHOLDS
+    }
+    ensemble_stats.append({"col": ens_col, "n_voters": len(best_cols),
+                            "metrics_by_threshold": metrics_by_threshold})
+    best_f1 = max(m["f1"] for m in metrics_by_threshold.values())
+    log.info(f"  {ens_col}: best F1={best_f1:.3f}  (voters: {len(best_cols)})")
+
+    # 3. Overall: average all (model × hyp_col) confidence scores
+    all_cols = [f"confidence_{tag}_{hyp_col}"
+                for _, tag in NLI_MODELS for hyp_col in hyp_cols]
+    ens_col = "nli_ensemble_all"
+    scores = compute_ensemble(rows, all_cols)
+    for r, score in zip(rows, scores):
+        r[ens_col] = f"{score:.4f}"
+    metrics_by_threshold = {
+        thresh: compute_metrics(scores, labels, thresh) for thresh in EVAL_THRESHOLDS
+    }
+    ensemble_stats.append({"col": ens_col, "n_voters": len(all_cols),
+                            "metrics_by_threshold": metrics_by_threshold})
+    best_f1 = max(m["f1"] for m in metrics_by_threshold.values())
+    log.info(f"  {ens_col}: best F1={best_f1:.3f}  (voters: {len(all_cols)})")
+
+    # --- Save CSV (includes both raw confidence and ensemble columns) ---
     t0 = time.time()
     fieldnames = list(dict.fromkeys(rows[0].keys()))  # deduplicate, preserve order
     with open(output_path, "w", encoding="utf-8", newline="") as f:
@@ -775,7 +873,7 @@ def main():
 
     # --- Summary ---
     total = time.time() - wall_start
-    write_summary(run_stats, summary_path, log, total)
+    write_summary(run_stats, summary_path, log, total, ensemble_stats=ensemble_stats)
     log.info(f"Summary written to {summary_path}")
 
     # --- Error analysis ---
