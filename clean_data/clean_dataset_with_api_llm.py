@@ -70,10 +70,10 @@ PROMPT_LANGS   = ["he", "en"]
 RELATION_TYPES = ["triplet"] #["triplet", "template"]
 
 LLM_MAX_TOKENS = 16      # minimum accepted by Azure-backed models (e.g. GPT via OpenRouter)
-MAX_WORKERS    = 4       # concurrent API requests per combo (increase via --workers to go faster)
+MAX_WORKERS    = 8       # concurrent API requests per combo (increase via --workers to go faster)
 MAX_RETRIES      = 5       # retries on API error
 RETRY_BASE_DELAY = 2.0   # seconds; doubles each retry (non-429)
-RETRY_429_DELAY  = 60.0  # seconds to wait on rate-limit (429) before retrying
+RETRY_429_DELAY  = 20.0  # seconds to wait on rate-limit (429) before retrying
 
 # ---------------------------------------------------------------------------
 # Logging

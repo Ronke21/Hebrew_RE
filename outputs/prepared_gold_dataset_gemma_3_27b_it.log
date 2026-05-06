@@ -1,0 +1,79 @@
+2026-04-27 17:49:05  INFO  ============================================================
+2026-04-27 17:49:05  INFO  prepare_dataset.py  started
+2026-04-27 17:49:05  INFO    input:      /home/nlp/ronke21/hebrew_RE/data/crocodile_heb25_gold_500.csv
+2026-04-27 17:49:05  INFO    output:     /home/nlp/ronke21/hebrew_RE/outputs/prepared_gold_dataset_gemma_3_27b_it.csv
+2026-04-27 17:49:05  INFO    log:        /home/nlp/ronke21/hebrew_RE/outputs/prepared_gold_dataset_gemma_3_27b_it.log
+2026-04-27 17:49:05  INFO    llm model:  google/gemma-3-27b-it
+2026-04-27 17:49:05  INFO    batch size: 16
+2026-04-27 17:49:05  INFO  ============================================================
+2026-04-27 17:49:05  INFO  [load]              500 rows loaded  (0s)
+2026-04-27 17:49:05  INFO  [step 1 preprocess] done  (0s)
+2026-04-27 17:49:05  INFO  [step 2 basic_rel]  done  (0s)
+2026-04-27 17:49:05  INFO  [step 3 tmpl_rel]   done  (0s)
+2026-04-27 17:49:16  INFO  Loading LLM: google/gemma-3-27b-it
+2026-04-27 17:49:28  INFO    tokenizer loaded (12s)
+2026-04-27 17:50:22  INFO    model loaded (54s)
+2026-04-27 17:50:22  INFO  [step 4 llm_rel]    model loaded, generating for 500 rows ...
+2026-04-27 17:50:22  INFO      total rows=500, batch_size=16, n_batches=32
+2026-04-27 17:50:22  INFO  LLM generation:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-04-27 17:50:59  INFO  LLM generation:   3%|3         | 1/32 [00:37<19:18, 37.36s/it]
+2026-04-27 17:51:30  INFO  LLM generation:   6%|6         | 2/32 [01:08<16:49, 33.66s/it]
+2026-04-27 17:52:06  INFO  LLM generation:   9%|9         | 3/32 [01:43<16:41, 34.53s/it]
+2026-04-27 17:52:43  INFO  LLM generation:  12%|#2        | 4/32 [02:21<16:37, 35.62s/it]
+2026-04-27 17:53:14  INFO      batch 5/32  rows 80/500 (16%)  elapsed=2m 51s  speed=0.5 rows/s  ETA=15m 2s
+2026-04-27 17:53:14  INFO      sample output: 'ניס הוא חלק מהאלפים הימיים.'
+2026-04-27 17:53:14  INFO  LLM generation:  16%|#5        | 5/32 [02:51<15:13, 33.83s/it]
+2026-04-27 17:53:46  INFO  LLM generation:  19%|#8        | 6/32 [03:24<14:28, 33.39s/it]
+2026-04-27 17:54:29  INFO  LLM generation:  22%|##1       | 7/32 [04:07<15:09, 36.39s/it]
+2026-04-27 17:55:04  INFO  LLM generation:  25%|##5       | 8/32 [04:41<14:18, 35.78s/it]
+2026-04-27 17:55:41  INFO  LLM generation:  28%|##8       | 9/32 [05:18<13:52, 36.19s/it]
+2026-04-27 17:56:16  INFO      batch 10/32  rows 160/500 (32%)  elapsed=5m 53s  speed=0.5 rows/s  ETA=12m 31s
+2026-04-27 17:56:16  INFO      sample output: 'מזרח הוא ההפך מצפון.'
+2026-04-27 17:56:16  INFO  LLM generation:  31%|###1      | 10/32 [05:53<13:09, 35.89s/it]
+2026-04-27 17:56:45  INFO  LLM generation:  34%|###4      | 11/32 [06:22<11:49, 33.79s/it]
+2026-04-27 17:57:19  INFO  LLM generation:  38%|###7      | 12/32 [06:57<11:19, 33.97s/it]
+2026-04-27 17:57:54  INFO  LLM generation:  41%|####      | 13/32 [07:31<10:49, 34.17s/it]
+2026-04-27 17:58:28  INFO  LLM generation:  44%|####3     | 14/32 [08:05<10:12, 34.03s/it]
+2026-04-27 17:59:09  INFO      batch 15/32  rows 240/500 (48%)  elapsed=8m 47s  speed=0.5 rows/s  ETA=9m 31s
+2026-04-27 17:59:09  INFO      sample output: 'היונקרס Ju 86 הוא סוג של מפציץ.'
+2026-04-27 17:59:09  INFO  LLM generation:  47%|####6     | 15/32 [08:47<10:17, 36.35s/it]
+2026-04-27 17:59:47  INFO  LLM generation:  50%|#####     | 16/32 [09:25<09:49, 36.86s/it]
+2026-04-27 18:00:26  INFO  LLM generation:  53%|#####3    | 17/32 [10:04<09:21, 37.41s/it]
+2026-04-27 18:01:02  INFO  LLM generation:  56%|#####6    | 18/32 [10:40<08:39, 37.10s/it]
+2026-04-27 18:01:40  INFO  LLM generation:  59%|#####9    | 19/32 [11:18<08:05, 37.33s/it]
+2026-04-27 18:02:17  INFO      batch 20/32  rows 320/500 (64%)  elapsed=11m 55s  speed=0.4 rows/s  ETA=6m 42s
+2026-04-27 18:02:17  INFO      sample output: 'איילין דייוויס היא שחקנית.'
+2026-04-27 18:02:17  INFO  LLM generation:  62%|######2   | 20/32 [11:55<07:26, 37.24s/it]
+2026-04-27 18:02:53  INFO  LLM generation:  66%|######5   | 21/32 [12:30<06:43, 36.70s/it]
+2026-04-27 18:03:22  INFO  LLM generation:  69%|######8   | 22/32 [12:59<05:44, 34.41s/it]
+2026-04-27 18:03:54  INFO  LLM generation:  72%|#######1  | 23/32 [13:31<05:03, 33.74s/it]
+2026-04-27 18:04:30  INFO  LLM generation:  75%|#######5  | 24/32 [14:08<04:35, 34.42s/it]
+2026-04-27 18:05:06  INFO      batch 25/32  rows 400/500 (80%)  elapsed=14m 43s  speed=0.5 rows/s  ETA=3m 40s
+2026-04-27 18:05:06  INFO      sample output: 'סלובקיה מנהלת יחסים דיפלומטיים עם הונגריה.'
+2026-04-27 18:05:06  INFO  LLM generation:  78%|#######8  | 25/32 [14:43<04:03, 34.77s/it]
+2026-04-27 18:05:40  INFO  LLM generation:  81%|########1 | 26/32 [15:17<03:27, 34.56s/it]
+2026-04-27 18:06:29  INFO  LLM generation:  84%|########4 | 27/32 [16:06<03:14, 38.88s/it]
+2026-04-27 18:07:03  INFO  LLM generation:  88%|########7 | 28/32 [16:41<02:30, 37.56s/it]
+2026-04-27 18:07:39  INFO  LLM generation:  91%|######### | 29/32 [17:17<01:51, 37.20s/it]
+2026-04-27 18:08:15  INFO      batch 30/32  rows 480/500 (96%)  elapsed=17m 53s  speed=0.4 rows/s  ETA=44s
+2026-04-27 18:08:15  INFO      sample output: 'כיף להשתמש בכף היד.'
+2026-04-27 18:08:15  INFO  LLM generation:  94%|#########3| 30/32 [17:53<01:13, 36.75s/it]
+2026-04-27 18:08:53  INFO  LLM generation:  97%|#########6| 31/32 [18:31<00:37, 37.17s/it]
+2026-04-27 18:09:10  INFO      batch 32/32  rows 500/500 (100%)  elapsed=18m 48s  speed=0.4 rows/s  ETA=0s
+2026-04-27 18:09:10  INFO      sample output: 'עמק הייל שוכן ביבשת אנטארקטיקה.'
+2026-04-27 18:09:10  INFO  LLM generation: 100%|##########| 32/32 [18:48<00:00, 31.04s/it]
+2026-04-27 18:09:10  INFO  LLM generation: 100%|##########| 32/32 [18:48<00:00, 35.25s/it]
+2026-04-27 18:09:10  INFO  [step 4 llm_rel]    done  (20m 4s, 0.4 rows/s)
+2026-04-27 18:09:10  INFO  [save]              500 rows written  (0s)
+2026-04-27 18:09:10  INFO  ============================================================
+2026-04-27 18:09:10  INFO  SUMMARY
+2026-04-27 18:09:10  INFO    rows processed     : 500
+2026-04-27 18:09:10  INFO    load                 : 0s
+2026-04-27 18:09:10  INFO    preprocess           : 0s
+2026-04-27 18:09:10  INFO    basic_relation       : 0s
+2026-04-27 18:09:10  INFO    template_relation    : 0s
+2026-04-27 18:09:10  INFO    llm                  : 20m 4s
+2026-04-27 18:09:10  INFO    save                 : 0s
+2026-04-27 18:09:10  INFO    total wall time    : 20m 4s
+2026-04-27 18:09:10  INFO    overall throughput : 0.4 rows/s
+2026-04-27 18:09:10  INFO  ============================================================

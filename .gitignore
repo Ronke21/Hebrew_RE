@@ -20,9 +20,6 @@ events.out.tfevents.*
 # Large data files
 data/crocodile_heb25_full_dataset_3124k.csv
 
-# Generated outputs
-outputs/
-
 # ARCHIVE generated data
 ARCHIVE/gemma3/
 ARCHIVE/kfold_rc/
