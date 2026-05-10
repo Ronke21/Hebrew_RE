@@ -1,0 +1,690 @@
+
+====================================================================================================
+  NLI ERROR ANALYSIS
+  Analysis threshold : 0.7
+  Total rows         : 500
+  Positive / Negative: 355 / 145  (71.0% / 29.0%)
+====================================================================================================
+
+====================================================================================================
+  SECTION 1 — BEST CONFIGURATION PER METRIC
+====================================================================================================
+  f1          0.8278  →  model=me5large  hyp=llm_relation  thresh=0.6
+  accuracy    0.7080  →  model=me5large  hyp=llm_relation  thresh=0.6
+  precision   0.7150  →  model=mmbert  hyp=template_relation  thresh=0.9
+  recall      0.9915  →  model=mmbert  hyp=basic_relation  thresh=0.6
+
+====================================================================================================
+  SECTION 2 — PER-HYPOTHESIS RANKING  (thresh=0.7)
+====================================================================================================
+
+  Hypothesis: 'basic_relation'
+  rank  model              f1    acc   prec    rec     TP    FP    FN    TN
+  -------------------------------------------------------------------------
+  1     me5large        0.826  0.704  0.709  0.989    351   144     4     1
+  2     mmbert          0.820  0.696  0.707  0.977    347   144     8     1
+  3     xlmroberta      0.817  0.690  0.704  0.972    345   145    10     0
+  4     neodictabert    0.814  0.688  0.705  0.963    342   143    13     2
+
+  Hypothesis: 'template_relation'
+  rank  model              f1    acc   prec    rec     TP    FP    FN    TN
+  -------------------------------------------------------------------------
+  1     me5large        0.826  0.704  0.708  0.992    352   145     3     0
+  2     xlmroberta      0.822  0.698  0.707  0.980    348   144     7     1
+  3     neodictabert    0.819  0.694  0.707  0.972    345   143    10     2
+  4     mmbert          0.818  0.692  0.706  0.972    345   144    10     1
+
+  Hypothesis: 'llm_relation'
+  rank  model              f1    acc   prec    rec     TP    FP    FN    TN
+  -------------------------------------------------------------------------
+  1     me5large        0.825  0.704  0.711  0.983    349   142     6     3
+  2     xlmroberta      0.820  0.696  0.707  0.977    347   144     8     1
+  3     mmbert          0.820  0.696  0.708  0.975    346   143     9     2
+  4     neodictabert    0.812  0.686  0.706  0.955    339   141    16     4
+
+====================================================================================================
+  SECTION 3 — MODEL AGREEMENT MATRIX  (thresh=0.7, % same binary prediction)
+====================================================================================================
+
+  Hypothesis: 'basic_relation'
+                        mmbert      me5large  neodictabert    xlmroberta
+  mmbert               1.000         0.976         0.960         0.962  
+  me5large             0.976         1.000         0.964         0.978  
+  neodictabert         0.960         0.964         1.000         0.958  
+  xlmroberta           0.962         0.978         0.958         1.000  
+
+  Hypothesis: 'template_relation'
+                        mmbert      me5large  neodictabert    xlmroberta
+  mmbert               1.000         0.972         0.962         0.962  
+  me5large             0.972         1.000         0.970         0.986  
+  neodictabert         0.962         0.970         1.000         0.960  
+  xlmroberta           0.962         0.986         0.960         1.000  
+
+  Hypothesis: 'llm_relation'
+                        mmbert      me5large  neodictabert    xlmroberta
+  mmbert               1.000         0.960         0.946         0.960  
+  me5large             0.960         1.000         0.942         0.976  
+  neodictabert         0.946         0.942         1.000         0.946  
+  xlmroberta           0.960         0.976         0.946         1.000  
+
+====================================================================================================
+  SECTION 4 — HARD EXAMPLES: ALL COMBOS WRONG  (thresh=0.7)
+====================================================================================================
+
+  133 rows (26.6%) where every model+hypothesis prediction was wrong.  Showing up to 20.
+
+  [row 0]  gold=0
+    premise  : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+    basic_relation          : 'אל-חודיידה גובל עם רימה'
+    template_relation       : 'אל-חודיידה גובל ב-רימה'
+    llm_relation            : 'אל-חודיידה גובלת ברימה.'
+    [mmbert/basic_relation]  conf=0.9638  pred=1
+    [mmbert/template_relation]  conf=0.9625  pred=1
+    [mmbert/llm_relation]  conf=0.8899  pred=1
+    [me5large/basic_relation]  conf=0.9970  pred=1
+    [me5large/template_relation]  conf=0.9967  pred=1
+    [me5large/llm_relation]  conf=0.9969  pred=1
+    [neodictabert/basic_relation]  conf=0.9987  pred=1
+    [neodictabert/template_relation]  conf=0.9982  pred=1
+    [neodictabert/llm_relation]  conf=0.9975  pred=1
+    [xlmroberta/basic_relation]  conf=0.9816  pred=1
+    [xlmroberta/template_relation]  conf=0.9731  pred=1
+    [xlmroberta/llm_relation]  conf=0.9764  pred=1
+
+  [row 3]  gold=0
+    premise  : 'סימי ואלי (באנגלית: Simi Valley) היא עיר במדינת קליפורניה בארצות הברית, הממוקמת בדרום-מזרח מחוז ונטורה, כ-48 קילומטרים מ'
+    basic_relation          : 'אנגלית מדינה ארצות הברית'
+    template_relation       : 'המיקום של אנגלית הוא במדינת ארצות הברית'
+    llm_relation            : 'אנגלית היא השפה הרשמית בארצות הברית.'
+    [mmbert/basic_relation]  conf=0.9766  pred=1
+    [mmbert/template_relation]  conf=0.9310  pred=1
+    [mmbert/llm_relation]  conf=0.9597  pred=1
+    [me5large/basic_relation]  conf=0.9949  pred=1
+    [me5large/template_relation]  conf=0.9969  pred=1
+    [me5large/llm_relation]  conf=0.9961  pred=1
+    [neodictabert/basic_relation]  conf=0.9876  pred=1
+    [neodictabert/template_relation]  conf=0.9981  pred=1
+    [neodictabert/llm_relation]  conf=0.9854  pred=1
+    [xlmroberta/basic_relation]  conf=0.9938  pred=1
+    [xlmroberta/template_relation]  conf=0.9896  pred=1
+    [xlmroberta/llm_relation]  conf=0.9915  pred=1
+
+  [row 5]  gold=0
+    premise  : 'רעידת האדמה ב[[נפות טורקיה|נפת]] [[אלזי (נפה)|אלזי]] שב[[טורקיה]] הייתה רעידת אדמה שהתרחשה ב-24 בינואר 2020 ב-20:55:12 ל'
+    basic_relation          : 'איראן יחסים דיפלומטיים לבנון'
+    template_relation       : 'יש יחסים דיפלומטיים בין איראן ל-לבנון'
+    llm_relation            : 'לאיראן וללבנון יש יחסים דיפלומטיים.'
+    [mmbert/basic_relation]  conf=0.9654  pred=1
+    [mmbert/template_relation]  conf=0.9727  pred=1
+    [mmbert/llm_relation]  conf=0.9722  pred=1
+    [me5large/basic_relation]  conf=0.9898  pred=1
+    [me5large/template_relation]  conf=0.9934  pred=1
+    [me5large/llm_relation]  conf=0.9939  pred=1
+    [neodictabert/basic_relation]  conf=0.9994  pred=1
+    [neodictabert/template_relation]  conf=0.9994  pred=1
+    [neodictabert/llm_relation]  conf=0.9995  pred=1
+    [xlmroberta/basic_relation]  conf=0.9973  pred=1
+    [xlmroberta/template_relation]  conf=0.9971  pred=1
+    [xlmroberta/llm_relation]  conf=0.9971  pred=1
+
+  [row 7]  gold=0
+    premise  : 'דופטאנה (ברומנית: Doftana) היה בית סוהר ביישוב דופטאנה שבמחוז פרחובה, ברומניה.\nבשנות העשרים והשלושים של המאה ה-20 שימש ב'
+    basic_relation          : 'רומנית מדינה רומניה'
+    template_relation       : 'המיקום של רומנית הוא במדינת רומניה'
+    llm_relation            : 'רומנית היא שפה המדוברת ברומניה.'
+    [mmbert/basic_relation]  conf=0.9671  pred=1
+    [mmbert/template_relation]  conf=0.9663  pred=1
+    [mmbert/llm_relation]  conf=0.9736  pred=1
+    [me5large/basic_relation]  conf=0.9910  pred=1
+    [me5large/template_relation]  conf=0.9973  pred=1
+    [me5large/llm_relation]  conf=0.9964  pred=1
+    [neodictabert/basic_relation]  conf=0.9847  pred=1
+    [neodictabert/template_relation]  conf=0.9939  pred=1
+    [neodictabert/llm_relation]  conf=0.9950  pred=1
+    [xlmroberta/basic_relation]  conf=0.9979  pred=1
+    [xlmroberta/template_relation]  conf=0.9974  pred=1
+    [xlmroberta/llm_relation]  conf=0.9976  pred=1
+
+  [row 9]  gold=0
+    premise  : 'ארכיפלג רוס (באנגלית: Ross Archipelago) הוא שמו של ארכיפלג אשר ביחד עם מדף הקרח המצוי בתחומו, מהווה את הגבול המזרחי והדר'
+    basic_relation          : 'מזרח ההפך מ־ דרומ'
+    template_relation       : 'ההפך מ-מזרח הוא דרומ'
+    llm_relation            : 'מזרח הוא ההפך מדרום.'
+    [mmbert/basic_relation]  conf=0.7918  pred=1
+    [mmbert/template_relation]  conf=0.7203  pred=1
+    [mmbert/llm_relation]  conf=0.8068  pred=1
+    [me5large/basic_relation]  conf=0.9351  pred=1
+    [me5large/template_relation]  conf=0.7816  pred=1
+    [me5large/llm_relation]  conf=0.7378  pred=1
+    [neodictabert/basic_relation]  conf=0.9656  pred=1
+    [neodictabert/template_relation]  conf=0.9606  pred=1
+    [neodictabert/llm_relation]  conf=0.9703  pred=1
+    [xlmroberta/basic_relation]  conf=0.9474  pred=1
+    [xlmroberta/template_relation]  conf=0.9390  pred=1
+    [xlmroberta/llm_relation]  conf=0.9522  pred=1
+
+  [row 19]  gold=0
+    premise  : 'Paper Monsters הוא אלבום הסולו הראשון שהוציא דייב גהאן, סולן להקת דפש מוד, בשנת 2003.\nדייב גהאן יצא לסיבוב הופעות לקידום'
+    basic_relation          : 'ארצות הברית יחסים דיפלומטיים בריטניה'
+    template_relation       : 'יש יחסים דיפלומטיים בין ארצות הברית ל-בריטניה'
+    llm_relation            : 'ארצות הברית מנהלת יחסים דיפלומטיים עם בריטניה.'
+    [mmbert/basic_relation]  conf=0.9380  pred=1
+    [mmbert/template_relation]  conf=0.9450  pred=1
+    [mmbert/llm_relation]  conf=0.9530  pred=1
+    [me5large/basic_relation]  conf=0.8744  pred=1
+    [me5large/template_relation]  conf=0.9161  pred=1
+    [me5large/llm_relation]  conf=0.7177  pred=1
+    [neodictabert/basic_relation]  conf=0.9995  pred=1
+    [neodictabert/template_relation]  conf=0.9995  pred=1
+    [neodictabert/llm_relation]  conf=0.9995  pred=1
+    [xlmroberta/basic_relation]  conf=0.9667  pred=1
+    [xlmroberta/template_relation]  conf=0.9638  pred=1
+    [xlmroberta/llm_relation]  conf=0.9690  pred=1
+
+  [row 27]  gold=0
+    premise  : "מגדל האמנות מיטו (ביפנית: 戸 芸 術 館, מיטו גייג'וצוקאן) הוא מתחם אומנויות במיטו, איבראקי, יפן. הוא נפתח בשנת 1990 במסגרת חג"
+    basic_relation          : 'מיטו בירה של איבראקי'
+    template_relation       : 'מיטו היא הבירה של איבראקי'
+    llm_relation            : 'מיטו היא בירת מחוז איבראקי.'
+    [mmbert/basic_relation]  conf=0.9376  pred=1
+    [mmbert/template_relation]  conf=0.9437  pred=1
+    [mmbert/llm_relation]  conf=0.9217  pred=1
+    [me5large/basic_relation]  conf=0.9986  pred=1
+    [me5large/template_relation]  conf=0.9987  pred=1
+    [me5large/llm_relation]  conf=0.9986  pred=1
+    [neodictabert/basic_relation]  conf=0.9995  pred=1
+    [neodictabert/template_relation]  conf=0.9998  pred=1
+    [neodictabert/llm_relation]  conf=0.9997  pred=1
+    [xlmroberta/basic_relation]  conf=0.9936  pred=1
+    [xlmroberta/template_relation]  conf=0.9944  pred=1
+    [xlmroberta/llm_relation]  conf=0.9934  pred=1
+
+  [row 29]  gold=0
+    premise  : 'אנ-מן-לו-אנה מבאד-טיבירה היה מלך מיתולוגי של שומר. בתקופת שלטונו, המרכז השלטוני עבר מארידו לבאד-טיבירה. לפי רשימת המלכים'
+    basic_relation          : 'באד-טיבירה מייסד אנ-מן-לו-אנה'
+    template_relation       : 'המייסד של באד-טיבירה הוא אנ-מן-לו-אנה'
+    llm_relation            : 'באד-טיבירה היה מייסד אנ-מן-לו-אנה.'
+    [mmbert/basic_relation]  conf=0.9430  pred=1
+    [mmbert/template_relation]  conf=0.9499  pred=1
+    [mmbert/llm_relation]  conf=0.9480  pred=1
+    [me5large/basic_relation]  conf=0.9928  pred=1
+    [me5large/template_relation]  conf=0.9975  pred=1
+    [me5large/llm_relation]  conf=0.9836  pred=1
+    [neodictabert/basic_relation]  conf=0.9996  pred=1
+    [neodictabert/template_relation]  conf=0.9999  pred=1
+    [neodictabert/llm_relation]  conf=0.9991  pred=1
+    [xlmroberta/basic_relation]  conf=0.9630  pred=1
+    [xlmroberta/template_relation]  conf=0.9883  pred=1
+    [xlmroberta/llm_relation]  conf=0.9577  pred=1
+
+  [row 38]  gold=0
+    premise  : "דודג' ביוטי ווינר (באנגלית: Dodge Beauty Winner) היא מכונית משפחתית אשר יוצרה על ידי חטיבת דודג' בקונצרן הרכב האמריקאי ק"
+    basic_relation          : 'קרייזלר מדינה האמריקאי'
+    template_relation       : 'המיקום של קרייזלר הוא במדינת האמריקאי'
+    llm_relation            : 'קרייזלר היא חברה אמריקאית.'
+    [mmbert/basic_relation]  conf=0.9600  pred=1
+    [mmbert/template_relation]  conf=0.9543  pred=1
+    [mmbert/llm_relation]  conf=0.9608  pred=1
+    [me5large/basic_relation]  conf=0.9927  pred=1
+    [me5large/template_relation]  conf=0.9953  pred=1
+    [me5large/llm_relation]  conf=0.9925  pred=1
+    [neodictabert/basic_relation]  conf=0.9996  pred=1
+    [neodictabert/template_relation]  conf=0.9997  pred=1
+    [neodictabert/llm_relation]  conf=0.9996  pred=1
+    [xlmroberta/basic_relation]  conf=0.9620  pred=1
+    [xlmroberta/template_relation]  conf=0.9513  pred=1
+    [xlmroberta/llm_relation]  conf=0.9802  pred=1
+
+  [row 43]  gold=0
+    premise  : 'א-נשיד אל-וטני אל-עומאני (בערבית: النشيد الوطني العماني) הוא ההמנון הלאומי של עומאן. הוא אומץ בשנת 1970 ותוקן ב-6 בנובמב'
+    basic_relation          : 'ערבית מדינה עומאן'
+    template_relation       : 'המיקום של ערבית הוא במדינת עומאן'
+    llm_relation            : 'ערבית מדוברת בעומאן.'
+    [mmbert/basic_relation]  conf=0.9647  pred=1
+    [mmbert/template_relation]  conf=0.9456  pred=1
+    [mmbert/llm_relation]  conf=0.9656  pred=1
+    [me5large/basic_relation]  conf=0.9981  pred=1
+    [me5large/template_relation]  conf=0.9986  pred=1
+    [me5large/llm_relation]  conf=0.9979  pred=1
+    [neodictabert/basic_relation]  conf=0.9999  pred=1
+    [neodictabert/template_relation]  conf=1.0000  pred=1
+    [neodictabert/llm_relation]  conf=1.0000  pred=1
+    [xlmroberta/basic_relation]  conf=0.9873  pred=1
+    [xlmroberta/template_relation]  conf=0.9817  pred=1
+    [xlmroberta/llm_relation]  conf=0.9954  pred=1
+
+  [row 46]  gold=0
+    premise  : 'פמלן (בהונגרית: Pamlény) הוא כפר זעיר במחוז בורשוד-אבאוי-זמפלן שבצפון מזרח הונגריה. כמו יישובים רבים באירופה, גם אוכלוסי'
+    basic_relation          : 'הונגריה שפה שבשימוש הונגרית'
+    template_relation       : 'השפה שבשימוש ב-הונגריה היא הונגרית'
+    llm_relation            : 'בהונגריה מדברים הונגרית.'
+    [mmbert/basic_relation]  conf=0.9536  pred=1
+    [mmbert/template_relation]  conf=0.9607  pred=1
+    [mmbert/llm_relation]  conf=0.9600  pred=1
+    [me5large/basic_relation]  conf=0.9958  pred=1
+    [me5large/template_relation]  conf=0.9961  pred=1
+    [me5large/llm_relation]  conf=0.9959  pred=1
+    [neodictabert/basic_relation]  conf=0.9978  pred=1
+    [neodictabert/template_relation]  conf=0.9988  pred=1
+    [neodictabert/llm_relation]  conf=0.9984  pred=1
+    [xlmroberta/basic_relation]  conf=0.9955  pred=1
+    [xlmroberta/template_relation]  conf=0.9963  pred=1
+    [xlmroberta/llm_relation]  conf=0.9962  pred=1
+
+  [row 47]  gold=0
+    premise  : "דירפיס (ביוונית: Δίρφυς) הוא רכס הרים על האי אוויה. הנקודה הגבוהה ביותר היא 1743 מ' והיא נמצאת בחלק המרכזי של האי.\nהחלק "
+    basic_relation          : 'אוויה הנקודה הגבוהה ביותר דירפיס'
+    template_relation       : 'הנקודה הגבוהה ביותר של אוויה היא דירפיס'
+    llm_relation            : 'אוויה היא הנקודה הגבוהה ביותר בדירפיס.'
+    [mmbert/basic_relation]  conf=0.9769  pred=1
+    [mmbert/template_relation]  conf=0.9745  pred=1
+    [mmbert/llm_relation]  conf=0.9620  pred=1
+    [me5large/basic_relation]  conf=0.9963  pred=1
+    [me5large/template_relation]  conf=0.9963  pred=1
+    [me5large/llm_relation]  conf=0.9953  pred=1
+    [neodictabert/basic_relation]  conf=0.9994  pred=1
+    [neodictabert/template_relation]  conf=0.9998  pred=1
+    [neodictabert/llm_relation]  conf=0.9992  pred=1
+    [xlmroberta/basic_relation]  conf=0.9938  pred=1
+    [xlmroberta/template_relation]  conf=0.9933  pred=1
+    [xlmroberta/llm_relation]  conf=0.9847  pred=1
+
+  [row 52]  gold=0
+    premise  : 'עונת 2021/2022 היא המהדורה ה-38 במסגרת הסופר קאפ הספרדי. הטורניר נערך בעיר ריאד שבערב הסעודית במהלך חודש ינואר. ריאל מדר'
+    basic_relation          : 'ערב הסעודית עיר בירה ריאד'
+    template_relation       : 'עיר הבירה של ערב הסעודית היא ריאד'
+    llm_relation            : 'ריאד היא בירת ערב הסעודית.'
+    [mmbert/basic_relation]  conf=0.8098  pred=1
+    [mmbert/template_relation]  conf=0.8184  pred=1
+    [mmbert/llm_relation]  conf=0.8246  pred=1
+    [me5large/basic_relation]  conf=0.9971  pred=1
+    [me5large/template_relation]  conf=0.9966  pred=1
+    [me5large/llm_relation]  conf=0.9930  pred=1
+    [neodictabert/basic_relation]  conf=0.9995  pred=1
+    [neodictabert/template_relation]  conf=0.9994  pred=1
+    [neodictabert/llm_relation]  conf=0.9995  pred=1
+    [xlmroberta/basic_relation]  conf=0.9765  pred=1
+    [xlmroberta/template_relation]  conf=0.9938  pred=1
+    [xlmroberta/llm_relation]  conf=0.9842  pred=1
+
+  [row 59]  gold=0
+    premise  : 'צב נשכן מרכז-אמריקאי (שם מדעי: "Chelydra rossignonii") הוא מין גדול של צב ממשפחת צבים נשכניים מהסוג צב נשכן.\nבעבר מין זה'
+    basic_relation          : 'בליז יחסים דיפלומטיים גואטמלה'
+    template_relation       : 'יש יחסים דיפלומטיים בין בליז ל-גואטמלה'
+    llm_relation            : 'בליז וגואטמלה מקיימות יחסים דיפלומטיים.'
+    [mmbert/basic_relation]  conf=0.8996  pred=1
+    [mmbert/template_relation]  conf=0.8887  pred=1
+    [mmbert/llm_relation]  conf=0.9110  pred=1
+    [me5large/basic_relation]  conf=0.9845  pred=1
+    [me5large/template_relation]  conf=0.9911  pred=1
+    [me5large/llm_relation]  conf=0.9909  pred=1
+    [neodictabert/basic_relation]  conf=0.9995  pred=1
+    [neodictabert/template_relation]  conf=0.9998  pred=1
+    [neodictabert/llm_relation]  conf=0.9995  pred=1
+    [xlmroberta/basic_relation]  conf=0.9953  pred=1
+    [xlmroberta/template_relation]  conf=0.9938  pred=1
+    [xlmroberta/llm_relation]  conf=0.9939  pred=1
+
+  [row 63]  gold=0
+    premise  : 'תוכנת פרסום (באנגלית: Adware - קיצור של Advertising Software) היא תוכנה המביאה תכנים פרסומיים מרשת האינטרנט למחשב הלקוח,'
+    basic_relation          : 'תוכנת פרסום תת-קבוצה של נוזקה'
+    template_relation       : 'תוכנת פרסום הוא תת-קבוצה של נוזקה'
+    llm_relation            : 'תוכנות פרסום מסוימות הן סוג של נוזקה.'
+    [mmbert/basic_relation]  conf=0.9096  pred=1
+    [mmbert/template_relation]  conf=0.9172  pred=1
+    [mmbert/llm_relation]  conf=0.9395  pred=1
+    [me5large/basic_relation]  conf=0.9777  pred=1
+    [me5large/template_relation]  conf=0.9696  pred=1
+    [me5large/llm_relation]  conf=0.9806  pred=1
+    [neodictabert/basic_relation]  conf=0.9996  pred=1
+    [neodictabert/template_relation]  conf=0.9995  pred=1
+    [neodictabert/llm_relation]  conf=0.9996  pred=1
+    [xlmroberta/basic_relation]  conf=0.9654  pred=1
+    [xlmroberta/template_relation]  conf=0.9586  pred=1
+    [xlmroberta/llm_relation]  conf=0.9355  pred=1
+
+  [row 64]  gold=0
+    premise  : 'וילהלם טראוגוט קרוג (בגרמנית: Wilhelm Traugott Krug; 22 ביוני 1770, רדיס ליד ויטנברג, פרוסיה – 12 בינואר 1842, לייפציג) '
+    basic_relation          : 'וילהלם טראוגוט קרוג מוקד פעילות לייפציג'
+    template_relation       : 'מוקד הפעילות של וילהלם טראוגוט קרוג הוא לייפציג'
+    llm_relation            : 'וילהלם טראוגוט קרוג פעל בעיקר בלייפציג.'
+    [mmbert/basic_relation]  conf=0.9240  pred=1
+    [mmbert/template_relation]  conf=0.9354  pred=1
+    [mmbert/llm_relation]  conf=0.9588  pred=1
+    [me5large/basic_relation]  conf=0.9840  pred=1
+    [me5large/template_relation]  conf=0.9930  pred=1
+    [me5large/llm_relation]  conf=0.9938  pred=1
+    [neodictabert/basic_relation]  conf=0.9870  pred=1
+    [neodictabert/template_relation]  conf=0.9842  pred=1
+    [neodictabert/llm_relation]  conf=0.9754  pred=1
+    [xlmroberta/basic_relation]  conf=0.9049  pred=1
+    [xlmroberta/template_relation]  conf=0.9205  pred=1
+    [xlmroberta/llm_relation]  conf=0.9909  pred=1
+
+  [row 65]  gold=0
+    premise  : 'שאן (בגרמנית: Schaan) היא העיירה הגדולה ביותר בנסיכות ליכטנשטיין. העיר ממוקמת במרכז המדינה, צפונית לבירה ואדוץ. שאן גובל'
+    basic_relation          : 'סנט גאלן יחידה מנהלית שווייצרית'
+    template_relation       : 'סנט גאלן היא יחידה מנהלית של שווייצרית'
+    llm_relation            : 'סנט גאלן היא יחידה מנהלית בשווייץ.'
+    [mmbert/basic_relation]  conf=0.9409  pred=1
+    [mmbert/template_relation]  conf=0.9416  pred=1
+    [mmbert/llm_relation]  conf=0.9261  pred=1
+    [me5large/basic_relation]  conf=0.9953  pred=1
+    [me5large/template_relation]  conf=0.9944  pred=1
+    [me5large/llm_relation]  conf=0.9932  pred=1
+    [neodictabert/basic_relation]  conf=0.9768  pred=1
+    [neodictabert/template_relation]  conf=0.9834  pred=1
+    [neodictabert/llm_relation]  conf=0.9683  pred=1
+    [xlmroberta/basic_relation]  conf=0.9930  pred=1
+    [xlmroberta/template_relation]  conf=0.9886  pred=1
+    [xlmroberta/llm_relation]  conf=0.9946  pred=1
+
+  [row 69]  gold=0
+    premise  : "סונן אבו דאוד (בערבית: سنن أبي داود) הוא אחד מששת ספרי החדית' המרכזיים באסלאם הסוני, הנקראים אל-כותוב א-סיתה. הספר חובר "
+    basic_relation          : 'סונן אבו דאוד השפה של היצירה או של השם ערבית'
+    template_relation       : 'השפה של סונן אבו דאוד היא ערבית'
+    llm_relation            : 'סונן אבו דאוד נכתב בשפה הערבית.'
+    [mmbert/basic_relation]  conf=0.9474  pred=1
+    [mmbert/template_relation]  conf=0.9626  pred=1
+    [mmbert/llm_relation]  conf=0.9712  pred=1
+    [me5large/basic_relation]  conf=0.9960  pred=1
+    [me5large/template_relation]  conf=0.9948  pred=1
+    [me5large/llm_relation]  conf=0.9973  pred=1
+    [neodictabert/basic_relation]  conf=0.9965  pred=1
+    [neodictabert/template_relation]  conf=0.9970  pred=1
+    [neodictabert/llm_relation]  conf=0.9987  pred=1
+    [xlmroberta/basic_relation]  conf=0.9908  pred=1
+    [xlmroberta/template_relation]  conf=0.9920  pred=1
+    [xlmroberta/llm_relation]  conf=0.9959  pred=1
+
+  [row 77]  gold=0
+    premise  : 'יין ביגנאי, (באנגלית: Bignay wine; הידוע גם בשם Bugnay wine) הוא יין פירות פיליפיני העשוי מפירות יער של עץ הביגנאי או הב'
+    basic_relation          : 'פיליפיני שפה שבשימוש אנגלית'
+    template_relation       : 'השפה שבשימוש ב-פיליפיני היא אנגלית'
+    llm_relation            : 'בפיליפינים משתמשים גם בשפה האנגלית.'
+    [mmbert/basic_relation]  conf=0.9838  pred=1
+    [mmbert/template_relation]  conf=0.9837  pred=1
+    [mmbert/llm_relation]  conf=0.9854  pred=1
+    [me5large/basic_relation]  conf=0.9956  pred=1
+    [me5large/template_relation]  conf=0.9962  pred=1
+    [me5large/llm_relation]  conf=0.9978  pred=1
+    [neodictabert/basic_relation]  conf=0.9960  pred=1
+    [neodictabert/template_relation]  conf=0.9955  pred=1
+    [neodictabert/llm_relation]  conf=0.9984  pred=1
+    [xlmroberta/basic_relation]  conf=0.9777  pred=1
+    [xlmroberta/template_relation]  conf=0.9771  pred=1
+    [xlmroberta/llm_relation]  conf=0.9875  pred=1
+
+  [row 81]  gold=0
+    premise  : 'משרד ההגנה (בסלובקית: Ministerstvo obrany או בראשי תיבות MO) הוא משרד בממשלה הסלובקית, האחראי על יישום מדיניות הביטחון ש'
+    basic_relation          : 'משרד ההגנה מדינה סלובקיה'
+    template_relation       : 'המיקום של משרד ההגנה הוא במדינת סלובקיה'
+    llm_relation            : 'משרד ההגנה משתף פעולה עם סלובקיה.'
+    [mmbert/basic_relation]  conf=0.9390  pred=1
+    [mmbert/template_relation]  conf=0.9525  pred=1
+    [mmbert/llm_relation]  conf=0.9398  pred=1
+    [me5large/basic_relation]  conf=0.9981  pred=1
+    [me5large/template_relation]  conf=0.9985  pred=1
+    [me5large/llm_relation]  conf=0.9960  pred=1
+    [neodictabert/basic_relation]  conf=0.9999  pred=1
+    [neodictabert/template_relation]  conf=0.9999  pred=1
+    [neodictabert/llm_relation]  conf=1.0000  pred=1
+    [xlmroberta/basic_relation]  conf=0.9961  pred=1
+    [xlmroberta/template_relation]  conf=0.9959  pred=1
+    [xlmroberta/llm_relation]  conf=0.9881  pred=1
+
+====================================================================================================
+  SECTION 5 — CONFIDENT MISTAKES
+====================================================================================================
+
+  False Positives (gold=0, max confidence >= 0.85): 145 found — showing up to 15
+
+  [row 43]  gold=0  most-confident combo=neodictabert/template_relation  conf=1.0000
+    premise  : 'א-נשיד אל-וטני אל-עומאני (בערבית: النشيد الوطني العماني) הוא ההמנון הלאומי של עומאן. הוא אומץ בשנת 1970 ותוקן ב-6 בנובמב'
+    basic_relation          : 'ערבית מדינה עומאן'
+    template_relation       : 'המיקום של ערבית הוא במדינת עומאן'
+    llm_relation            : 'ערבית מדוברת בעומאן.'
+    scores   : mmbert/basic_relation=0.965  mmbert/template_relation=0.946  mmbert/llm_relation=0.966  me5large/basic_relation=0.998  me5large/template_relation=0.999  me5large/llm_relation=0.998  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.987  xlmroberta/template_relation=0.982  xlmroberta/llm_relation=0.995
+
+  [row 81]  gold=0  most-confident combo=neodictabert/llm_relation  conf=1.0000
+    premise  : 'משרד ההגנה (בסלובקית: Ministerstvo obrany או בראשי תיבות MO) הוא משרד בממשלה הסלובקית, האחראי על יישום מדיניות הביטחון ש'
+    basic_relation          : 'משרד ההגנה מדינה סלובקיה'
+    template_relation       : 'המיקום של משרד ההגנה הוא במדינת סלובקיה'
+    llm_relation            : 'משרד ההגנה משתף פעולה עם סלובקיה.'
+    scores   : mmbert/basic_relation=0.939  mmbert/template_relation=0.953  mmbert/llm_relation=0.940  me5large/basic_relation=0.998  me5large/template_relation=0.999  me5large/llm_relation=0.996  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.996  xlmroberta/template_relation=0.996  xlmroberta/llm_relation=0.988
+
+  [row 260]  gold=0  most-confident combo=neodictabert/basic_relation  conf=1.0000
+    premise  : 'משרד ההגנה של רפובליקת סלובניה (בסלובנית: Ministrstvo za Obrambo או בראשי תיבות MORS) הוא משרד בממשלה הסלובנית, האחראי ע'
+    basic_relation          : 'סלובניה שפה שבשימוש סלובנית'
+    template_relation       : 'השפה שבשימוש ב-סלובניה היא סלובנית'
+    llm_relation            : 'בסלובניה מדברים סלובנית.'
+    scores   : mmbert/basic_relation=0.890  mmbert/template_relation=0.904  mmbert/llm_relation=0.900  me5large/basic_relation=0.996  me5large/template_relation=0.997  me5large/llm_relation=0.997  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.996  xlmroberta/template_relation=0.997  xlmroberta/llm_relation=0.996
+
+  [row 29]  gold=0  most-confident combo=neodictabert/template_relation  conf=0.9999
+    premise  : 'אנ-מן-לו-אנה מבאד-טיבירה היה מלך מיתולוגי של שומר. בתקופת שלטונו, המרכז השלטוני עבר מארידו לבאד-טיבירה. לפי רשימת המלכים'
+    basic_relation          : 'באד-טיבירה מייסד אנ-מן-לו-אנה'
+    template_relation       : 'המייסד של באד-טיבירה הוא אנ-מן-לו-אנה'
+    llm_relation            : 'באד-טיבירה היה מייסד אנ-מן-לו-אנה.'
+    scores   : mmbert/basic_relation=0.943  mmbert/template_relation=0.950  mmbert/llm_relation=0.948  me5large/basic_relation=0.993  me5large/template_relation=0.998  me5large/llm_relation=0.984  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=0.999  xlmroberta/basic_relation=0.963  xlmroberta/template_relation=0.988  xlmroberta/llm_relation=0.958
+
+  [row 51]  gold=0  most-confident combo=neodictabert/basic_relation  conf=0.9999
+    premise  : '"היפריון" הוא שם-תואר נלווה לאל השמש הליוס באיליאדה ובאודיסיאה של הומרוס.\nבמיתולוגיה היוונית המאוחרת יותר, היפריון הוא א'
+    basic_relation          : 'אוראנוס אל של מיתולוגיה היוונית'
+    template_relation       : 'אוראנוס הוא האל של מיתולוגיה היוונית'
+    llm_relation            : 'אוראנוס הוא אל במיתולוגיה היוונית.'
+    scores   : mmbert/basic_relation=0.821  mmbert/template_relation=0.823  mmbert/llm_relation=0.650  me5large/basic_relation=0.953  me5large/template_relation=0.886  me5large/llm_relation=0.932  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.968  xlmroberta/template_relation=0.965  xlmroberta/llm_relation=0.966
+
+  [row 53]  gold=0  most-confident combo=neodictabert/llm_relation  conf=0.9999
+    premise  : "ריו ז'ורואה (Rio Juruá) הוא נהר המתחיל את זרימתו באמזוניה בקרבת הגבול בין פרו לברזיל ואחר ממשיך עד הישפכו לנהר האמזונאס."
+    basic_relation          : 'אמזוניה מדינות אגן הניקוז ברזיל'
+    template_relation       : 'הזרימה של אמזוניה עוברת דרך ברזיל'
+    llm_relation            : 'ברזיל היא אחת ממדינות אגן הניקוז של האמזוניה.'
+    scores   : mmbert/basic_relation=0.917  mmbert/template_relation=0.803  mmbert/llm_relation=0.921  me5large/basic_relation=0.996  me5large/template_relation=0.992  me5large/llm_relation=0.992  neodictabert/basic_relation=1.000  neodictabert/template_relation=0.999  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.988  xlmroberta/template_relation=0.512  xlmroberta/llm_relation=0.983
+
+  [row 96]  gold=0  most-confident combo=neodictabert/basic_relation  conf=0.9999
+    premise  : 'קאהולאווה (Kahoʻolawe) הוא אי במחוז מאווי שבמדינת הוואי שבארצות הברית, הקטן מכל איי הוואי המרכזיים. שטחו 115.5 קילומטר ר'
+    basic_relation          : 'מערב ההפך מ־ דרום'
+    template_relation       : 'ההפך מ-מערב הוא דרום'
+    llm_relation            : 'מערב הוא ההפך מדרום.'
+    scores   : mmbert/basic_relation=0.892  mmbert/template_relation=0.872  mmbert/llm_relation=0.856  me5large/basic_relation=0.995  me5large/template_relation=0.993  me5large/llm_relation=0.992  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.982  xlmroberta/template_relation=0.978  xlmroberta/llm_relation=0.965
+
+  [row 187]  gold=0  most-confident combo=neodictabert/basic_relation  conf=0.9999
+    premise  : 'קאהולאווה (Kahoʻolawe) הוא אי במחוז מאווי שבמדינת הוואי שבארצות הברית, הקטן מכל איי הוואי המרכזיים. שטחו 115.5 קילומטר ר'
+    basic_relation          : 'קאהולאווה בעלים הוואי'
+    template_relation       : 'הבעלים של קאהולאווה הוא הוואי'
+    llm_relation            : 'קאהולאווה הוא אי בהוואי.'
+    scores   : mmbert/basic_relation=0.919  mmbert/template_relation=0.914  mmbert/llm_relation=0.930  me5large/basic_relation=0.996  me5large/template_relation=0.997  me5large/llm_relation=0.997  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.981  xlmroberta/template_relation=0.988  xlmroberta/llm_relation=0.994
+
+  [row 326]  gold=0  most-confident combo=neodictabert/template_relation  conf=0.9999
+    premise  : 'קרקרה שחורה (שם מדעי: Daptrius ater) הוא מין של עוף יחיד בסוגו ממשפחת הבזיים. הקרקרה דומה מאוד למין קרקרה אדומת גרון.\nאו'
+    basic_relation          : 'ברזיל גובל עם בוליביה'
+    template_relation       : 'ברזיל גובל ב-בוליביה'
+    llm_relation            : 'ברזיל גובלת בבוליביה.'
+    scores   : mmbert/basic_relation=0.902  mmbert/template_relation=0.912  mmbert/llm_relation=0.894  me5large/basic_relation=0.977  me5large/template_relation=0.975  me5large/llm_relation=0.978  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.993  xlmroberta/template_relation=0.992  xlmroberta/llm_relation=0.992
+
+  [row 351]  gold=0  most-confident combo=neodictabert/template_relation  conf=0.9999
+    premise  : 'יחסי בולגריה–הממלכה המאוחדת הם יחסי החוץ בין הרפובליקה הבולגרית לבין הממלכה המאוחדת.\n== היסטוריה ==\nשתי המדינות כוננו יח'
+    basic_relation          : 'דוכס יורק אחים ואחיות רוזן וסקס'
+    template_relation       : 'יש יחסי אחים בין דוכס יורק ל-רוזן וסקס'
+    llm_relation            : 'דוכס יורק ורוזן וסקס הם אחים.'
+    scores   : mmbert/basic_relation=0.871  mmbert/template_relation=0.895  mmbert/llm_relation=0.883  me5large/basic_relation=0.994  me5large/template_relation=0.995  me5large/llm_relation=0.995  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.948  xlmroberta/template_relation=0.937  xlmroberta/llm_relation=0.941
+
+  [row 365]  gold=0  most-confident combo=neodictabert/template_relation  conf=0.9999
+    premise  : 'טלפה (בספרדית: Telefe, ראשי תיבות של Televisión Federal, טלוויזיה פדרלית) היא תחנת טלוויזיה הממוקמת בבואנוס איירס, ארגנט'
+    basic_relation          : 'ארגנטינה שפה רשמית ספרדית'
+    template_relation       : 'השפה הרשמית של ארגנטינה היא ספרדית'
+    llm_relation            : 'ספרדית היא שפה רשמית בארגנטינה.'
+    scores   : mmbert/basic_relation=0.967  mmbert/template_relation=0.971  mmbert/llm_relation=0.962  me5large/basic_relation=0.998  me5large/template_relation=0.998  me5large/llm_relation=0.998  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.994  xlmroberta/template_relation=0.995  xlmroberta/llm_relation=0.994
+
+  [row 27]  gold=0  most-confident combo=neodictabert/template_relation  conf=0.9998
+    premise  : "מגדל האמנות מיטו (ביפנית: 戸 芸 術 館, מיטו גייג'וצוקאן) הוא מתחם אומנויות במיטו, איבראקי, יפן. הוא נפתח בשנת 1990 במסגרת חג"
+    basic_relation          : 'מיטו בירה של איבראקי'
+    template_relation       : 'מיטו היא הבירה של איבראקי'
+    llm_relation            : 'מיטו היא בירת מחוז איבראקי.'
+    scores   : mmbert/basic_relation=0.938  mmbert/template_relation=0.944  mmbert/llm_relation=0.922  me5large/basic_relation=0.999  me5large/template_relation=0.999  me5large/llm_relation=0.999  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.994  xlmroberta/template_relation=0.994  xlmroberta/llm_relation=0.993
+
+  [row 40]  gold=0  most-confident combo=neodictabert/basic_relation  conf=0.9998
+    premise  : "מונופוניה (מיוונית: 'μόνος' - מונוס, בעברית 'אחד', 'φωνή' - פון, בעברית 'קול, צליל') הוא מונח המתייחס למוזיקה שהיא, כעיק"
+    basic_relation          : 'פוליפוניה ההפך מ־ הומופוניה'
+    template_relation       : 'ההפך מ-פוליפוניה הוא הומופוניה'
+    llm_relation            : 'פוליפוניה היא ההפך מהומופוניה.'
+    scores   : mmbert/basic_relation=0.846  mmbert/template_relation=0.512  mmbert/llm_relation=0.594  me5large/basic_relation=0.979  me5large/template_relation=0.960  me5large/llm_relation=0.970  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.987  xlmroberta/template_relation=0.989  xlmroberta/llm_relation=0.989
+
+  [row 47]  gold=0  most-confident combo=neodictabert/template_relation  conf=0.9998
+    premise  : "דירפיס (ביוונית: Δίρφυς) הוא רכס הרים על האי אוויה. הנקודה הגבוהה ביותר היא 1743 מ' והיא נמצאת בחלק המרכזי של האי.\nהחלק "
+    basic_relation          : 'אוויה הנקודה הגבוהה ביותר דירפיס'
+    template_relation       : 'הנקודה הגבוהה ביותר של אוויה היא דירפיס'
+    llm_relation            : 'אוויה היא הנקודה הגבוהה ביותר בדירפיס.'
+    scores   : mmbert/basic_relation=0.977  mmbert/template_relation=0.975  mmbert/llm_relation=0.962  me5large/basic_relation=0.996  me5large/template_relation=0.996  me5large/llm_relation=0.995  neodictabert/basic_relation=0.999  neodictabert/template_relation=1.000  neodictabert/llm_relation=0.999  xlmroberta/basic_relation=0.994  xlmroberta/template_relation=0.993  xlmroberta/llm_relation=0.985
+
+  [row 59]  gold=0  most-confident combo=neodictabert/template_relation  conf=0.9998
+    premise  : 'צב נשכן מרכז-אמריקאי (שם מדעי: "Chelydra rossignonii") הוא מין גדול של צב ממשפחת צבים נשכניים מהסוג צב נשכן.\nבעבר מין זה'
+    basic_relation          : 'בליז יחסים דיפלומטיים גואטמלה'
+    template_relation       : 'יש יחסים דיפלומטיים בין בליז ל-גואטמלה'
+    llm_relation            : 'בליז וגואטמלה מקיימות יחסים דיפלומטיים.'
+    scores   : mmbert/basic_relation=0.900  mmbert/template_relation=0.889  mmbert/llm_relation=0.911  me5large/basic_relation=0.985  me5large/template_relation=0.991  me5large/llm_relation=0.991  neodictabert/basic_relation=1.000  neodictabert/template_relation=1.000  neodictabert/llm_relation=1.000  xlmroberta/basic_relation=0.995  xlmroberta/template_relation=0.994  xlmroberta/llm_relation=0.994
+
+  False Negatives (gold=1, min confidence <= 0.15): 8 found — showing up to 15
+
+  [row 30]  gold=1  least-confident combo=neodictabert/basic_relation  conf=0.0071
+    premise  : 'פרס לב הוא פרס למפעל חיים בתחום של תורה עם דרך ארץ, המוענק על ידי המרכז האקדמי לב לזכרו של מייסד המכון זאב לב. הפרס מוענ'
+    basic_relation          : 'פרס לב מוענק על ידי המרכז האקדמי לב'
+    template_relation       : 'פרס לב מוענק על ידי המרכז האקדמי לב'
+    llm_relation            : 'פרס לב מוענק על ידי המרכז האקדמי לב.'
+    scores   : mmbert/basic_relation=0.875  mmbert/template_relation=0.875  mmbert/llm_relation=0.884  me5large/basic_relation=0.891  me5large/template_relation=0.891  me5large/llm_relation=0.889  neodictabert/basic_relation=0.007  neodictabert/template_relation=0.007  neodictabert/llm_relation=0.016  xlmroberta/basic_relation=0.995  xlmroberta/template_relation=0.995  xlmroberta/llm_relation=0.995
+
+  [row 136]  gold=1  least-confident combo=neodictabert/basic_relation  conf=0.0088
+    premise  : "חוג'אלי (באזרית: Xocalı) היא עיירה ומחוז באזור נגורנו קרבאך של אזרבייג'ן שנמצאת עכשיו תחת שליטת הבדלנים הארמנים. בפברואר"
+    basic_relation          : "אזרבייג'ן חלוקה משנית חוג'אלי"
+    template_relation       : "חוג'אלי הוא חלוקה משנית של אזרבייג'ן"
+    llm_relation            : "חוג'אלי היא עיר באזרבייג'ן."
+    scores   : mmbert/basic_relation=0.826  mmbert/template_relation=0.879  mmbert/llm_relation=0.895  me5large/basic_relation=0.953  me5large/template_relation=0.946  me5large/llm_relation=0.958  neodictabert/basic_relation=0.009  neodictabert/template_relation=0.524  neodictabert/llm_relation=0.866  xlmroberta/basic_relation=0.685  xlmroberta/template_relation=0.868  xlmroberta/llm_relation=0.958
+
+  [row 386]  gold=1  least-confident combo=neodictabert/llm_relation  conf=0.0111
+    premise  : 'קרחון לוגן (באנגלית: Logan Glacier) הוא קרחון הזורם בשטח מדינת אלסקה שבארצות הברית ובהמשך בשטח פרובינציית יוקון שבקנדה. '
+    basic_relation          : 'קרחון לוגן מדינה קנדה'
+    template_relation       : 'המיקום של קרחון לוגן הוא במדינת קנדה'
+    llm_relation            : 'קרחון לוגן נמצא בקנדה.'
+    scores   : mmbert/basic_relation=0.974  mmbert/template_relation=0.976  mmbert/llm_relation=0.932  me5large/basic_relation=0.990  me5large/template_relation=0.991  me5large/llm_relation=0.986  neodictabert/basic_relation=0.997  neodictabert/template_relation=0.827  neodictabert/llm_relation=0.011  xlmroberta/basic_relation=0.979  xlmroberta/template_relation=0.829  xlmroberta/llm_relation=0.952
+
+  [row 87]  gold=1  least-confident combo=neodictabert/llm_relation  conf=0.0153
+    premise  : 'גיבסנית (שם מדעי: Gypsophila) היא סוג צמח ממשפחת הציפורניים המונה כ-150 סוגים של פרחים וצמחים הנפוצים באירופה,אסיה וצפון'
+    basic_relation          : 'גיבסנית רמה טקסונומית סוג'
+    template_relation       : 'הרמה הטקסונומית של גיבסנית היא סוג'
+    llm_relation            : 'גיבסנית היא סוג של מינרל.'
+    scores   : mmbert/basic_relation=0.949  mmbert/template_relation=0.950  mmbert/llm_relation=0.911  me5large/basic_relation=0.995  me5large/template_relation=0.998  me5large/llm_relation=0.883  neodictabert/basic_relation=0.999  neodictabert/template_relation=1.000  neodictabert/llm_relation=0.015  xlmroberta/basic_relation=0.998  xlmroberta/template_relation=0.997  xlmroberta/llm_relation=0.869
+
+  [row 168]  gold=1  least-confident combo=neodictabert/basic_relation  conf=0.0549
+    premise  : 'פרס לב הוא פרס למפעל חיים בתחום של תורה עם דרך ארץ, המוענק על ידי המרכז האקדמי לב לזכרו של מייסד המכון זאב לב. הפרס מוענ'
+    basic_relation          : 'פרס לב נקרא על שם זאב לב'
+    template_relation       : 'פרס לב נקרא על שם זאב לב'
+    llm_relation            : 'פרס לב נקרא על שם זאב לב.'
+    scores   : mmbert/basic_relation=0.861  mmbert/template_relation=0.861  mmbert/llm_relation=0.870  me5large/basic_relation=0.957  me5large/template_relation=0.957  me5large/llm_relation=0.961  neodictabert/basic_relation=0.055  neodictabert/template_relation=0.055  neodictabert/llm_relation=0.060  xlmroberta/basic_relation=0.990  xlmroberta/template_relation=0.990  xlmroberta/llm_relation=0.989
+
+  [row 490]  gold=1  least-confident combo=neodictabert/llm_relation  conf=0.0669
+    premise  : 'צורתו של הסמל אליפטית והוא מחולק לארבעה רבעים, ומעליו מצוירת שמש מאי זהובה זורחת. משני צידי הסמל שני ענפי עץ זית המחוברי'
+    basic_relation          : 'סמל אורוגוואי מוצג סוס'
+    template_relation       : 'סמל אורוגוואי מציג את סוס'
+    llm_relation            : 'סוס מוצג בסמל של אורוגוואי.'
+    scores   : mmbert/basic_relation=0.561  mmbert/template_relation=0.563  mmbert/llm_relation=0.572  me5large/basic_relation=0.993  me5large/template_relation=0.992  me5large/llm_relation=0.985  neodictabert/basic_relation=0.625  neodictabert/template_relation=0.214  neodictabert/llm_relation=0.067  xlmroberta/basic_relation=0.961  xlmroberta/template_relation=0.959  xlmroberta/llm_relation=0.958
+
+  [row 213]  gold=1  least-confident combo=neodictabert/basic_relation  conf=0.0893
+    premise  : 'Lorca הוא אלבומו החמישי של הזמר טים באקלי אשר יצא ב-1970.\n== רשימת שירים ==\n#Lorca – 9:53\n#Anonymous Proposition – 7:43\n'
+    basic_relation          : 'טים באקלי עיסוק זמר'
+    template_relation       : 'העיסוק של טים באקלי הוא זמר'
+    llm_relation            : 'טים באקלי הוא זמר.'
+    scores   : mmbert/basic_relation=0.750  mmbert/template_relation=0.762  mmbert/llm_relation=0.712  me5large/basic_relation=0.983  me5large/template_relation=0.984  me5large/llm_relation=0.986  neodictabert/basic_relation=0.089  neodictabert/template_relation=0.121  neodictabert/llm_relation=0.197  xlmroberta/basic_relation=0.967  xlmroberta/template_relation=0.992  xlmroberta/llm_relation=0.992
+
+  [row 151]  gold=1  least-confident combo=me5large/basic_relation  conf=0.1017
+    premise  : 'שימו לב: ערך זה מכיל אירועים מן השנים 1419 - 1410 [[לפני הספירה]]\n== אירועים ומגמות ==\n* 1419 לפנה"ס - פרעה אמנחותפ השני'
+    basic_relation          : 'אמנחותפ השני אזרחות מצרים העתיקה'
+    template_relation       : 'האזרחות של אמנחותפ השני היא מצרים העתיקה'
+    llm_relation            : 'אמנחותפ השני היה אזרח מצרים העתיקה.'
+    scores   : mmbert/basic_relation=0.863  mmbert/template_relation=0.872  mmbert/llm_relation=0.887  me5large/basic_relation=0.102  me5large/template_relation=0.110  me5large/llm_relation=0.208  neodictabert/basic_relation=0.994  neodictabert/template_relation=0.988  neodictabert/llm_relation=0.991  xlmroberta/basic_relation=0.889  xlmroberta/template_relation=0.881  xlmroberta/llm_relation=0.811
+
+====================================================================================================
+  SECTION 6 — MEAN CONFIDENCE BY OUTCOME CLASS  (thresh=0.7)
+====================================================================================================
+  model          hypothesis              outcome      n     mean   median      min      max
+  -----------------------------------------------------------------------------------------
+  mmbert         basic_relation          TP        347   0.9246   0.9397   0.7172   0.9957
+                                         FP        144   0.9221   0.9390   0.7135   0.9928
+                                         FN          8   0.5901   0.6550   0.2890   0.6919
+                                         TN          1   0.6648   0.6648   0.6648   0.6648
+  -----------------------------------------------------------------------------------------
+  mmbert         template_relation       TP        345   0.9286   0.9453   0.7194   0.9957
+                                         FP        144   0.9229   0.9428   0.7203   0.9921
+                                         FN         10   0.5948   0.6174   0.3399   0.6801
+                                         TN          1   0.5119   0.5119   0.5119   0.5119
+  -----------------------------------------------------------------------------------------
+  mmbert         llm_relation            TP        346   0.9221   0.9359   0.7052   0.9921
+                                         FP        143   0.9206   0.9394   0.7023   0.9928
+                                         FN          9   0.5607   0.5952   0.3386   0.6423
+                                         TN          2   0.6221   0.6504   0.5939   0.6504
+  -----------------------------------------------------------------------------------------
+  me5large       basic_relation          TP        351   0.9817   0.9931   0.7452   0.9994
+                                         FP        144   0.9841   0.9938   0.7575   0.9994
+                                         FN          4   0.4057   0.5584   0.1017   0.5584
+                                         TN          1   0.1378   0.1378   0.1378   0.1378
+  -----------------------------------------------------------------------------------------
+  me5large       template_relation       TP        352   0.9827   0.9934   0.7597   0.9994
+                                         FP        145   0.9818   0.9942   0.7816   0.9993
+                                         FN          3   0.4281   0.5870   0.1102   0.5870
+  -----------------------------------------------------------------------------------------
+  me5large       llm_relation            TP        349   0.9788   0.9937   0.7277   0.9994
+                                         FP        142   0.9828   0.9942   0.7177   0.9996
+                                         FN          6   0.4632   0.5438   0.2076   0.6655
+                                         TN          3   0.4610   0.4218   0.4011   0.5600
+  -----------------------------------------------------------------------------------------
+  neodictabert   basic_relation          TP        342   0.9869   0.9983   0.7279   1.0000
+                                         FP        143   0.9830   0.9984   0.7150   1.0000
+                                         FN         13   0.3456   0.4318   0.0071   0.6384
+                                         TN          2   0.5393   0.6729   0.4058   0.6729
+  -----------------------------------------------------------------------------------------
+  neodictabert   template_relation       TP        345   0.9851   0.9986   0.7061   1.0000
+                                         FP        143   0.9850   0.9986   0.8085   1.0000
+                                         FN         10   0.3200   0.2832   0.0071   0.6988
+                                         TN          2   0.5545   0.6959   0.4131   0.6959
+  -----------------------------------------------------------------------------------------
+  neodictabert   llm_relation            TP        339   0.9880   0.9990   0.7017   1.0000
+                                         FP        141   0.9868   0.9987   0.8106   1.0000
+                                         FN         16   0.3134   0.3565   0.0111   0.6468
+                                         TN          4   0.4335   0.6789   0.1779   0.6834
+  -----------------------------------------------------------------------------------------
+  xlmroberta     basic_relation          TP        345   0.9724   0.9876   0.7013   0.9983
+                                         FP        145   0.9757   0.9862   0.7247   0.9987
+                                         FN         10   0.5780   0.5828   0.4692   0.6855
+  -----------------------------------------------------------------------------------------
+  xlmroberta     template_relation       TP        348   0.9733   0.9887   0.7041   0.9989
+                                         FP        144   0.9757   0.9869   0.7568   0.9983
+                                         FN          7   0.5681   0.6216   0.4071   0.6660
+                                         TN          1   0.5124   0.5124   0.5124   0.5124
+  -----------------------------------------------------------------------------------------
+  xlmroberta     llm_relation            TP        347   0.9712   0.9888   0.7016   0.9988
+                                         FP        144   0.9787   0.9874   0.7768   0.9986
+                                         FN          8   0.6029   0.5898   0.5325   0.6908
+                                         TN          1   0.6266   0.6266   0.6266   0.6266
+  -----------------------------------------------------------------------------------------
+
+====================================================================================================
+  SECTION 7 — TEXT LENGTH VS ACCURACY  (thresh=0.7)
+====================================================================================================
+
+  Bins: <100(n=2)  100-200(n=25)  200-400(n=203)  400+(n=270)
+
+  model          hypothesis                    <100     100-200     200-400        400+
+  -------------------------------------------------------------------------------------
+  mmbert         basic_relation               1.000       0.760       0.714       0.674
+  mmbert         template_relation            1.000       0.760       0.714       0.667
+  mmbert         llm_relation                 1.000       0.720       0.714       0.678
+  me5large       basic_relation               1.000       0.760       0.729       0.678
+  me5large       template_relation            1.000       0.760       0.729       0.678
+  me5large       llm_relation                 1.000       0.760       0.719       0.685
+  neodictabert   basic_relation               1.000       0.760       0.704       0.667
+  neodictabert   template_relation            1.000       0.760       0.709       0.674
+  neodictabert   llm_relation                 1.000       0.720       0.709       0.663
+  xlmroberta     basic_relation               1.000       0.760       0.714       0.663
+  xlmroberta     template_relation            1.000       0.800       0.729       0.663
+  xlmroberta     llm_relation                 1.000       0.760       0.734       0.659
+
+====================================================================================================

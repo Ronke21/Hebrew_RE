@@ -1,0 +1,73 @@
+2026-04-27 21:23:35  INFO    backend: HuggingFace  (1 GPU visible)
+2026-04-27 21:23:35  INFO  ======================================================================
+2026-04-27 21:23:35  INFO  clean_dataset_with_opensource_llm.py  started
+2026-04-27 21:23:35  INFO    input:       /home/nlp/ronke21/hebrew_RE/outputs/prepared_gold_dataset_gemma_3_27b_it.csv
+2026-04-27 21:23:35  INFO    output:      /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_classified.csv
+2026-04-27 21:23:35  INFO    log:         /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_classify.log
+2026-04-27 21:23:35  INFO    summary:     /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_summary.txt
+2026-04-27 21:23:35  INFO    label col:   relation_present
+2026-04-27 21:23:35  INFO    batch size:  16
+2026-04-27 21:23:35  INFO    max new tok: 16
+2026-04-27 21:23:35  INFO    models (3):
+2026-04-27 21:23:35  INFO      [dictalm-nemo-12b]  dicta-il/DictaLM-3.0-Nemotron-12B-Instruct  (type=instruct)
+2026-04-27 21:23:35  INFO      [aya32b]  CohereLabs/aya-expanse-32b  (type=instruct)
+2026-04-27 21:23:35  INFO      [gemma3]  google/gemma-3-27b-it  (type=instruct)
+2026-04-27 21:23:35  INFO    prompt combos per model (4): [('he', 'triplet'), ('he', 'template'), ('en', 'triplet'), ('en', 'template')]
+2026-04-27 21:23:35  INFO  ======================================================================
+2026-04-27 21:23:35  INFO  [load]  500 rows  (0s)
+2026-04-27 21:23:35  INFO  [load]  label distribution: positive=355, negative=145 (71.0% / 29.0%)
+2026-04-27 21:23:35  INFO  ----------------------------------------------------------------------
+2026-04-27 21:23:35  INFO  [model 1/3]  dictalm-nemo-12b  (instruct)
+2026-04-27 21:23:35  INFO      path: dicta-il/DictaLM-3.0-Nemotron-12B-Instruct
+2026-04-27 21:23:35  INFO      backend: HuggingFace + flash_attention_2
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-04-27 21:24:00  WARNING      flash_attention_2 failed (mamba-ssm is required by the Mamba model but cannot be imported), falling back to default attention
+Traceback (most recent call last):
+  File "/home/nlp/ronke21/.cache/huggingface/modules/transformers_modules/dicta_hyphen_il/DictaLM_hyphen_3_dot_0_hyphen_Nemotron_hyphen_12B_hyphen_Instruct/d08cd8264b74595dc38aa046b0ab9639240f6570/modeling_nemotron_h.py", line 63, in <module>
+    from mamba_ssm.ops.triton.layernorm_gated import rmsnorm_fn
+ModuleNotFoundError: No module named 'mamba_ssm'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nlp/ronke21/hebrew_RE/clean_data/clean_dataset_with_opensource_llm.py", line 311, in load_llm
+    model = transformers.AutoModelForCausalLM.from_pretrained(
+  File "/home/nlp/ronke21/.local/lib/python3.9/site-packages/transformers/models/auto/auto_factory.py", line 586, in from_pretrained
+    model_class = get_class_from_dynamic_module(
+  File "/home/nlp/ronke21/.local/lib/python3.9/site-packages/transformers/dynamic_module_utils.py", line 616, in get_class_from_dynamic_module
+    return get_class_in_module(class_name, final_module, force_reload=force_download)
+  File "/home/nlp/ronke21/.local/lib/python3.9/site-packages/transformers/dynamic_module_utils.py", line 311, in get_class_in_module
+    module_spec.loader.exec_module(module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/home/nlp/ronke21/.cache/huggingface/modules/transformers_modules/dicta_hyphen_il/DictaLM_hyphen_3_dot_0_hyphen_Nemotron_hyphen_12B_hyphen_Instruct/d08cd8264b74595dc38aa046b0ab9639240f6570/modeling_nemotron_h.py", line 65, in <module>
+    raise ImportError("mamba-ssm is required by the Mamba model but cannot be imported")
+ImportError: mamba-ssm is required by the Mamba model but cannot be imported
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nlp/ronke21/.cache/huggingface/modules/transformers_modules/dicta_hyphen_il/DictaLM_hyphen_3_dot_0_hyphen_Nemotron_hyphen_12B_hyphen_Instruct/d08cd8264b74595dc38aa046b0ab9639240f6570/modeling_nemotron_h.py", line 63, in <module>
+    from mamba_ssm.ops.triton.layernorm_gated import rmsnorm_fn
+ModuleNotFoundError: No module named 'mamba_ssm'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nlp/ronke21/hebrew_RE/clean_data/clean_dataset_with_opensource_llm.py", line 669, in <module>
+    main()
+  File "/home/nlp/ronke21/hebrew_RE/clean_data/clean_dataset_with_opensource_llm.py", line 595, in main
+    model, tokenizer = load_llm(model_id, log, n_gpus=n_gpus)
+  File "/home/nlp/ronke21/hebrew_RE/clean_data/clean_dataset_with_opensource_llm.py", line 321, in load_llm
+    model = transformers.AutoModelForCausalLM.from_pretrained(
+  File "/home/nlp/ronke21/.local/lib/python3.9/site-packages/transformers/models/auto/auto_factory.py", line 586, in from_pretrained
+    model_class = get_class_from_dynamic_module(
+  File "/home/nlp/ronke21/.local/lib/python3.9/site-packages/transformers/dynamic_module_utils.py", line 616, in get_class_from_dynamic_module
+    return get_class_in_module(class_name, final_module, force_reload=force_download)
+  File "/home/nlp/ronke21/.local/lib/python3.9/site-packages/transformers/dynamic_module_utils.py", line 311, in get_class_in_module
+    module_spec.loader.exec_module(module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/home/nlp/ronke21/.cache/huggingface/modules/transformers_modules/dicta_hyphen_il/DictaLM_hyphen_3_dot_0_hyphen_Nemotron_hyphen_12B_hyphen_Instruct/d08cd8264b74595dc38aa046b0ab9639240f6570/modeling_nemotron_h.py", line 65, in <module>
+    raise ImportError("mamba-ssm is required by the Mamba model but cannot be imported")
+ImportError: mamba-ssm is required by the Mamba model but cannot be imported

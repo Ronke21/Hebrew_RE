@@ -1,0 +1,803 @@
+2026-05-04 12:58:41  INFO  CUDA DEBUG INFO
+2026-05-04 12:58:41  INFO  CUDA_VISIBLE_DEVICES = 4
+2026-05-04 12:58:41  INFO  torch version = 2.6.0+cu124
+2026-05-04 12:58:41  INFO  torch CUDA build = 12.4
+2026-05-04 12:58:42  INFO  torch.cuda.is_available() = True
+2026-05-04 12:58:43  INFO  torch.cuda.device_count() = 1
+2026-05-04 12:58:43  INFO  ======================================================================
+2026-05-04 12:58:43  INFO  clean_dataset_with_nli.py  started
+2026-05-04 12:58:43  INFO    input:      /home/nlp/ronke21/hebrew_RE/outputs/prepared_gold_dataset_gemma_3_27b_it.csv
+2026-05-04 12:58:43  INFO    output:     /home/nlp/ronke21/hebrew_RE/outputs/nli_classified.csv
+2026-05-04 12:58:43  INFO    log:        /home/nlp/ronke21/hebrew_RE/outputs/nli_classify.log
+2026-05-04 12:58:43  INFO    summary:    /home/nlp/ronke21/hebrew_RE/outputs/nli_summary.txt
+2026-05-04 12:58:43  INFO    label col:  relation_present
+2026-05-04 12:58:43  INFO    thresholds: [0.6, 0.7, 0.8, 0.9]
+2026-05-04 12:58:43  INFO    models (4):
+2026-05-04 12:58:43  INFO      [mmbert]  mmBERT-base_hebnli/checkpoint-1000
+2026-05-04 12:58:43  INFO      [me5large]  multilingual-e5-large_hebnli/checkpoint-4000
+2026-05-04 12:58:43  INFO      [neodictabert]  neodictabert_hebnli/checkpoint-4500
+2026-05-04 12:58:43  INFO      [xlmroberta]  xlm-roberta-large_hebnli/checkpoint-2000
+2026-05-04 12:58:43  INFO    premise-hypothesis pairs (3):
+2026-05-04 12:58:43  INFO      'text' -> 'basic_relation'
+2026-05-04 12:58:43  INFO      'text' -> 'template_relation'
+2026-05-04 12:58:43  INFO      'text' -> 'llm_relation'
+2026-05-04 12:58:43  INFO    batch config: default=64, large=12 (threshold=256 chars)
+2026-05-04 12:58:43  INFO  ======================================================================
+2026-05-04 12:58:43  INFO  [load]  500 rows loaded  (0s)
+2026-05-04 12:58:43  INFO  [load]  label distribution: positive=355, negative=145 (71.0% / 29.0%)
+2026-05-04 12:58:43  INFO  ----------------------------------------------------------------------
+2026-05-04 12:58:43  INFO  [model 1/4]  mmbert
+2026-05-04 12:58:43  INFO      path: /home/nlp/ronke21/hebrew_RE/finetuned_Heb_NLI_encoders/mmBERT-base_hebnli/checkpoint-1000
+2026-05-04 12:58:43  INFO      checking CUDA availability...
+2026-05-04 12:58:43  INFO      torch version: 2.6.0+cu124
+2026-05-04 12:58:43  INFO      torch CUDA build: 12.4
+2026-05-04 12:58:43  INFO      torch.cuda.is_available(): True
+2026-05-04 12:58:43  INFO      torch.cuda.device_count(): 1
+2026-05-04 12:58:43  INFO      visible GPU: NVIDIA A100-SXM4-80GB
+2026-05-04 12:58:53  WARNING      safetensors load failed (Error no file named model.safetensors found in directory /home/nlp/ronke21/hebrew_RE/finetuned_Heb_NLI_encoders/mmBERT-base_hebnli/checkpoint-1000.), trying normal load.
+2026-05-04 12:59:40  INFO      moving model to cuda:0...
+2026-05-04 12:59:41  INFO      ready on cuda:0 (308M params)
+2026-05-04 12:59:41  INFO      model loaded in 58s
+2026-05-04 12:59:41  INFO    [1/3]  premise='text'  hypothesis='basic_relation'
+2026-05-04 12:59:41  INFO      output col: confidence_mmbert_basic_relation
+2026-05-04 12:59:41  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 12:59:41  INFO  mmbert/basic_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+/home/nlp/ronke21/miniconda3/envs/heb_relation_extraction/lib/python3.10/site-packages/torch/_inductor/compile_fx.py:194: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+2026-05-04 13:00:49  INFO  mmbert/basic_relation:   2%|2         | 1/42 [01:08<46:44, 68.40s/it]
+2026-05-04 13:00:49  INFO  mmbert/basic_relation:   7%|7         | 3/42 [01:08<11:33, 17.79s/it]
+2026-05-04 13:00:50  INFO  mmbert/basic_relation:  12%|#1        | 5/42 [01:08<05:21,  8.69s/it]
+2026-05-04 13:00:50  INFO  mmbert/basic_relation:  17%|#6        | 7/42 [01:08<02:56,  5.04s/it]
+2026-05-04 13:00:50  INFO  mmbert/basic_relation:  21%|##1       | 9/42 [01:09<01:44,  3.17s/it]
+2026-05-04 13:00:50  INFO      progress: 120/500 rows (24%)  1m 9s
+2026-05-04 13:00:50  INFO  mmbert/basic_relation:  26%|##6       | 11/42 [01:09<01:04,  2.09s/it]
+2026-05-04 13:00:50  INFO  mmbert/basic_relation:  31%|###       | 13/42 [01:09<00:41,  1.42s/it]
+2026-05-04 13:00:50  INFO  mmbert/basic_relation:  36%|###5      | 15/42 [01:09<00:26,  1.01it/s]
+2026-05-04 13:00:51  INFO  mmbert/basic_relation:  40%|####      | 17/42 [01:09<00:17,  1.43it/s]
+2026-05-04 13:00:51  INFO  mmbert/basic_relation:  45%|####5     | 19/42 [01:09<00:11,  1.97it/s]
+2026-05-04 13:00:51  INFO      progress: 240/500 rows (48%)  1m 9s
+2026-05-04 13:00:51  INFO  mmbert/basic_relation:  50%|#####     | 21/42 [01:09<00:07,  2.65it/s]
+2026-05-04 13:00:51  INFO  mmbert/basic_relation:  55%|#####4    | 23/42 [01:10<00:05,  3.50it/s]
+2026-05-04 13:00:51  INFO  mmbert/basic_relation:  60%|#####9    | 25/42 [01:10<00:03,  4.49it/s]
+2026-05-04 13:00:51  INFO  mmbert/basic_relation:  64%|######4   | 27/42 [01:10<00:02,  5.56it/s]
+2026-05-04 13:00:52  INFO  mmbert/basic_relation:  69%|######9   | 29/42 [01:10<00:01,  6.69it/s]
+2026-05-04 13:00:52  INFO      progress: 360/500 rows (72%)  1m 10s
+2026-05-04 13:00:52  INFO  mmbert/basic_relation:  74%|#######3  | 31/42 [01:10<00:01,  7.78it/s]
+2026-05-04 13:00:52  INFO  mmbert/basic_relation:  79%|#######8  | 33/42 [01:10<00:01,  8.79it/s]
+2026-05-04 13:00:52  INFO  mmbert/basic_relation:  83%|########3 | 35/42 [01:11<00:00,  9.63it/s]
+2026-05-04 13:00:52  INFO  mmbert/basic_relation:  88%|########8 | 37/42 [01:11<00:00, 10.36it/s]
+2026-05-04 13:00:52  INFO  mmbert/basic_relation:  93%|#########2| 39/42 [01:11<00:00, 10.93it/s]
+2026-05-04 13:00:52  INFO      progress: 480/500 rows (96%)  1m 11s
+2026-05-04 13:00:52  INFO  mmbert/basic_relation:  98%|#########7| 41/42 [01:11<00:00, 11.32it/s]
+2026-05-04 13:00:53  INFO      progress: 500/500 rows (100%)  1m 11s
+2026-05-04 13:00:53  INFO      inference done  (1m 11s, 7.0 rows/s)
+2026-05-04 13:00:53  INFO      score stats: mean=0.9180  median=0.9384  min=0.2890  max=0.9957
+2026-05-04 13:00:53  INFO      thresh=0.6  predicted=497/500  TP=352 FP=145 FN=3 TN=0  acc=0.7040 prec=0.7082 rec=0.9915 F1=0.8263
+2026-05-04 13:00:53  INFO      thresh=0.7  predicted=491/500  TP=347 FP=144 FN=8 TN=1  acc=0.6960 prec=0.7067 rec=0.9775 F1=0.8203
+2026-05-04 13:00:53  INFO      thresh=0.8  predicted=471/500  TP=334 FP=137 FN=21 TN=8  acc=0.6840 prec=0.7091 rec=0.9408 F1=0.8087
+2026-05-04 13:00:53  INFO      thresh=0.9  predicted=379/500  TP=267 FP=112 FN=88 TN=33  acc=0.6000 prec=0.7045 rec=0.7521 F1=0.7275
+2026-05-04 13:00:53  INFO      examples (first 3 rows):
+2026-05-04 13:00:53  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:00:53  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 13:00:53  INFO        score=0.9638  gold=0
+2026-05-04 13:00:53  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:00:53  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 13:00:53  INFO        score=0.9449  gold=1
+2026-05-04 13:00:53  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:00:53  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 13:00:53  INFO        score=0.9617  gold=1
+2026-05-04 13:00:53  INFO    [2/3]  premise='text'  hypothesis='template_relation'
+2026-05-04 13:00:53  INFO      output col: confidence_mmbert_template_relation
+2026-05-04 13:00:53  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:00:53  INFO  mmbert/template_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:00:53  INFO  mmbert/template_relation:   5%|4         | 2/42 [00:00<00:02, 14.75it/s]
+2026-05-04 13:00:53  INFO  mmbert/template_relation:  10%|9         | 4/42 [00:00<00:02, 13.73it/s]
+2026-05-04 13:00:53  INFO  mmbert/template_relation:  14%|#4        | 6/42 [00:00<00:02, 13.20it/s]
+2026-05-04 13:00:53  INFO  mmbert/template_relation:  19%|#9        | 8/42 [00:00<00:02, 12.92it/s]
+2026-05-04 13:00:53  INFO      progress: 120/500 rows (24%)  0s
+2026-05-04 13:00:53  INFO  mmbert/template_relation:  24%|##3       | 10/42 [00:00<00:02, 13.00it/s]
+2026-05-04 13:00:54  INFO  mmbert/template_relation:  29%|##8       | 12/42 [00:00<00:02, 12.88it/s]
+2026-05-04 13:00:54  INFO  mmbert/template_relation:  33%|###3      | 14/42 [00:01<00:02, 12.70it/s]
+2026-05-04 13:00:54  INFO  mmbert/template_relation:  38%|###8      | 16/42 [00:01<00:02, 12.66it/s]
+2026-05-04 13:00:54  INFO  mmbert/template_relation:  43%|####2     | 18/42 [00:01<00:01, 12.59it/s]
+2026-05-04 13:00:54  INFO      progress: 240/500 rows (48%)  1s
+2026-05-04 13:00:54  INFO  mmbert/template_relation:  48%|####7     | 20/42 [00:01<00:01, 12.54it/s]
+2026-05-04 13:00:54  INFO  mmbert/template_relation:  52%|#####2    | 22/42 [00:01<00:01, 12.63it/s]
+2026-05-04 13:00:54  INFO  mmbert/template_relation:  57%|#####7    | 24/42 [00:01<00:01, 12.65it/s]
+2026-05-04 13:00:55  INFO  mmbert/template_relation:  62%|######1   | 26/42 [00:02<00:01, 12.65it/s]
+2026-05-04 13:00:55  INFO  mmbert/template_relation:  67%|######6   | 28/42 [00:02<00:01, 11.69it/s]
+2026-05-04 13:00:55  INFO      progress: 360/500 rows (72%)  2s
+2026-05-04 13:00:55  INFO  mmbert/template_relation:  71%|#######1  | 30/42 [00:02<00:01, 11.65it/s]
+2026-05-04 13:00:55  INFO  mmbert/template_relation:  76%|#######6  | 32/42 [00:02<00:00, 11.89it/s]
+2026-05-04 13:00:55  INFO  mmbert/template_relation:  81%|########  | 34/42 [00:02<00:00, 12.02it/s]
+2026-05-04 13:00:55  INFO  mmbert/template_relation:  86%|########5 | 36/42 [00:02<00:00, 12.16it/s]
+2026-05-04 13:00:56  INFO  mmbert/template_relation:  90%|######### | 38/42 [00:03<00:00, 12.24it/s]
+2026-05-04 13:00:56  INFO      progress: 480/500 rows (96%)  3s
+2026-05-04 13:00:56  INFO  mmbert/template_relation:  95%|#########5| 40/42 [00:03<00:00, 11.90it/s]
+2026-05-04 13:00:56  INFO      progress: 500/500 rows (100%)  3s
+2026-05-04 13:00:56  INFO  mmbert/template_relation: 100%|##########| 42/42 [00:03<00:00, 11.78it/s]
+2026-05-04 13:00:56  INFO      inference done  (3s, 146.3 rows/s)
+2026-05-04 13:00:56  INFO      score stats: mean=0.9195  median=0.9425  min=0.3399  max=0.9957
+2026-05-04 13:00:56  INFO      thresh=0.6  predicted=495/500  TP=351 FP=144 FN=4 TN=1  acc=0.7040 prec=0.7091 rec=0.9887 F1=0.8259
+2026-05-04 13:00:56  INFO      thresh=0.7  predicted=489/500  TP=345 FP=144 FN=10 TN=1  acc=0.6920 prec=0.7055 rec=0.9718 F1=0.8175
+2026-05-04 13:00:56  INFO      thresh=0.8  predicted=466/500  TP=332 FP=134 FN=23 TN=11  acc=0.6860 prec=0.7124 rec=0.9352 F1=0.8088
+2026-05-04 13:00:56  INFO      thresh=0.9  predicted=379/500  TP=271 FP=108 FN=84 TN=37  acc=0.6160 prec=0.7150 rec=0.7634 F1=0.7384
+2026-05-04 13:00:56  INFO      examples (first 3 rows):
+2026-05-04 13:00:56  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:00:56  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 13:00:56  INFO        score=0.9625  gold=0
+2026-05-04 13:00:56  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:00:56  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 13:00:56  INFO        score=0.9474  gold=1
+2026-05-04 13:00:56  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:00:56  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 13:00:56  INFO        score=0.9570  gold=1
+2026-05-04 13:00:56  INFO    [3/3]  premise='text'  hypothesis='llm_relation'
+2026-05-04 13:00:56  INFO      output col: confidence_mmbert_llm_relation
+2026-05-04 13:00:56  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:00:56  INFO  mmbert/llm_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:00:56  INFO  mmbert/llm_relation:   5%|4         | 2/42 [00:00<00:02, 14.73it/s]
+2026-05-04 13:00:56  INFO  mmbert/llm_relation:  10%|9         | 4/42 [00:00<00:02, 13.72it/s]
+2026-05-04 13:00:56  INFO  mmbert/llm_relation:  14%|#4        | 6/42 [00:00<00:02, 13.18it/s]
+2026-05-04 13:00:57  INFO  mmbert/llm_relation:  19%|#9        | 8/42 [00:00<00:02, 12.99it/s]
+2026-05-04 13:00:57  INFO      progress: 120/500 rows (24%)  0s
+2026-05-04 13:00:57  INFO  mmbert/llm_relation:  24%|##3       | 10/42 [00:00<00:02, 13.12it/s]
+2026-05-04 13:00:57  INFO  mmbert/llm_relation:  29%|##8       | 12/42 [00:00<00:02, 12.93it/s]
+2026-05-04 13:00:57  INFO  mmbert/llm_relation:  33%|###3      | 14/42 [00:01<00:02, 12.65it/s]
+2026-05-04 13:00:57  INFO  mmbert/llm_relation:  38%|###8      | 16/42 [00:01<00:02, 12.59it/s]
+2026-05-04 13:00:57  INFO  mmbert/llm_relation:  43%|####2     | 18/42 [00:01<00:01, 12.54it/s]
+2026-05-04 13:00:58  INFO      progress: 240/500 rows (48%)  1s
+2026-05-04 13:00:58  INFO  mmbert/llm_relation:  48%|####7     | 20/42 [00:01<00:01, 12.51it/s]
+2026-05-04 13:00:58  INFO  mmbert/llm_relation:  52%|#####2    | 22/42 [00:01<00:01, 12.59it/s]
+2026-05-04 13:00:58  INFO  mmbert/llm_relation:  57%|#####7    | 24/42 [00:01<00:01, 12.60it/s]
+2026-05-04 13:00:58  INFO  mmbert/llm_relation:  62%|######1   | 26/42 [00:02<00:01, 12.60it/s]
+2026-05-04 13:00:58  INFO  mmbert/llm_relation:  67%|######6   | 28/42 [00:02<00:01, 12.56it/s]
+2026-05-04 13:00:58  INFO      progress: 360/500 rows (72%)  2s
+2026-05-04 13:00:58  INFO  mmbert/llm_relation:  71%|#######1  | 30/42 [00:02<00:00, 12.52it/s]
+2026-05-04 13:00:59  INFO  mmbert/llm_relation:  76%|#######6  | 32/42 [00:02<00:00, 12.52it/s]
+2026-05-04 13:00:59  INFO  mmbert/llm_relation:  81%|########  | 34/42 [00:02<00:00, 12.56it/s]
+2026-05-04 13:00:59  INFO  mmbert/llm_relation:  86%|########5 | 36/42 [00:02<00:00, 12.64it/s]
+2026-05-04 13:00:59  INFO  mmbert/llm_relation:  90%|######### | 38/42 [00:02<00:00, 12.61it/s]
+2026-05-04 13:00:59  INFO      progress: 480/500 rows (96%)  3s
+2026-05-04 13:00:59  INFO  mmbert/llm_relation:  95%|#########5| 40/42 [00:03<00:00, 12.59it/s]
+2026-05-04 13:00:59  INFO      progress: 500/500 rows (100%)  3s
+2026-05-04 13:00:59  INFO  mmbert/llm_relation: 100%|##########| 42/42 [00:03<00:00, 12.58it/s]
+2026-05-04 13:00:59  INFO      inference done  (3s, 150.4 rows/s)
+2026-05-04 13:00:59  INFO      score stats: mean=0.9140  median=0.9363  min=0.3386  max=0.9928
+2026-05-04 13:00:59  INFO      thresh=0.6  predicted=494/500  TP=350 FP=144 FN=5 TN=1  acc=0.7020 prec=0.7085 rec=0.9859 F1=0.8245
+2026-05-04 13:00:59  INFO      thresh=0.7  predicted=489/500  TP=346 FP=143 FN=9 TN=2  acc=0.6960 prec=0.7076 rec=0.9746 F1=0.8199
+2026-05-04 13:00:59  INFO      thresh=0.8  predicted=463/500  TP=328 FP=135 FN=27 TN=10  acc=0.6760 prec=0.7084 rec=0.9239 F1=0.8020
+2026-05-04 13:00:59  INFO      thresh=0.9  predicted=360/500  TP=253 FP=107 FN=102 TN=38  acc=0.5820 prec=0.7028 rec=0.7127 F1=0.7077
+2026-05-04 13:00:59  INFO      examples (first 3 rows):
+2026-05-04 13:00:59  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:00:59  INFO        hypothesis: 'אל-חודיידה גובלת ברימה.'
+2026-05-04 13:00:59  INFO        score=0.8899  gold=0
+2026-05-04 13:00:59  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:00:59  INFO        hypothesis: 'אינם מדינת רוסיה.'
+2026-05-04 13:00:59  INFO        score=0.9435  gold=1
+2026-05-04 13:00:59  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:00:59  INFO        hypothesis: 'אוסטריה עילית היא מדינה באוסטריה.'
+2026-05-04 13:00:59  INFO        score=0.9575  gold=1
+2026-05-04 13:01:00  INFO      GPU cache cleared
+2026-05-04 13:01:00  INFO    [mmbert] total time (load + inference): 2m 16s
+2026-05-04 13:01:00  INFO  ----------------------------------------------------------------------
+2026-05-04 13:01:00  INFO  [model 2/4]  me5large
+2026-05-04 13:01:00  INFO      path: /home/nlp/ronke21/hebrew_RE/finetuned_Heb_NLI_encoders/multilingual-e5-large_hebnli/checkpoint-4000
+2026-05-04 13:01:00  INFO      checking CUDA availability...
+2026-05-04 13:01:00  INFO      torch version: 2.6.0+cu124
+2026-05-04 13:01:00  INFO      torch CUDA build: 12.4
+2026-05-04 13:01:00  INFO      torch.cuda.is_available(): True
+2026-05-04 13:01:00  INFO      torch.cuda.device_count(): 1
+2026-05-04 13:01:00  INFO      visible GPU: NVIDIA A100-SXM4-80GB
+2026-05-04 13:01:20  INFO      moving model to cuda:0...
+2026-05-04 13:03:31  INFO      ready on cuda:0 (560M params)
+2026-05-04 13:03:31  INFO      model loaded in 2m 31s
+2026-05-04 13:03:31  INFO    [1/3]  premise='text'  hypothesis='basic_relation'
+2026-05-04 13:03:31  INFO      output col: confidence_me5large_basic_relation
+2026-05-04 13:03:31  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:03:31  INFO  me5large/basic_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:03:32  INFO  me5large/basic_relation:   2%|2         | 1/42 [00:00<00:13,  2.96it/s]
+2026-05-04 13:03:32  INFO  me5large/basic_relation:   7%|7         | 3/42 [00:00<00:06,  5.64it/s]
+2026-05-04 13:03:32  INFO  me5large/basic_relation:  12%|#1        | 5/42 [00:00<00:05,  7.32it/s]
+2026-05-04 13:03:32  INFO  me5large/basic_relation:  14%|#4        | 6/42 [00:01<00:06,  5.24it/s]
+2026-05-04 13:03:33  INFO  me5large/basic_relation:  19%|#9        | 8/42 [00:01<00:05,  6.74it/s]
+2026-05-04 13:03:33  INFO      progress: 120/500 rows (24%)  1s
+2026-05-04 13:03:33  INFO  me5large/basic_relation:  24%|##3       | 10/42 [00:01<00:03,  8.11it/s]
+2026-05-04 13:03:33  INFO  me5large/basic_relation:  29%|##8       | 12/42 [00:01<00:03,  8.81it/s]
+2026-05-04 13:03:33  INFO  me5large/basic_relation:  33%|###3      | 14/42 [00:01<00:03,  9.21it/s]
+2026-05-04 13:03:33  INFO  me5large/basic_relation:  38%|###8      | 16/42 [00:02<00:02,  9.42it/s]
+2026-05-04 13:03:33  INFO  me5large/basic_relation:  43%|####2     | 18/42 [00:02<00:02,  9.68it/s]
+2026-05-04 13:03:34  INFO      progress: 240/500 rows (48%)  2s
+2026-05-04 13:03:34  INFO  me5large/basic_relation:  48%|####7     | 20/42 [00:02<00:02,  9.87it/s]
+2026-05-04 13:03:34  INFO  me5large/basic_relation:  52%|#####2    | 22/42 [00:02<00:02,  9.87it/s]
+2026-05-04 13:03:34  INFO  me5large/basic_relation:  57%|#####7    | 24/42 [00:02<00:01, 10.11it/s]
+2026-05-04 13:03:35  INFO  me5large/basic_relation:  62%|######1   | 26/42 [00:03<00:02,  6.74it/s]
+2026-05-04 13:03:35  INFO  me5large/basic_relation:  64%|######4   | 27/42 [00:03<00:02,  6.98it/s]
+2026-05-04 13:03:35  INFO  me5large/basic_relation:  67%|######6   | 28/42 [00:03<00:01,  7.16it/s]
+2026-05-04 13:03:35  INFO  me5large/basic_relation:  69%|######9   | 29/42 [00:03<00:01,  7.36it/s]
+2026-05-04 13:03:35  INFO      progress: 360/500 rows (72%)  3s
+2026-05-04 13:03:35  INFO  me5large/basic_relation:  71%|#######1  | 30/42 [00:03<00:01,  7.53it/s]
+2026-05-04 13:03:35  INFO  me5large/basic_relation:  74%|#######3  | 31/42 [00:03<00:01,  7.69it/s]
+2026-05-04 13:03:35  INFO  me5large/basic_relation:  76%|#######6  | 32/42 [00:04<00:01,  7.80it/s]
+2026-05-04 13:03:35  INFO  me5large/basic_relation:  79%|#######8  | 33/42 [00:04<00:01,  7.89it/s]
+2026-05-04 13:03:36  INFO  me5large/basic_relation:  81%|########  | 34/42 [00:04<00:01,  7.93it/s]
+2026-05-04 13:03:36  INFO  me5large/basic_relation:  83%|########3 | 35/42 [00:04<00:00,  7.96it/s]
+2026-05-04 13:03:36  INFO  me5large/basic_relation:  86%|########5 | 36/42 [00:04<00:00,  8.02it/s]
+2026-05-04 13:03:36  INFO  me5large/basic_relation:  88%|########8 | 37/42 [00:04<00:00,  8.06it/s]
+2026-05-04 13:03:36  INFO  me5large/basic_relation:  90%|######### | 38/42 [00:04<00:00,  8.08it/s]
+2026-05-04 13:03:36  INFO  me5large/basic_relation:  93%|#########2| 39/42 [00:04<00:00,  8.09it/s]
+2026-05-04 13:03:36  INFO      progress: 480/500 rows (96%)  5s
+2026-05-04 13:03:36  INFO  me5large/basic_relation:  95%|#########5| 40/42 [00:05<00:00,  8.04it/s]
+2026-05-04 13:03:36  INFO  me5large/basic_relation:  98%|#########7| 41/42 [00:05<00:00,  8.10it/s]
+2026-05-04 13:03:37  INFO      progress: 500/500 rows (100%)  5s
+2026-05-04 13:03:37  INFO  me5large/basic_relation: 100%|##########| 42/42 [00:05<00:00,  8.10it/s]
+2026-05-04 13:03:37  INFO      inference done  (5s, 92.6 rows/s)
+2026-05-04 13:03:37  INFO      score stats: mean=0.9761  median=0.9932  min=0.1017  max=0.9994
+2026-05-04 13:03:37  INFO      thresh=0.6  predicted=495/500  TP=351 FP=144 FN=4 TN=1  acc=0.7040 prec=0.7091 rec=0.9887 F1=0.8259
+2026-05-04 13:03:37  INFO      thresh=0.7  predicted=495/500  TP=351 FP=144 FN=4 TN=1  acc=0.7040 prec=0.7091 rec=0.9887 F1=0.8259
+2026-05-04 13:03:37  INFO      thresh=0.8  predicted=490/500  TP=348 FP=142 FN=7 TN=3  acc=0.7020 prec=0.7102 rec=0.9803 F1=0.8237
+2026-05-04 13:03:37  INFO      thresh=0.9  predicted=479/500  TP=339 FP=140 FN=16 TN=5  acc=0.6880 prec=0.7077 rec=0.9549 F1=0.8129
+2026-05-04 13:03:37  INFO      examples (first 3 rows):
+2026-05-04 13:03:37  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:03:37  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 13:03:37  INFO        score=0.9970  gold=0
+2026-05-04 13:03:37  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:03:37  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 13:03:37  INFO        score=0.9518  gold=1
+2026-05-04 13:03:37  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:03:37  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 13:03:37  INFO        score=0.9949  gold=1
+2026-05-04 13:03:37  INFO    [2/3]  premise='text'  hypothesis='template_relation'
+2026-05-04 13:03:37  INFO      output col: confidence_me5large_template_relation
+2026-05-04 13:03:37  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:03:37  INFO  me5large/template_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:03:37  INFO  me5large/template_relation:   5%|4         | 2/42 [00:00<00:02, 17.99it/s]
+2026-05-04 13:03:37  INFO  me5large/template_relation:  10%|9         | 4/42 [00:00<00:02, 13.07it/s]
+2026-05-04 13:03:37  INFO  me5large/template_relation:  14%|#4        | 6/42 [00:00<00:03, 11.71it/s]
+2026-05-04 13:03:37  INFO  me5large/template_relation:  19%|#9        | 8/42 [00:00<00:03, 11.27it/s]
+2026-05-04 13:03:37  INFO      progress: 120/500 rows (24%)  0s
+2026-05-04 13:03:37  INFO  me5large/template_relation:  24%|##3       | 10/42 [00:00<00:02, 11.57it/s]
+2026-05-04 13:03:38  INFO  me5large/template_relation:  29%|##8       | 12/42 [00:01<00:02, 11.14it/s]
+2026-05-04 13:03:38  INFO  me5large/template_relation:  33%|###3      | 14/42 [00:01<00:02, 10.77it/s]
+2026-05-04 13:03:38  INFO  me5large/template_relation:  38%|###8      | 16/42 [00:01<00:02, 10.45it/s]
+2026-05-04 13:03:38  INFO  me5large/template_relation:  43%|####2     | 18/42 [00:01<00:02, 10.40it/s]
+2026-05-04 13:03:38  INFO      progress: 240/500 rows (48%)  1s
+2026-05-04 13:03:38  INFO  me5large/template_relation:  48%|####7     | 20/42 [00:01<00:02, 10.37it/s]
+2026-05-04 13:03:39  INFO  me5large/template_relation:  52%|#####2    | 22/42 [00:02<00:01, 10.15it/s]
+2026-05-04 13:03:39  INFO  me5large/template_relation:  57%|#####7    | 24/42 [00:02<00:01, 10.26it/s]
+2026-05-04 13:03:39  INFO  me5large/template_relation:  62%|######1   | 26/42 [00:02<00:01, 10.06it/s]
+2026-05-04 13:03:39  INFO  me5large/template_relation:  67%|######6   | 28/42 [00:02<00:01,  9.39it/s]
+2026-05-04 13:03:39  INFO  me5large/template_relation:  69%|######9   | 29/42 [00:02<00:01,  9.14it/s]
+2026-05-04 13:03:40  INFO      progress: 360/500 rows (72%)  2s
+2026-05-04 13:03:40  INFO  me5large/template_relation:  71%|#######1  | 30/42 [00:02<00:01,  8.91it/s]
+2026-05-04 13:03:40  INFO  me5large/template_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.72it/s]
+2026-05-04 13:03:40  INFO  me5large/template_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.57it/s]
+2026-05-04 13:03:40  INFO  me5large/template_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.45it/s]
+2026-05-04 13:03:40  INFO  me5large/template_relation:  81%|########  | 34/42 [00:03<00:00,  8.35it/s]
+2026-05-04 13:03:40  INFO  me5large/template_relation:  83%|########3 | 35/42 [00:03<00:00,  8.29it/s]
+2026-05-04 13:03:40  INFO  me5large/template_relation:  86%|########5 | 36/42 [00:03<00:00,  8.24it/s]
+2026-05-04 13:03:40  INFO  me5large/template_relation:  88%|########8 | 37/42 [00:03<00:00,  8.21it/s]
+2026-05-04 13:03:41  INFO  me5large/template_relation:  90%|######### | 38/42 [00:03<00:00,  8.19it/s]
+2026-05-04 13:03:41  INFO  me5large/template_relation:  93%|#########2| 39/42 [00:04<00:00,  8.17it/s]
+2026-05-04 13:03:41  INFO      progress: 480/500 rows (96%)  4s
+2026-05-04 13:03:41  INFO  me5large/template_relation:  95%|#########5| 40/42 [00:04<00:00,  8.16it/s]
+2026-05-04 13:03:41  INFO  me5large/template_relation:  98%|#########7| 41/42 [00:04<00:00,  8.15it/s]
+2026-05-04 13:03:41  INFO      progress: 500/500 rows (100%)  4s
+2026-05-04 13:03:41  INFO  me5large/template_relation: 100%|##########| 42/42 [00:04<00:00,  8.12it/s]
+2026-05-04 13:03:41  INFO      inference done  (4s, 112.0 rows/s)
+2026-05-04 13:03:41  INFO      score stats: mean=0.9791  median=0.9936  min=0.1102  max=0.9994
+2026-05-04 13:03:41  INFO      thresh=0.6  predicted=497/500  TP=352 FP=145 FN=3 TN=0  acc=0.7040 prec=0.7082 rec=0.9915 F1=0.8263
+2026-05-04 13:03:41  INFO      thresh=0.7  predicted=497/500  TP=352 FP=145 FN=3 TN=0  acc=0.7040 prec=0.7082 rec=0.9915 F1=0.8263
+2026-05-04 13:03:41  INFO      thresh=0.8  predicted=494/500  TP=350 FP=144 FN=5 TN=1  acc=0.7020 prec=0.7085 rec=0.9859 F1=0.8245
+2026-05-04 13:03:41  INFO      thresh=0.9  predicted=477/500  TP=339 FP=138 FN=16 TN=7  acc=0.6920 prec=0.7107 rec=0.9549 F1=0.8149
+2026-05-04 13:03:41  INFO      examples (first 3 rows):
+2026-05-04 13:03:41  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:03:41  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 13:03:41  INFO        score=0.9967  gold=0
+2026-05-04 13:03:41  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:03:41  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 13:03:41  INFO        score=0.9806  gold=1
+2026-05-04 13:03:41  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:03:41  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 13:03:41  INFO        score=0.9956  gold=1
+2026-05-04 13:03:41  INFO    [3/3]  premise='text'  hypothesis='llm_relation'
+2026-05-04 13:03:41  INFO      output col: confidence_me5large_llm_relation
+2026-05-04 13:03:41  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:03:41  INFO  me5large/llm_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:03:41  INFO  me5large/llm_relation:   5%|4         | 2/42 [00:00<00:02, 17.96it/s]
+2026-05-04 13:03:41  INFO  me5large/llm_relation:  10%|9         | 4/42 [00:00<00:02, 13.12it/s]
+2026-05-04 13:03:42  INFO  me5large/llm_relation:  14%|#4        | 6/42 [00:00<00:03, 11.76it/s]
+2026-05-04 13:03:42  INFO  me5large/llm_relation:  19%|#9        | 8/42 [00:00<00:03, 11.22it/s]
+2026-05-04 13:03:42  INFO      progress: 120/500 rows (24%)  0s
+2026-05-04 13:03:42  INFO  me5large/llm_relation:  24%|##3       | 10/42 [00:00<00:02, 11.56it/s]
+2026-05-04 13:03:42  INFO  me5large/llm_relation:  29%|##8       | 12/42 [00:01<00:02, 11.15it/s]
+2026-05-04 13:03:42  INFO  me5large/llm_relation:  33%|###3      | 14/42 [00:01<00:02, 10.84it/s]
+2026-05-04 13:03:43  INFO  me5large/llm_relation:  38%|###8      | 16/42 [00:01<00:02, 10.51it/s]
+2026-05-04 13:03:43  INFO  me5large/llm_relation:  43%|####2     | 18/42 [00:01<00:02, 10.45it/s]
+2026-05-04 13:03:43  INFO      progress: 240/500 rows (48%)  1s
+2026-05-04 13:03:43  INFO  me5large/llm_relation:  48%|####7     | 20/42 [00:01<00:02, 10.34it/s]
+2026-05-04 13:03:43  INFO  me5large/llm_relation:  52%|#####2    | 22/42 [00:02<00:01, 10.18it/s]
+2026-05-04 13:03:43  INFO  me5large/llm_relation:  57%|#####7    | 24/42 [00:02<00:01, 10.30it/s]
+2026-05-04 13:03:43  INFO  me5large/llm_relation:  62%|######1   | 26/42 [00:02<00:01, 10.09it/s]
+2026-05-04 13:03:44  INFO  me5large/llm_relation:  67%|######6   | 28/42 [00:02<00:01,  9.41it/s]
+2026-05-04 13:03:44  INFO  me5large/llm_relation:  69%|######9   | 29/42 [00:02<00:01,  9.15it/s]
+2026-05-04 13:03:44  INFO      progress: 360/500 rows (72%)  2s
+2026-05-04 13:03:44  INFO  me5large/llm_relation:  71%|#######1  | 30/42 [00:02<00:01,  8.92it/s]
+2026-05-04 13:03:44  INFO  me5large/llm_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.73it/s]
+2026-05-04 13:03:44  INFO  me5large/llm_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.58it/s]
+2026-05-04 13:03:44  INFO  me5large/llm_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.46it/s]
+2026-05-04 13:03:44  INFO  me5large/llm_relation:  81%|########  | 34/42 [00:03<00:00,  8.36it/s]
+2026-05-04 13:03:45  INFO  me5large/llm_relation:  83%|########3 | 35/42 [00:03<00:00,  8.30it/s]
+2026-05-04 13:03:45  INFO  me5large/llm_relation:  86%|########5 | 36/42 [00:03<00:00,  8.25it/s]
+2026-05-04 13:03:45  INFO  me5large/llm_relation:  88%|########8 | 37/42 [00:03<00:00,  8.21it/s]
+2026-05-04 13:03:45  INFO  me5large/llm_relation:  90%|######### | 38/42 [00:03<00:00,  8.19it/s]
+2026-05-04 13:03:45  INFO  me5large/llm_relation:  93%|#########2| 39/42 [00:04<00:00,  8.17it/s]
+2026-05-04 13:03:45  INFO      progress: 480/500 rows (96%)  4s
+2026-05-04 13:03:45  INFO  me5large/llm_relation:  95%|#########5| 40/42 [00:04<00:00,  8.16it/s]
+2026-05-04 13:03:45  INFO  me5large/llm_relation:  98%|#########7| 41/42 [00:04<00:00,  8.15it/s]
+2026-05-04 13:03:45  INFO      progress: 500/500 rows (100%)  4s
+2026-05-04 13:03:45  INFO  me5large/llm_relation: 100%|##########| 42/42 [00:04<00:00,  8.13it/s]
+2026-05-04 13:03:46  INFO      inference done  (4s, 112.1 rows/s)
+2026-05-04 13:03:46  INFO      score stats: mean=0.9707  median=0.9937  min=0.2076  max=0.9996
+2026-05-04 13:03:46  INFO      thresh=0.6  predicted=493/500  TP=351 FP=142 FN=4 TN=3  acc=0.7080 prec=0.7120 rec=0.9887 F1=0.8278
+2026-05-04 13:03:46  INFO      thresh=0.7  predicted=491/500  TP=349 FP=142 FN=6 TN=3  acc=0.7040 prec=0.7108 rec=0.9831 F1=0.8251
+2026-05-04 13:03:46  INFO      thresh=0.8  predicted=482/500  TP=344 FP=138 FN=11 TN=7  acc=0.7020 prec=0.7137 rec=0.9690 F1=0.8220
+2026-05-04 13:03:46  INFO      thresh=0.9  predicted=467/500  TP=329 FP=138 FN=26 TN=7  acc=0.6720 prec=0.7045 rec=0.9268 F1=0.8005
+2026-05-04 13:03:46  INFO      examples (first 3 rows):
+2026-05-04 13:03:46  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:03:46  INFO        hypothesis: 'אל-חודיידה גובלת ברימה.'
+2026-05-04 13:03:46  INFO        score=0.9969  gold=0
+2026-05-04 13:03:46  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:03:46  INFO        hypothesis: 'אינם מדינת רוסיה.'
+2026-05-04 13:03:46  INFO        score=0.9421  gold=1
+2026-05-04 13:03:46  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:03:46  INFO        hypothesis: 'אוסטריה עילית היא מדינה באוסטריה.'
+2026-05-04 13:03:46  INFO        score=0.9936  gold=1
+2026-05-04 13:03:47  INFO      GPU cache cleared
+2026-05-04 13:03:47  INFO    [me5large] total time (load + inference): 2m 45s
+2026-05-04 13:03:47  INFO  ----------------------------------------------------------------------
+2026-05-04 13:03:47  INFO  [model 3/4]  neodictabert
+2026-05-04 13:03:47  INFO      path: /home/nlp/ronke21/hebrew_RE/finetuned_Heb_NLI_encoders/neodictabert_hebnli/checkpoint-4500
+2026-05-04 13:03:47  INFO      checking CUDA availability...
+2026-05-04 13:03:47  INFO      torch version: 2.6.0+cu124
+2026-05-04 13:03:47  INFO      torch CUDA build: 12.4
+2026-05-04 13:03:47  INFO      torch.cuda.is_available(): True
+2026-05-04 13:03:47  INFO      torch.cuda.device_count(): 1
+2026-05-04 13:03:47  INFO      visible GPU: NVIDIA A100-SXM4-80GB
+2026-05-04 13:04:06  INFO      moving model to cuda:0...
+2026-05-04 13:06:14  INFO      ready on cuda:0 (363M params)
+2026-05-04 13:06:15  INFO      model loaded in 2m 27s
+2026-05-04 13:06:15  INFO    [1/3]  premise='text'  hypothesis='basic_relation'
+2026-05-04 13:06:15  INFO      output col: confidence_neodictabert_basic_relation
+2026-05-04 13:06:15  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:06:15  INFO  neodictabert/basic_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:06:15  INFO  neodictabert/basic_relation:   2%|2         | 1/42 [00:00<00:07,  5.15it/s]
+2026-05-04 13:06:15  INFO  neodictabert/basic_relation:   7%|7         | 3/42 [00:00<00:03, 10.23it/s]
+2026-05-04 13:06:15  INFO  neodictabert/basic_relation:  12%|#1        | 5/42 [00:00<00:03, 11.80it/s]
+2026-05-04 13:06:15  INFO  neodictabert/basic_relation:  17%|#6        | 7/42 [00:00<00:02, 13.46it/s]
+2026-05-04 13:06:15  INFO  neodictabert/basic_relation:  21%|##1       | 9/42 [00:00<00:02, 14.93it/s]
+2026-05-04 13:06:15  INFO      progress: 120/500 rows (24%)  0s
+2026-05-04 13:06:15  INFO  neodictabert/basic_relation:  26%|##6       | 11/42 [00:00<00:02, 15.45it/s]
+2026-05-04 13:06:15  INFO  neodictabert/basic_relation:  31%|###       | 13/42 [00:00<00:01, 16.18it/s]
+2026-05-04 13:06:16  INFO  neodictabert/basic_relation:  36%|###5      | 15/42 [00:01<00:01, 16.97it/s]
+2026-05-04 13:06:16  INFO  neodictabert/basic_relation:  40%|####      | 17/42 [00:01<00:01, 17.01it/s]
+2026-05-04 13:06:16  INFO  neodictabert/basic_relation:  45%|####5     | 19/42 [00:01<00:01, 17.02it/s]
+2026-05-04 13:06:16  INFO      progress: 240/500 rows (48%)  1s
+2026-05-04 13:06:16  INFO  neodictabert/basic_relation:  50%|#####     | 21/42 [00:01<00:01, 16.65it/s]
+2026-05-04 13:06:16  INFO  neodictabert/basic_relation:  55%|#####4    | 23/42 [00:01<00:01, 16.85it/s]
+2026-05-04 13:06:16  INFO  neodictabert/basic_relation:  60%|#####9    | 25/42 [00:01<00:01, 16.34it/s]
+2026-05-04 13:06:16  INFO  neodictabert/basic_relation:  64%|######4   | 27/42 [00:01<00:01, 14.59it/s]
+2026-05-04 13:06:17  INFO  neodictabert/basic_relation:  69%|######9   | 29/42 [00:02<00:01,  9.87it/s]
+2026-05-04 13:06:17  INFO      progress: 360/500 rows (72%)  2s
+2026-05-04 13:06:17  INFO  neodictabert/basic_relation:  74%|#######3  | 31/42 [00:02<00:01, 10.02it/s]
+2026-05-04 13:06:17  INFO  neodictabert/basic_relation:  79%|#######8  | 33/42 [00:02<00:00, 10.25it/s]
+2026-05-04 13:06:17  INFO  neodictabert/basic_relation:  83%|########3 | 35/42 [00:02<00:00, 10.05it/s]
+2026-05-04 13:06:17  INFO  neodictabert/basic_relation:  88%|########8 | 37/42 [00:02<00:00, 10.33it/s]
+2026-05-04 13:06:18  INFO  neodictabert/basic_relation:  93%|#########2| 39/42 [00:03<00:00, 10.68it/s]
+2026-05-04 13:06:18  INFO      progress: 480/500 rows (96%)  3s
+2026-05-04 13:06:18  INFO  neodictabert/basic_relation:  98%|#########7| 41/42 [00:03<00:00, 10.83it/s]
+2026-05-04 13:06:18  INFO      progress: 500/500 rows (100%)  3s
+2026-05-04 13:06:18  INFO      inference done  (3s, 146.5 rows/s)
+2026-05-04 13:06:18  INFO      score stats: mean=0.9673  median=0.9983  min=0.0071  max=1.0000
+2026-05-04 13:06:18  INFO      thresh=0.6  predicted=488/500  TP=344 FP=144 FN=11 TN=1  acc=0.6900 prec=0.7049 rec=0.9690 F1=0.8161
+2026-05-04 13:06:18  INFO      thresh=0.7  predicted=485/500  TP=342 FP=143 FN=13 TN=2  acc=0.6880 prec=0.7052 rec=0.9634 F1=0.8143
+2026-05-04 13:06:18  INFO      thresh=0.8  predicted=478/500  TP=337 FP=141 FN=18 TN=4  acc=0.6820 prec=0.7050 rec=0.9493 F1=0.8091
+2026-05-04 13:06:18  INFO      thresh=0.9  predicted=465/500  TP=330 FP=135 FN=25 TN=10  acc=0.6800 prec=0.7097 rec=0.9296 F1=0.8049
+2026-05-04 13:06:18  INFO      examples (first 3 rows):
+2026-05-04 13:06:18  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:06:18  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 13:06:18  INFO        score=0.9987  gold=0
+2026-05-04 13:06:18  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:06:18  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 13:06:18  INFO        score=0.9940  gold=1
+2026-05-04 13:06:18  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:06:18  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 13:06:18  INFO        score=0.8818  gold=1
+2026-05-04 13:06:18  INFO    [2/3]  premise='text'  hypothesis='template_relation'
+2026-05-04 13:06:18  INFO      output col: confidence_neodictabert_template_relation
+2026-05-04 13:06:18  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:06:18  INFO  neodictabert/template_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:06:18  INFO  neodictabert/template_relation:   7%|7         | 3/42 [00:00<00:01, 22.10it/s]
+2026-05-04 13:06:18  INFO  neodictabert/template_relation:  14%|#4        | 6/42 [00:00<00:01, 18.37it/s]
+2026-05-04 13:06:18  INFO  neodictabert/template_relation:  19%|#9        | 8/42 [00:00<00:01, 17.66it/s]
+2026-05-04 13:06:19  INFO      progress: 120/500 rows (24%)  0s
+2026-05-04 13:06:19  INFO  neodictabert/template_relation:  24%|##3       | 10/42 [00:00<00:01, 18.13it/s]
+2026-05-04 13:06:19  INFO  neodictabert/template_relation:  29%|##8       | 12/42 [00:00<00:01, 17.60it/s]
+2026-05-04 13:06:19  INFO  neodictabert/template_relation:  33%|###3      | 14/42 [00:00<00:01, 17.49it/s]
+2026-05-04 13:06:19  INFO  neodictabert/template_relation:  38%|###8      | 16/42 [00:00<00:01, 17.79it/s]
+2026-05-04 13:06:19  INFO  neodictabert/template_relation:  43%|####2     | 18/42 [00:01<00:01, 17.46it/s]
+2026-05-04 13:06:19  INFO      progress: 240/500 rows (48%)  1s
+2026-05-04 13:06:19  INFO  neodictabert/template_relation:  48%|####7     | 20/42 [00:01<00:01, 17.35it/s]
+2026-05-04 13:06:19  INFO  neodictabert/template_relation:  52%|#####2    | 22/42 [00:01<00:01, 16.94it/s]
+2026-05-04 13:06:19  INFO  neodictabert/template_relation:  57%|#####7    | 24/42 [00:01<00:01, 16.77it/s]
+2026-05-04 13:06:19  INFO  neodictabert/template_relation:  62%|######1   | 26/42 [00:01<00:01, 15.97it/s]
+2026-05-04 13:06:20  INFO  neodictabert/template_relation:  67%|######6   | 28/42 [00:01<00:01, 13.62it/s]
+2026-05-04 13:06:20  INFO      progress: 360/500 rows (72%)  1s
+2026-05-04 13:06:20  INFO  neodictabert/template_relation:  71%|#######1  | 30/42 [00:01<00:00, 12.18it/s]
+2026-05-04 13:06:20  INFO  neodictabert/template_relation:  76%|#######6  | 32/42 [00:02<00:00, 11.81it/s]
+2026-05-04 13:06:20  INFO  neodictabert/template_relation:  81%|########  | 34/42 [00:02<00:00, 11.21it/s]
+2026-05-04 13:06:20  INFO  neodictabert/template_relation:  86%|########5 | 36/42 [00:02<00:00, 10.76it/s]
+2026-05-04 13:06:21  INFO  neodictabert/template_relation:  90%|######### | 38/42 [00:02<00:00, 11.10it/s]
+2026-05-04 13:06:21  INFO      progress: 480/500 rows (96%)  2s
+2026-05-04 13:06:21  INFO  neodictabert/template_relation:  95%|#########5| 40/42 [00:02<00:00, 11.06it/s]
+2026-05-04 13:06:21  INFO      progress: 500/500 rows (100%)  3s
+2026-05-04 13:06:21  INFO  neodictabert/template_relation: 100%|##########| 42/42 [00:03<00:00, 11.09it/s]
+2026-05-04 13:06:21  INFO      inference done  (3s, 163.2 rows/s)
+2026-05-04 13:06:21  INFO      score stats: mean=0.9700  median=0.9985  min=0.0071  max=1.0000
+2026-05-04 13:06:21  INFO      thresh=0.6  predicted=490/500  TP=346 FP=144 FN=9 TN=1  acc=0.6940 prec=0.7061 rec=0.9746 F1=0.8189
+2026-05-04 13:06:21  INFO      thresh=0.7  predicted=488/500  TP=345 FP=143 FN=10 TN=2  acc=0.6940 prec=0.7070 rec=0.9718 F1=0.8185
+2026-05-04 13:06:21  INFO      thresh=0.8  predicted=482/500  TP=339 FP=143 FN=16 TN=2  acc=0.6820 prec=0.7033 rec=0.9549 F1=0.8100
+2026-05-04 13:06:21  INFO      thresh=0.9  predicted=464/500  TP=328 FP=136 FN=27 TN=9  acc=0.6740 prec=0.7069 rec=0.9239 F1=0.8010
+2026-05-04 13:06:21  INFO      examples (first 3 rows):
+2026-05-04 13:06:21  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:06:21  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 13:06:21  INFO        score=0.9982  gold=0
+2026-05-04 13:06:21  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:06:21  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 13:06:21  INFO        score=0.9925  gold=1
+2026-05-04 13:06:21  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:06:21  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 13:06:21  INFO        score=0.8557  gold=1
+2026-05-04 13:06:21  INFO    [3/3]  premise='text'  hypothesis='llm_relation'
+2026-05-04 13:06:21  INFO      output col: confidence_neodictabert_llm_relation
+2026-05-04 13:06:21  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:06:21  INFO  neodictabert/llm_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:06:21  INFO  neodictabert/llm_relation:   7%|7         | 3/42 [00:00<00:01, 21.83it/s]
+2026-05-04 13:06:21  INFO  neodictabert/llm_relation:  14%|#4        | 6/42 [00:00<00:01, 18.35it/s]
+2026-05-04 13:06:21  INFO  neodictabert/llm_relation:  19%|#9        | 8/42 [00:00<00:01, 17.64it/s]
+2026-05-04 13:06:22  INFO      progress: 120/500 rows (24%)  0s
+2026-05-04 13:06:22  INFO  neodictabert/llm_relation:  24%|##3       | 10/42 [00:00<00:01, 18.16it/s]
+2026-05-04 13:06:22  INFO  neodictabert/llm_relation:  29%|##8       | 12/42 [00:00<00:01, 17.82it/s]
+2026-05-04 13:06:22  INFO  neodictabert/llm_relation:  33%|###3      | 14/42 [00:00<00:01, 17.65it/s]
+2026-05-04 13:06:22  INFO  neodictabert/llm_relation:  38%|###8      | 16/42 [00:00<00:01, 17.91it/s]
+2026-05-04 13:06:22  INFO  neodictabert/llm_relation:  43%|####2     | 18/42 [00:01<00:01, 17.53it/s]
+2026-05-04 13:06:22  INFO      progress: 240/500 rows (48%)  1s
+2026-05-04 13:06:22  INFO  neodictabert/llm_relation:  48%|####7     | 20/42 [00:01<00:01, 17.40it/s]
+2026-05-04 13:06:22  INFO  neodictabert/llm_relation:  52%|#####2    | 22/42 [00:01<00:01, 17.11it/s]
+2026-05-04 13:06:22  INFO  neodictabert/llm_relation:  57%|#####7    | 24/42 [00:01<00:01, 16.89it/s]
+2026-05-04 13:06:23  INFO  neodictabert/llm_relation:  62%|######1   | 26/42 [00:01<00:00, 16.05it/s]
+2026-05-04 13:06:23  INFO  neodictabert/llm_relation:  67%|######6   | 28/42 [00:01<00:01, 13.69it/s]
+2026-05-04 13:06:23  INFO      progress: 360/500 rows (72%)  1s
+2026-05-04 13:06:23  INFO  neodictabert/llm_relation:  71%|#######1  | 30/42 [00:01<00:00, 12.20it/s]
+2026-05-04 13:06:23  INFO  neodictabert/llm_relation:  76%|#######6  | 32/42 [00:02<00:00, 11.76it/s]
+2026-05-04 13:06:23  INFO  neodictabert/llm_relation:  81%|########  | 34/42 [00:02<00:00, 11.19it/s]
+2026-05-04 13:06:24  INFO  neodictabert/llm_relation:  86%|########5 | 36/42 [00:02<00:00, 10.72it/s]
+2026-05-04 13:06:24  INFO  neodictabert/llm_relation:  90%|######### | 38/42 [00:02<00:00, 11.23it/s]
+2026-05-04 13:06:24  INFO      progress: 480/500 rows (96%)  2s
+2026-05-04 13:06:24  INFO  neodictabert/llm_relation:  95%|#########5| 40/42 [00:02<00:00, 11.14it/s]
+2026-05-04 13:06:24  INFO      progress: 500/500 rows (100%)  3s
+2026-05-04 13:06:24  INFO  neodictabert/llm_relation: 100%|##########| 42/42 [00:03<00:00, 11.17it/s]
+2026-05-04 13:06:24  INFO      inference done  (3s, 163.9 rows/s)
+2026-05-04 13:06:24  INFO      score stats: mean=0.9616  median=0.9987  min=0.0111  max=1.0000
+2026-05-04 13:06:24  INFO      thresh=0.6  predicted=484/500  TP=341 FP=143 FN=14 TN=2  acc=0.6860 prec=0.7045 rec=0.9606 F1=0.8129
+2026-05-04 13:06:24  INFO      thresh=0.7  predicted=480/500  TP=339 FP=141 FN=16 TN=4  acc=0.6860 prec=0.7063 rec=0.9549 F1=0.8120
+2026-05-04 13:06:24  INFO      thresh=0.8  predicted=476/500  TP=335 FP=141 FN=20 TN=4  acc=0.6780 prec=0.7038 rec=0.9437 F1=0.8063
+2026-05-04 13:06:24  INFO      thresh=0.9  predicted=463/500  TP=328 FP=135 FN=27 TN=10  acc=0.6760 prec=0.7084 rec=0.9239 F1=0.8020
+2026-05-04 13:06:24  INFO      examples (first 3 rows):
+2026-05-04 13:06:24  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:06:24  INFO        hypothesis: 'אל-חודיידה גובלת ברימה.'
+2026-05-04 13:06:24  INFO        score=0.9975  gold=0
+2026-05-04 13:06:24  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:06:24  INFO        hypothesis: 'אינם מדינת רוסיה.'
+2026-05-04 13:06:24  INFO        score=0.9942  gold=1
+2026-05-04 13:06:24  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:06:24  INFO        hypothesis: 'אוסטריה עילית היא מדינה באוסטריה.'
+2026-05-04 13:06:24  INFO        score=0.7429  gold=1
+2026-05-04 13:06:25  INFO      GPU cache cleared
+2026-05-04 13:06:25  INFO    [neodictabert] total time (load + inference): 2m 37s
+2026-05-04 13:06:25  INFO  ----------------------------------------------------------------------
+2026-05-04 13:06:25  INFO  [model 4/4]  xlmroberta
+2026-05-04 13:06:25  INFO      path: /home/nlp/ronke21/hebrew_RE/finetuned_Heb_NLI_encoders/xlm-roberta-large_hebnli/checkpoint-2000
+2026-05-04 13:06:25  INFO      checking CUDA availability...
+2026-05-04 13:06:25  INFO      torch version: 2.6.0+cu124
+2026-05-04 13:06:25  INFO      torch CUDA build: 12.4
+2026-05-04 13:06:25  INFO      torch.cuda.is_available(): True
+2026-05-04 13:06:25  INFO      torch.cuda.device_count(): 1
+2026-05-04 13:06:25  INFO      visible GPU: NVIDIA A100-SXM4-80GB
+2026-05-04 13:06:47  INFO      moving model to cuda:0...
+2026-05-04 13:09:41  INFO      ready on cuda:0 (560M params)
+2026-05-04 13:09:41  INFO      model loaded in 3m 16s
+2026-05-04 13:09:41  INFO    [1/3]  premise='text'  hypothesis='basic_relation'
+2026-05-04 13:09:41  INFO      output col: confidence_xlmroberta_basic_relation
+2026-05-04 13:09:41  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:09:41  INFO  xlmroberta/basic_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:09:41  INFO  xlmroberta/basic_relation:   2%|2         | 1/42 [00:00<00:04,  9.86it/s]
+2026-05-04 13:09:41  INFO  xlmroberta/basic_relation:   7%|7         | 3/42 [00:00<00:03, 11.12it/s]
+2026-05-04 13:09:41  INFO  xlmroberta/basic_relation:  12%|#1        | 5/42 [00:00<00:03, 10.58it/s]
+2026-05-04 13:09:42  INFO  xlmroberta/basic_relation:  17%|#6        | 7/42 [00:00<00:03, 10.48it/s]
+2026-05-04 13:09:42  INFO  xlmroberta/basic_relation:  21%|##1       | 9/42 [00:00<00:03, 10.89it/s]
+2026-05-04 13:09:42  INFO      progress: 120/500 rows (24%)  0s
+2026-05-04 13:09:42  INFO  xlmroberta/basic_relation:  26%|##6       | 11/42 [00:01<00:02, 10.95it/s]
+2026-05-04 13:09:42  INFO  xlmroberta/basic_relation:  31%|###       | 13/42 [00:01<00:02, 10.81it/s]
+2026-05-04 13:09:42  INFO  xlmroberta/basic_relation:  36%|###5      | 15/42 [00:01<00:02, 10.60it/s]
+2026-05-04 13:09:43  INFO  xlmroberta/basic_relation:  40%|####      | 17/42 [00:01<00:02, 10.34it/s]
+2026-05-04 13:09:43  INFO  xlmroberta/basic_relation:  45%|####5     | 19/42 [00:01<00:02, 10.35it/s]
+2026-05-04 13:09:43  INFO      progress: 240/500 rows (48%)  1s
+2026-05-04 13:09:43  INFO  xlmroberta/basic_relation:  50%|#####     | 21/42 [00:02<00:02, 10.10it/s]
+2026-05-04 13:09:43  INFO  xlmroberta/basic_relation:  55%|#####4    | 23/42 [00:02<00:01, 10.33it/s]
+2026-05-04 13:09:43  INFO  xlmroberta/basic_relation:  60%|#####9    | 25/42 [00:02<00:01, 10.13it/s]
+2026-05-04 13:09:44  INFO  xlmroberta/basic_relation:  64%|######4   | 27/42 [00:02<00:01,  9.61it/s]
+2026-05-04 13:09:44  INFO  xlmroberta/basic_relation:  67%|######6   | 28/42 [00:02<00:01,  9.30it/s]
+2026-05-04 13:09:44  INFO  xlmroberta/basic_relation:  69%|######9   | 29/42 [00:02<00:01,  9.04it/s]
+2026-05-04 13:09:44  INFO      progress: 360/500 rows (72%)  3s
+2026-05-04 13:09:44  INFO  xlmroberta/basic_relation:  71%|#######1  | 30/42 [00:03<00:01,  8.82it/s]
+2026-05-04 13:09:44  INFO  xlmroberta/basic_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.64it/s]
+2026-05-04 13:09:44  INFO  xlmroberta/basic_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.50it/s]
+2026-05-04 13:09:44  INFO  xlmroberta/basic_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.39it/s]
+2026-05-04 13:09:44  INFO  xlmroberta/basic_relation:  81%|########  | 34/42 [00:03<00:00,  8.32it/s]
+2026-05-04 13:09:45  INFO  xlmroberta/basic_relation:  83%|########3 | 35/42 [00:03<00:00,  8.26it/s]
+2026-05-04 13:09:45  INFO  xlmroberta/basic_relation:  86%|########5 | 36/42 [00:03<00:00,  8.22it/s]
+2026-05-04 13:09:45  INFO  xlmroberta/basic_relation:  88%|########8 | 37/42 [00:03<00:00,  8.20it/s]
+2026-05-04 13:09:45  INFO  xlmroberta/basic_relation:  90%|######### | 38/42 [00:03<00:00,  8.18it/s]
+2026-05-04 13:09:45  INFO  xlmroberta/basic_relation:  93%|#########2| 39/42 [00:04<00:00,  8.16it/s]
+2026-05-04 13:09:45  INFO      progress: 480/500 rows (96%)  4s
+2026-05-04 13:09:45  INFO  xlmroberta/basic_relation:  95%|#########5| 40/42 [00:04<00:00,  8.15it/s]
+2026-05-04 13:09:45  INFO  xlmroberta/basic_relation:  98%|#########7| 41/42 [00:04<00:00,  8.15it/s]
+2026-05-04 13:09:45  INFO      progress: 500/500 rows (100%)  4s
+2026-05-04 13:09:45  INFO  xlmroberta/basic_relation: 100%|##########| 42/42 [00:04<00:00,  8.13it/s]
+2026-05-04 13:09:45  INFO      inference done  (4s, 109.9 rows/s)
+2026-05-04 13:09:45  INFO      score stats: mean=0.9655  median=0.9868  min=0.4692  max=0.9987
+2026-05-04 13:09:45  INFO      thresh=0.6  predicted=494/500  TP=349 FP=145 FN=6 TN=0  acc=0.6980 prec=0.7065 rec=0.9831 F1=0.8221
+2026-05-04 13:09:45  INFO      thresh=0.7  predicted=490/500  TP=345 FP=145 FN=10 TN=0  acc=0.6900 prec=0.7041 rec=0.9718 F1=0.8166
+2026-05-04 13:09:45  INFO      thresh=0.8  predicted=483/500  TP=339 FP=144 FN=16 TN=1  acc=0.6800 prec=0.7019 rec=0.9549 F1=0.8091
+2026-05-04 13:09:45  INFO      thresh=0.9  predicted=464/500  TP=324 FP=140 FN=31 TN=5  acc=0.6580 prec=0.6983 rec=0.9127 F1=0.7912
+2026-05-04 13:09:45  INFO      examples (first 3 rows):
+2026-05-04 13:09:45  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:09:45  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 13:09:45  INFO        score=0.9816  gold=0
+2026-05-04 13:09:45  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:09:45  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 13:09:45  INFO        score=0.9943  gold=1
+2026-05-04 13:09:45  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:09:45  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 13:09:45  INFO        score=0.9696  gold=1
+2026-05-04 13:09:45  INFO    [2/3]  premise='text'  hypothesis='template_relation'
+2026-05-04 13:09:45  INFO      output col: confidence_xlmroberta_template_relation
+2026-05-04 13:09:45  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:09:45  INFO  xlmroberta/template_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:09:46  INFO  xlmroberta/template_relation:   5%|4         | 2/42 [00:00<00:02, 18.19it/s]
+2026-05-04 13:09:46  INFO  xlmroberta/template_relation:  10%|9         | 4/42 [00:00<00:03,  9.52it/s]
+2026-05-04 13:09:46  INFO  xlmroberta/template_relation:  14%|#4        | 6/42 [00:00<00:03,  9.91it/s]
+2026-05-04 13:09:46  INFO  xlmroberta/template_relation:  19%|#9        | 8/42 [00:00<00:03, 10.20it/s]
+2026-05-04 13:09:46  INFO      progress: 120/500 rows (24%)  0s
+2026-05-04 13:09:46  INFO  xlmroberta/template_relation:  24%|##3       | 10/42 [00:00<00:02, 10.83it/s]
+2026-05-04 13:09:47  INFO  xlmroberta/template_relation:  29%|##8       | 12/42 [00:01<00:02, 10.68it/s]
+2026-05-04 13:09:47  INFO  xlmroberta/template_relation:  33%|###3      | 14/42 [00:01<00:02, 10.48it/s]
+2026-05-04 13:09:47  INFO  xlmroberta/template_relation:  38%|###8      | 16/42 [00:01<00:02, 10.28it/s]
+2026-05-04 13:09:47  INFO  xlmroberta/template_relation:  43%|####2     | 18/42 [00:01<00:02, 10.29it/s]
+2026-05-04 13:09:47  INFO      progress: 240/500 rows (48%)  1s
+2026-05-04 13:09:47  INFO  xlmroberta/template_relation:  48%|####7     | 20/42 [00:01<00:02, 10.29it/s]
+2026-05-04 13:09:48  INFO  xlmroberta/template_relation:  52%|#####2    | 22/42 [00:02<00:01, 10.13it/s]
+2026-05-04 13:09:48  INFO  xlmroberta/template_relation:  57%|#####7    | 24/42 [00:02<00:01, 10.24it/s]
+2026-05-04 13:09:48  INFO  xlmroberta/template_relation:  62%|######1   | 26/42 [00:02<00:01, 10.03it/s]
+2026-05-04 13:09:48  INFO  xlmroberta/template_relation:  67%|######6   | 28/42 [00:02<00:01,  9.37it/s]
+2026-05-04 13:09:48  INFO  xlmroberta/template_relation:  69%|######9   | 29/42 [00:02<00:01,  9.12it/s]
+2026-05-04 13:09:48  INFO      progress: 360/500 rows (72%)  3s
+2026-05-04 13:09:48  INFO  xlmroberta/template_relation:  71%|#######1  | 30/42 [00:03<00:01,  8.90it/s]
+2026-05-04 13:09:49  INFO  xlmroberta/template_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.71it/s]
+2026-05-04 13:09:49  INFO  xlmroberta/template_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.57it/s]
+2026-05-04 13:09:49  INFO  xlmroberta/template_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.45it/s]
+2026-05-04 13:09:49  INFO  xlmroberta/template_relation:  81%|########  | 34/42 [00:03<00:00,  8.36it/s]
+2026-05-04 13:09:49  INFO  xlmroberta/template_relation:  83%|########3 | 35/42 [00:03<00:00,  8.30it/s]
+2026-05-04 13:09:49  INFO  xlmroberta/template_relation:  86%|########5 | 36/42 [00:03<00:00,  8.25it/s]
+2026-05-04 13:09:49  INFO  xlmroberta/template_relation:  88%|########8 | 37/42 [00:03<00:00,  8.21it/s]
+2026-05-04 13:09:49  INFO  xlmroberta/template_relation:  90%|######### | 38/42 [00:03<00:00,  8.15it/s]
+2026-05-04 13:09:50  INFO  xlmroberta/template_relation:  93%|#########2| 39/42 [00:04<00:00,  8.17it/s]
+2026-05-04 13:09:50  INFO      progress: 480/500 rows (96%)  4s
+2026-05-04 13:09:50  INFO  xlmroberta/template_relation:  95%|#########5| 40/42 [00:04<00:00,  8.15it/s]
+2026-05-04 13:09:50  INFO  xlmroberta/template_relation:  98%|#########7| 41/42 [00:04<00:00,  8.15it/s]
+2026-05-04 13:09:50  INFO      progress: 500/500 rows (100%)  4s
+2026-05-04 13:09:50  INFO  xlmroberta/template_relation: 100%|##########| 42/42 [00:04<00:00,  8.14it/s]
+2026-05-04 13:09:50  INFO      inference done  (4s, 109.6 rows/s)
+2026-05-04 13:09:50  INFO      score stats: mean=0.9674  median=0.9877  min=0.4071  max=0.9989
+2026-05-04 13:09:50  INFO      thresh=0.6  predicted=496/500  TP=352 FP=144 FN=3 TN=1  acc=0.7060 prec=0.7097 rec=0.9915 F1=0.8273
+2026-05-04 13:09:50  INFO      thresh=0.7  predicted=492/500  TP=348 FP=144 FN=7 TN=1  acc=0.6980 prec=0.7073 rec=0.9803 F1=0.8217
+2026-05-04 13:09:50  INFO      thresh=0.8  predicted=485/500  TP=344 FP=141 FN=11 TN=4  acc=0.6960 prec=0.7093 rec=0.9690 F1=0.8190
+2026-05-04 13:09:50  INFO      thresh=0.9  predicted=465/500  TP=325 FP=140 FN=30 TN=5  acc=0.6600 prec=0.6989 rec=0.9155 F1=0.7927
+2026-05-04 13:09:50  INFO      examples (first 3 rows):
+2026-05-04 13:09:50  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:09:50  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 13:09:50  INFO        score=0.9731  gold=0
+2026-05-04 13:09:50  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:09:50  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 13:09:50  INFO        score=0.9931  gold=1
+2026-05-04 13:09:50  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:09:50  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 13:09:50  INFO        score=0.9679  gold=1
+2026-05-04 13:09:50  INFO    [3/3]  premise='text'  hypothesis='llm_relation'
+2026-05-04 13:09:50  INFO      output col: confidence_xlmroberta_llm_relation
+2026-05-04 13:09:50  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-04 13:09:50  INFO  xlmroberta/llm_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-04 13:09:50  INFO  xlmroberta/llm_relation:   5%|4         | 2/42 [00:00<00:02, 18.29it/s]
+2026-05-04 13:09:50  INFO  xlmroberta/llm_relation:  10%|9         | 4/42 [00:00<00:02, 13.18it/s]
+2026-05-04 13:09:51  INFO  xlmroberta/llm_relation:  14%|#4        | 6/42 [00:00<00:03, 11.76it/s]
+2026-05-04 13:09:51  INFO  xlmroberta/llm_relation:  19%|#9        | 8/42 [00:00<00:03, 11.22it/s]
+2026-05-04 13:09:51  INFO      progress: 120/500 rows (24%)  0s
+2026-05-04 13:09:51  INFO  xlmroberta/llm_relation:  24%|##3       | 10/42 [00:00<00:02, 11.55it/s]
+2026-05-04 13:09:51  INFO  xlmroberta/llm_relation:  29%|##8       | 12/42 [00:01<00:02, 11.14it/s]
+2026-05-04 13:09:51  INFO  xlmroberta/llm_relation:  33%|###3      | 14/42 [00:01<00:02, 10.82it/s]
+2026-05-04 13:09:51  INFO  xlmroberta/llm_relation:  38%|###8      | 16/42 [00:01<00:02, 10.49it/s]
+2026-05-04 13:09:52  INFO  xlmroberta/llm_relation:  43%|####2     | 18/42 [00:01<00:02, 10.44it/s]
+2026-05-04 13:09:52  INFO      progress: 240/500 rows (48%)  1s
+2026-05-04 13:09:52  INFO  xlmroberta/llm_relation:  48%|####7     | 20/42 [00:01<00:02, 10.34it/s]
+2026-05-04 13:09:52  INFO  xlmroberta/llm_relation:  52%|#####2    | 22/42 [00:02<00:01, 10.18it/s]
+2026-05-04 13:09:52  INFO  xlmroberta/llm_relation:  57%|#####7    | 24/42 [00:02<00:01, 10.26it/s]
+2026-05-04 13:09:52  INFO  xlmroberta/llm_relation:  62%|######1   | 26/42 [00:02<00:01, 10.09it/s]
+2026-05-04 13:09:53  INFO  xlmroberta/llm_relation:  67%|######6   | 28/42 [00:02<00:01,  9.41it/s]
+2026-05-04 13:09:53  INFO  xlmroberta/llm_relation:  69%|######9   | 29/42 [00:02<00:01,  9.16it/s]
+2026-05-04 13:09:53  INFO      progress: 360/500 rows (72%)  2s
+2026-05-04 13:09:53  INFO  xlmroberta/llm_relation:  71%|#######1  | 30/42 [00:02<00:01,  8.93it/s]
+2026-05-04 13:09:53  INFO  xlmroberta/llm_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.73it/s]
+2026-05-04 13:09:53  INFO  xlmroberta/llm_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.55it/s]
+2026-05-04 13:09:53  INFO  xlmroberta/llm_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.46it/s]
+2026-05-04 13:09:53  INFO  xlmroberta/llm_relation:  81%|########  | 34/42 [00:03<00:00,  8.37it/s]
+2026-05-04 13:09:54  INFO  xlmroberta/llm_relation:  83%|########3 | 35/42 [00:03<00:00,  8.30it/s]
+2026-05-04 13:09:54  INFO  xlmroberta/llm_relation:  86%|########5 | 36/42 [00:03<00:00,  8.24it/s]
+2026-05-04 13:09:54  INFO  xlmroberta/llm_relation:  88%|########8 | 37/42 [00:03<00:00,  8.22it/s]
+2026-05-04 13:09:54  INFO  xlmroberta/llm_relation:  90%|######### | 38/42 [00:03<00:00,  8.19it/s]
+2026-05-04 13:09:54  INFO  xlmroberta/llm_relation:  93%|#########2| 39/42 [00:04<00:00,  8.18it/s]
+2026-05-04 13:09:54  INFO      progress: 480/500 rows (96%)  4s
+2026-05-04 13:09:54  INFO  xlmroberta/llm_relation:  95%|#########5| 40/42 [00:04<00:00,  8.16it/s]
+2026-05-04 13:09:54  INFO  xlmroberta/llm_relation:  98%|#########7| 41/42 [00:04<00:00,  8.15it/s]
+2026-05-04 13:09:54  INFO      progress: 500/500 rows (100%)  4s
+2026-05-04 13:09:54  INFO  xlmroberta/llm_relation: 100%|##########| 42/42 [00:04<00:00,  8.14it/s]
+2026-05-04 13:09:54  INFO      inference done  (4s, 112.1 rows/s)
+2026-05-04 13:09:54  INFO      score stats: mean=0.9668  median=0.9879  min=0.5325  max=0.9988
+2026-05-04 13:09:54  INFO      thresh=0.6  predicted=495/500  TP=350 FP=145 FN=5 TN=0  acc=0.7000 prec=0.7071 rec=0.9859 F1=0.8235
+2026-05-04 13:09:54  INFO      thresh=0.7  predicted=491/500  TP=347 FP=144 FN=8 TN=1  acc=0.6960 prec=0.7067 rec=0.9775 F1=0.8203
+2026-05-04 13:09:54  INFO      thresh=0.8  predicted=480/500  TP=337 FP=143 FN=18 TN=2  acc=0.6780 prec=0.7021 rec=0.9493 F1=0.8072
+2026-05-04 13:09:54  INFO      thresh=0.9  predicted=466/500  TP=324 FP=142 FN=31 TN=3  acc=0.6540 prec=0.6953 rec=0.9127 F1=0.7893
+2026-05-04 13:09:54  INFO      examples (first 3 rows):
+2026-05-04 13:09:54  INFO        premise   : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.\nבירת המחוז היא העיר צנעא שהיא גם ב"
+2026-05-04 13:09:54  INFO        hypothesis: 'אל-חודיידה גובלת ברימה.'
+2026-05-04 13:09:54  INFO        score=0.9764  gold=0
+2026-05-04 13:09:54  INFO        premise   : 'אינם (ברוסית: Энем, באדיגית: Инэм) היא עיירה ברוסיה, ברפובליקת אדיגיה שבצפון הרי הקווקז. \nהעיירה נוסדה ב-1890. בשנות השש'
+2026-05-04 13:09:54  INFO        hypothesis: 'אינם מדינת רוסיה.'
+2026-05-04 13:09:54  INFO        score=0.9937  gold=1
+2026-05-04 13:09:54  INFO        premise   : 'רוהרבאך (בגרמנית: Rohrbach) הייתה עיר הבירה של מחוז רוהרבאך במדינת אוסטריה עילית שבאוסטריה.\nהעיר נוסדה בתחילת המאה ה-13,'
+2026-05-04 13:09:54  INFO        hypothesis: 'אוסטריה עילית היא מדינה באוסטריה.'
+2026-05-04 13:09:54  INFO        score=0.9650  gold=1
+2026-05-04 13:09:55  INFO      GPU cache cleared
+2026-05-04 13:09:55  INFO    [xlmroberta] total time (load + inference): 3m 29s
+2026-05-04 13:09:55  INFO  ======================================================================
+2026-05-04 13:09:55  INFO  [ensemble]  computing ensemble columns (averaged confidence scores)
+2026-05-04 13:09:55  INFO    nli_ensemble_basic_relation: best F1=0.829  (voters: 4)
+2026-05-04 13:09:55  INFO    nli_ensemble_template_relation: best F1=0.830  (voters: 4)
+2026-05-04 13:09:55  INFO    nli_ensemble_llm_relation: best F1=0.830  (voters: 4)
+2026-05-04 13:09:55  INFO    best hyp for mmbert: 'basic_relation'  (F1=0.820 at thresh=0.7)
+2026-05-04 13:09:55  INFO    best hyp for me5large: 'template_relation'  (F1=0.826 at thresh=0.7)
+2026-05-04 13:09:55  INFO    best hyp for neodictabert: 'template_relation'  (F1=0.819 at thresh=0.7)
+2026-05-04 13:09:55  INFO    best hyp for xlmroberta: 'template_relation'  (F1=0.822 at thresh=0.7)
+2026-05-04 13:09:55  INFO    nli_ensemble_best_per_model: best F1=0.830  (voters: 4)
+2026-05-04 13:09:55  INFO    nli_ensemble_all: best F1=0.830  (voters: 12)
+2026-05-04 13:09:55  INFO  [save]  500 rows written to /home/nlp/ronke21/hebrew_RE/outputs/nli_classified.csv  (0s)
+2026-05-04 13:09:55  INFO  ====================================================================================================
+2026-05-04 13:09:55  INFO  ====================================================================================================
+2026-05-04 13:09:55  INFO  NLI CLASSIFICATION SUMMARY
+2026-05-04 13:09:55  INFO  Total wall time: 11m 12s
+2026-05-04 13:09:55  INFO  Thresholds evaluated: [0.6, 0.7, 0.8, 0.9]
+2026-05-04 13:09:55  INFO  ====================================================================================================
+2026-05-04 13:09:55  INFO  
+2026-05-04 13:09:55  INFO  Per-model total inference time:
+2026-05-04 13:09:55  INFO    mmbert            1m 18s
+2026-05-04 13:09:55  INFO    me5large          14s
+2026-05-04 13:09:55  INFO    neodictabert      9s
+2026-05-04 13:09:55  INFO    xlmroberta        13s
+2026-05-04 13:09:55  INFO  
+2026-05-04 13:09:55  INFO    model          hypothesis             thresh     acc   prec    rec     f1     TP    FP    FN    TN  mean_conf      time
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    mmbert         basic_relation            0.6   0.704  0.708  0.992  0.826    352   145     3     0     0.9180    1m 11s
+2026-05-04 13:09:55  INFO    mmbert         basic_relation            0.7   0.696  0.707  0.977  0.820    347   144     8     1     0.9180          
+2026-05-04 13:09:55  INFO    mmbert         basic_relation            0.8   0.684  0.709  0.941  0.809    334   137    21     8     0.9180          
+2026-05-04 13:09:55  INFO    mmbert         basic_relation            0.9   0.600  0.704  0.752  0.728    267   112    88    33     0.9180          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    mmbert         template_relation         0.6   0.704  0.709  0.989  0.826    351   144     4     1     0.9195        3s
+2026-05-04 13:09:55  INFO    mmbert         template_relation         0.7   0.692  0.706  0.972  0.818    345   144    10     1     0.9195          
+2026-05-04 13:09:55  INFO    mmbert         template_relation         0.8   0.686  0.712  0.935  0.809    332   134    23    11     0.9195          
+2026-05-04 13:09:55  INFO    mmbert         template_relation         0.9   0.616  0.715  0.763  0.738    271   108    84    37     0.9195          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    mmbert         llm_relation              0.6   0.702  0.709  0.986  0.824    350   144     5     1     0.9140        3s
+2026-05-04 13:09:55  INFO    mmbert         llm_relation              0.7   0.696  0.708  0.975  0.820    346   143     9     2     0.9140          
+2026-05-04 13:09:55  INFO    mmbert         llm_relation              0.8   0.676  0.708  0.924  0.802    328   135    27    10     0.9140          
+2026-05-04 13:09:55  INFO    mmbert         llm_relation              0.9   0.582  0.703  0.713  0.708    253   107   102    38     0.9140          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    me5large       basic_relation            0.6   0.704  0.709  0.989  0.826    351   144     4     1     0.9761        5s
+2026-05-04 13:09:55  INFO    me5large       basic_relation            0.7   0.704  0.709  0.989  0.826    351   144     4     1     0.9761          
+2026-05-04 13:09:55  INFO    me5large       basic_relation            0.8   0.702  0.710  0.980  0.824    348   142     7     3     0.9761          
+2026-05-04 13:09:55  INFO    me5large       basic_relation            0.9   0.688  0.708  0.955  0.813    339   140    16     5     0.9761          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    me5large       template_relation         0.6   0.704  0.708  0.992  0.826    352   145     3     0     0.9791        4s
+2026-05-04 13:09:55  INFO    me5large       template_relation         0.7   0.704  0.708  0.992  0.826    352   145     3     0     0.9791          
+2026-05-04 13:09:55  INFO    me5large       template_relation         0.8   0.702  0.709  0.986  0.824    350   144     5     1     0.9791          
+2026-05-04 13:09:55  INFO    me5large       template_relation         0.9   0.692  0.711  0.955  0.815    339   138    16     7     0.9791          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    me5large       llm_relation              0.6   0.708  0.712  0.989  0.828    351   142     4     3     0.9707        4s
+2026-05-04 13:09:55  INFO    me5large       llm_relation              0.7   0.704  0.711  0.983  0.825    349   142     6     3     0.9707          
+2026-05-04 13:09:55  INFO    me5large       llm_relation              0.8   0.702  0.714  0.969  0.822    344   138    11     7     0.9707          
+2026-05-04 13:09:55  INFO    me5large       llm_relation              0.9   0.672  0.704  0.927  0.800    329   138    26     7     0.9707          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    neodictabert   basic_relation            0.6   0.690  0.705  0.969  0.816    344   144    11     1     0.9673        3s
+2026-05-04 13:09:55  INFO    neodictabert   basic_relation            0.7   0.688  0.705  0.963  0.814    342   143    13     2     0.9673          
+2026-05-04 13:09:55  INFO    neodictabert   basic_relation            0.8   0.682  0.705  0.949  0.809    337   141    18     4     0.9673          
+2026-05-04 13:09:55  INFO    neodictabert   basic_relation            0.9   0.680  0.710  0.930  0.805    330   135    25    10     0.9673          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    neodictabert   template_relation         0.6   0.694  0.706  0.975  0.819    346   144     9     1     0.9700        3s
+2026-05-04 13:09:55  INFO    neodictabert   template_relation         0.7   0.694  0.707  0.972  0.819    345   143    10     2     0.9700          
+2026-05-04 13:09:55  INFO    neodictabert   template_relation         0.8   0.682  0.703  0.955  0.810    339   143    16     2     0.9700          
+2026-05-04 13:09:55  INFO    neodictabert   template_relation         0.9   0.674  0.707  0.924  0.801    328   136    27     9     0.9700          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    neodictabert   llm_relation              0.6   0.686  0.705  0.961  0.813    341   143    14     2     0.9616        3s
+2026-05-04 13:09:55  INFO    neodictabert   llm_relation              0.7   0.686  0.706  0.955  0.812    339   141    16     4     0.9616          
+2026-05-04 13:09:55  INFO    neodictabert   llm_relation              0.8   0.678  0.704  0.944  0.806    335   141    20     4     0.9616          
+2026-05-04 13:09:55  INFO    neodictabert   llm_relation              0.9   0.676  0.708  0.924  0.802    328   135    27    10     0.9616          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    xlmroberta     basic_relation            0.6   0.698  0.706  0.983  0.822    349   145     6     0     0.9655        4s
+2026-05-04 13:09:55  INFO    xlmroberta     basic_relation            0.7   0.690  0.704  0.972  0.817    345   145    10     0     0.9655          
+2026-05-04 13:09:55  INFO    xlmroberta     basic_relation            0.8   0.680  0.702  0.955  0.809    339   144    16     1     0.9655          
+2026-05-04 13:09:55  INFO    xlmroberta     basic_relation            0.9   0.658  0.698  0.913  0.791    324   140    31     5     0.9655          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    xlmroberta     template_relation         0.6   0.706  0.710  0.992  0.827    352   144     3     1     0.9674        4s
+2026-05-04 13:09:55  INFO    xlmroberta     template_relation         0.7   0.698  0.707  0.980  0.822    348   144     7     1     0.9674          
+2026-05-04 13:09:55  INFO    xlmroberta     template_relation         0.8   0.696  0.709  0.969  0.819    344   141    11     4     0.9674          
+2026-05-04 13:09:55  INFO    xlmroberta     template_relation         0.9   0.660  0.699  0.915  0.793    325   140    30     5     0.9674          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    xlmroberta     llm_relation              0.6   0.700  0.707  0.986  0.824    350   145     5     0     0.9668        4s
+2026-05-04 13:09:55  INFO    xlmroberta     llm_relation              0.7   0.696  0.707  0.977  0.820    347   144     8     1     0.9668          
+2026-05-04 13:09:55  INFO    xlmroberta     llm_relation              0.8   0.678  0.702  0.949  0.807    337   143    18     2     0.9668          
+2026-05-04 13:09:55  INFO    xlmroberta     llm_relation              0.9   0.654  0.695  0.913  0.789    324   142    31     3     0.9668          
+2026-05-04 13:09:55  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO  
+2026-05-04 13:09:55  INFO  Ensemble (averaged confidence) columns:
+2026-05-04 13:09:55  INFO    column                               thresh     acc   prec    rec     f1     TP    FP    FN    TN  mean_conf  voters
+2026-05-04 13:09:55  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    nli_ensemble_basic_relation             0.6   0.708  0.709  0.997  0.829    354   145     1     0     0.9567       4
+2026-05-04 13:09:55  INFO    nli_ensemble_basic_relation             0.7   0.702  0.708  0.989  0.825    351   145     4     0     0.9567        
+2026-05-04 13:09:55  INFO    nli_ensemble_basic_relation             0.8   0.684  0.704  0.958  0.811    340   143    15     2     0.9567        
+2026-05-04 13:09:55  INFO    nli_ensemble_basic_relation             0.9   0.652  0.698  0.899  0.786    319   138    36     7     0.9567        
+2026-05-04 13:09:55  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    nli_ensemble_template_relation          0.6   0.710  0.710  1.000  0.830    355   145     0     0     0.9590       4
+2026-05-04 13:09:55  INFO    nli_ensemble_template_relation          0.7   0.706  0.709  0.994  0.828    353   145     2     0     0.9590        
+2026-05-04 13:09:55  INFO    nli_ensemble_template_relation          0.8   0.690  0.705  0.969  0.816    344   144    11     1     0.9590        
+2026-05-04 13:09:55  INFO    nli_ensemble_template_relation          0.9   0.664  0.703  0.913  0.794    324   137    31     8     0.9590        
+2026-05-04 13:09:55  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    nli_ensemble_llm_relation               0.6   0.710  0.710  1.000  0.830    355   145     0     0     0.9533       4
+2026-05-04 13:09:55  INFO    nli_ensemble_llm_relation               0.7   0.698  0.706  0.983  0.822    349   145     6     0     0.9533        
+2026-05-04 13:09:55  INFO    nli_ensemble_llm_relation               0.8   0.686  0.705  0.958  0.812    340   142    15     3     0.9533        
+2026-05-04 13:09:55  INFO    nli_ensemble_llm_relation               0.9   0.650  0.704  0.876  0.780    311   131    44    14     0.9533        
+2026-05-04 13:09:55  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    nli_ensemble_best_per_model             0.6   0.710  0.710  1.000  0.830    355   145     0     0     0.9586       4
+2026-05-04 13:09:55  INFO    nli_ensemble_best_per_model             0.7   0.704  0.708  0.992  0.826    352   145     3     0     0.9586        
+2026-05-04 13:09:55  INFO    nli_ensemble_best_per_model             0.8   0.688  0.704  0.966  0.815    343   144    12     1     0.9586        
+2026-05-04 13:09:55  INFO    nli_ensemble_best_per_model             0.9   0.668  0.704  0.918  0.797    326   137    29     8     0.9586        
+2026-05-04 13:09:55  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO    nli_ensemble_all                        0.6   0.710  0.710  1.000  0.830    355   145     0     0     0.9563      12
+2026-05-04 13:09:55  INFO    nli_ensemble_all                        0.7   0.706  0.709  0.994  0.828    353   145     2     0     0.9563        
+2026-05-04 13:09:55  INFO    nli_ensemble_all                        0.8   0.686  0.704  0.963  0.813    342   144    13     1     0.9563        
+2026-05-04 13:09:55  INFO    nli_ensemble_all                        0.9   0.650  0.697  0.896  0.784    318   138    37     7     0.9563        
+2026-05-04 13:09:55  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-04 13:09:55  INFO  ====================================================================================================
+2026-05-04 13:09:55  INFO  ====================================================================================================
+2026-05-04 13:09:55  INFO  Summary written to /home/nlp/ronke21/hebrew_RE/outputs/nli_summary.txt
+2026-05-04 13:09:55  INFO  [error_analysis]  report  → /home/nlp/ronke21/hebrew_RE/outputs/nli_error_analysis.txt
+2026-05-04 13:09:55  INFO  [error_analysis]  predictions TSV → /home/nlp/ronke21/hebrew_RE/outputs/nli_error_analysis_predictions.tsv
+2026-05-04 13:09:55  INFO  Error analysis written to /home/nlp/ronke21/hebrew_RE/outputs/nli_error_analysis.txt

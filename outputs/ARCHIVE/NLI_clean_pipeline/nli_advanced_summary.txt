@@ -1,0 +1,85 @@
+==============================================================================================================
+  NLI ADVANCED EVALUATION — SUMMARY
+  Total wall time : 0s
+  CV folds        : 5
+  Threshold grid  : 0.05–0.95 (19 values)
+==============================================================================================================
+
+K-FOLD CV THRESHOLD OPTIMISATION
+  model          hypothesis                 cv_f1    ±std  mean_thresh
+  ------------------------------------------------------------
+  me5large       template_relation         0.8304  0.0000  0.05
+  mmbert         basic_relation            0.8304  0.0000  0.05
+  mmbert         llm_relation              0.8304  0.0000  0.05
+  mmbert         template_relation         0.8304  0.0000  0.05
+  xlmroberta     basic_relation            0.8304  0.0000  0.05
+  xlmroberta     llm_relation              0.8304  0.0000  0.05
+  xlmroberta     template_relation         0.8304  0.0000  0.05
+  me5large       basic_relation            0.8290  0.0028  0.07
+  neodictabert   template_relation         0.8290  0.0028  0.05
+  neodictabert   basic_relation            0.8277  0.0034  0.05
+  me5large       llm_relation              0.8276  0.0055  0.13
+  neodictabert   llm_relation              0.8263  0.0055  0.05
+
+SCORE CALIBRATION  (OOF, threshold=0.5)
+  model          hypothesis             method         acc   prec    rec     f1     TP    FP    FN    TN
+  ------------------------------------------------------------------------------------------------------
+  me5large       basic_relation         platt        0.710  0.710  1.000  0.830    355   145     0     0
+  me5large       basic_relation         isotonic     0.708  0.709  0.997  0.829    354   145     1     0
+  me5large       llm_relation           platt        0.710  0.710  1.000  0.830    355   145     0     0
+  me5large       llm_relation           isotonic     0.706  0.709  0.994  0.828    353   145     2     0
+  me5large       template_relation      platt        0.710  0.710  1.000  0.830    355   145     0     0
+  me5large       template_relation      isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+  mmbert         basic_relation         platt        0.710  0.710  1.000  0.830    355   145     0     0
+  mmbert         basic_relation         isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+  mmbert         llm_relation           platt        0.710  0.710  1.000  0.830    355   145     0     0
+  mmbert         llm_relation           isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+  mmbert         template_relation      platt        0.710  0.710  1.000  0.830    355   145     0     0
+  mmbert         template_relation      isotonic     0.708  0.709  0.997  0.829    354   145     1     0
+  neodictabert   basic_relation         platt        0.710  0.710  1.000  0.830    355   145     0     0
+  neodictabert   basic_relation         isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+  neodictabert   llm_relation           platt        0.710  0.710  1.000  0.830    355   145     0     0
+  neodictabert   llm_relation           isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+  neodictabert   template_relation      platt        0.710  0.710  1.000  0.830    355   145     0     0
+  neodictabert   template_relation      isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+  xlmroberta     basic_relation         platt        0.710  0.710  1.000  0.830    355   145     0     0
+  xlmroberta     basic_relation         isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+  xlmroberta     llm_relation           platt        0.710  0.710  1.000  0.830    355   145     0     0
+  xlmroberta     llm_relation           isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+  xlmroberta     template_relation      platt        0.710  0.710  1.000  0.830    355   145     0     0
+  xlmroberta     template_relation      isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+
+WEIGHTED ENSEMBLE  (weights = per-combo CV F1)
+  thresh     acc   prec    rec     f1     TP    FP    FN    TN
+  ------------------------------------------------------------
+    0.30   0.710  0.710  1.000  0.830    355   145     0     0
+    0.40   0.710  0.710  1.000  0.830    355   145     0     0
+    0.50   0.710  0.710  1.000  0.830    355   145     0     0
+    0.60   0.710  0.710  1.000  0.830    355   145     0     0
+    0.70   0.706  0.709  0.994  0.828    353   145     2     0
+    0.80   0.686  0.704  0.963  0.813    342   144    13     1
+    0.90   0.650  0.697  0.896  0.784    318   138    37     7
+
+STACKING  (OOF logistic regression on all confidence scores)
+  thresh     acc   prec    rec     f1     TP    FP    FN    TN
+  ------------------------------------------------------------
+    0.30   0.710  0.710  1.000  0.830    355   145     0     0
+    0.40   0.710  0.710  1.000  0.830    355   145     0     0
+    0.50   0.710  0.710  1.000  0.830    355   145     0     0
+    0.60   0.710  0.710  1.000  0.830    355   145     0     0
+    0.70   0.502  0.689  0.544  0.608    193    87   162    58
+    0.80   0.308  0.800  0.034  0.065     12     3   343   142
+    0.90   0.290  0.000  0.000  0.000      0     0   355   145
+
+CROSS-METHOD BEST F1 COMPARISON
+  method                                   best_thresh     acc   prec    rec     f1
+  ---------------------------------------------------------------------------------
+  cv/me5large/template_relation              0.05     N/A    N/A    N/A  0.830*
+  cv/mmbert/basic_relation                 0.05     N/A    N/A    N/A  0.830*
+  cv/mmbert/llm_relation                   0.05     N/A    N/A    N/A  0.830*
+    * CV F1 is the honest OOF estimate                        
+  platt/me5large/basic_relation                   0.50   0.710  0.710  1.000  0.830
+  isotonic/me5large/basic_relation                0.50   0.708  0.709  0.997  0.829
+  weighted_ensemble                               0.30   0.710  0.710  1.000  0.830
+  stacking_oof                                    0.30   0.710  0.710  1.000  0.830
+==============================================================================================================

@@ -1,0 +1,194 @@
+2026-05-08 12:24:05  INFO  ======================================================================
+2026-05-08 12:24:05  INFO  nli_advanced_eval.py  started
+2026-05-08 12:24:05  INFO    input:          /home/nlp/ronke21/hebrew_RE/outputs/ARCHIVE/nli_classified.csv
+2026-05-08 12:24:05  INFO    output:         /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_classified.csv
+2026-05-08 12:24:05  INFO    log:            /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_eval.log
+2026-05-08 12:24:05  INFO    summary:        /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_summary.txt
+2026-05-08 12:24:05  INFO    error analysis: /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_error_analysis.txt
+2026-05-08 12:24:05  INFO    full analysis:  /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_analysis.txt
+2026-05-08 12:24:05  INFO    cv folds:       5
+2026-05-08 12:24:05  INFO    thresh grid:    0.05–0.95  (19 values)
+2026-05-08 12:24:05  INFO  ======================================================================
+2026-05-08 12:24:05  INFO  [load]  500 rows
+2026-05-08 12:24:05  INFO  [load]  label dist: pos=355, neg=145 (71.0% / 29.0%)
+2026-05-08 12:24:05  INFO  [load]  12 confidence columns detected
+2026-05-08 12:24:05  INFO  ----------------------------------------------------------------------
+2026-05-08 12:24:05  INFO  [cv_thresh]  K-fold CV threshold optimisation
+2026-05-08 12:24:05  INFO    me5large/basic_relation: CV F1=0.8290±0.0028  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.15']
+2026-05-08 12:24:05  INFO    me5large/llm_relation: CV F1=0.8276±0.0055  fold thresholds=['0.05', '0.05', '0.05', '0.45', '0.05']
+2026-05-08 12:24:05  INFO    me5large/template_relation: CV F1=0.8304±0.0000  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']
+2026-05-08 12:24:05  INFO    mmbert/basic_relation: CV F1=0.8304±0.0000  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']
+2026-05-08 12:24:05  INFO    mmbert/llm_relation: CV F1=0.8304±0.0000  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']
+2026-05-08 12:24:05  INFO    mmbert/template_relation: CV F1=0.8304±0.0000  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']
+2026-05-08 12:24:05  INFO    neodictabert/basic_relation: CV F1=0.8277±0.0034  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']
+2026-05-08 12:24:05  INFO    neodictabert/llm_relation: CV F1=0.8263±0.0055  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']
+2026-05-08 12:24:05  INFO    neodictabert/template_relation: CV F1=0.8290±0.0028  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']
+2026-05-08 12:24:05  INFO    xlmroberta/basic_relation: CV F1=0.8304±0.0000  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']
+2026-05-08 12:24:05  INFO    xlmroberta/llm_relation: CV F1=0.8304±0.0000  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']
+2026-05-08 12:24:05  INFO    xlmroberta/template_relation: CV F1=0.8304±0.0000  fold thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']
+2026-05-08 12:24:05  INFO  ----------------------------------------------------------------------
+2026-05-08 12:24:05  INFO  [calibrate]  Platt scaling + isotonic regression (OOF)
+2026-05-08 12:24:05  INFO    [platt]    me5large/basic_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] me5large/basic_relation: F1=0.829  prec=0.709  rec=0.997
+2026-05-08 12:24:05  INFO    [platt]    me5large/llm_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] me5large/llm_relation: F1=0.828  prec=0.709  rec=0.994
+2026-05-08 12:24:05  INFO    [platt]    me5large/template_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] me5large/template_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [platt]    mmbert/basic_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] mmbert/basic_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [platt]    mmbert/llm_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] mmbert/llm_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [platt]    mmbert/template_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] mmbert/template_relation: F1=0.829  prec=0.709  rec=0.997
+2026-05-08 12:24:05  INFO    [platt]    neodictabert/basic_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] neodictabert/basic_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [platt]    neodictabert/llm_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] neodictabert/llm_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [platt]    neodictabert/template_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] neodictabert/template_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [platt]    xlmroberta/basic_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] xlmroberta/basic_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [platt]    xlmroberta/llm_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] xlmroberta/llm_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [platt]    xlmroberta/template_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO    [isotonic] xlmroberta/template_relation: F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO  ----------------------------------------------------------------------
+2026-05-08 12:24:05  INFO  [weighted_ensemble]  weights = per-combo CV F1
+2026-05-08 12:24:05  INFO    best F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO  ----------------------------------------------------------------------
+2026-05-08 12:24:05  INFO  [stacking]  OOF logistic regression on all confidence scores
+2026-05-08 12:24:05  INFO    best F1=0.830  prec=0.710  rec=1.000
+2026-05-08 12:24:05  INFO  ----------------------------------------------------------------------
+2026-05-08 12:24:05  INFO  [predicate]  stratified metrics + per-predicate threshold search
+2026-05-08 12:24:05  INFO  ----------------------------------------------------------------------
+2026-05-08 12:24:05  INFO  [save]  500 rows → /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_classified.csv
+2026-05-08 12:24:05  INFO  ----------------------------------------------------------------------
+2026-05-08 12:24:05  INFO  [summary]  writing summary
+2026-05-08 12:24:05  INFO  ==============================================================================================================
+2026-05-08 12:24:05  INFO  ==============================================================================================================
+2026-05-08 12:24:05  INFO    NLI ADVANCED EVALUATION — SUMMARY
+2026-05-08 12:24:05  INFO    Total wall time : 0s
+2026-05-08 12:24:05  INFO    CV folds        : 5
+2026-05-08 12:24:05  INFO    Threshold grid  : 0.05–0.95 (19 values)
+2026-05-08 12:24:05  INFO  ==============================================================================================================
+2026-05-08 12:24:05  INFO  
+2026-05-08 12:24:05  INFO  K-FOLD CV THRESHOLD OPTIMISATION
+2026-05-08 12:24:05  INFO    model          hypothesis                 cv_f1    ±std  mean_thresh
+2026-05-08 12:24:05  INFO    ------------------------------------------------------------
+2026-05-08 12:24:05  INFO    me5large       template_relation         0.8304  0.0000  0.05
+2026-05-08 12:24:05  INFO    mmbert         basic_relation            0.8304  0.0000  0.05
+2026-05-08 12:24:05  INFO    mmbert         llm_relation              0.8304  0.0000  0.05
+2026-05-08 12:24:05  INFO    mmbert         template_relation         0.8304  0.0000  0.05
+2026-05-08 12:24:05  INFO    xlmroberta     basic_relation            0.8304  0.0000  0.05
+2026-05-08 12:24:05  INFO    xlmroberta     llm_relation              0.8304  0.0000  0.05
+2026-05-08 12:24:05  INFO    xlmroberta     template_relation         0.8304  0.0000  0.05
+2026-05-08 12:24:05  INFO    me5large       basic_relation            0.8290  0.0028  0.07
+2026-05-08 12:24:05  INFO    neodictabert   template_relation         0.8290  0.0028  0.05
+2026-05-08 12:24:05  INFO    neodictabert   basic_relation            0.8277  0.0034  0.05
+2026-05-08 12:24:05  INFO    me5large       llm_relation              0.8276  0.0055  0.13
+2026-05-08 12:24:05  INFO    neodictabert   llm_relation              0.8263  0.0055  0.05
+2026-05-08 12:24:05  INFO  
+2026-05-08 12:24:05  INFO  SCORE CALIBRATION  (OOF, threshold=0.5)
+2026-05-08 12:24:05  INFO    model          hypothesis             method         acc   prec    rec     f1     TP    FP    FN    TN
+2026-05-08 12:24:05  INFO    ------------------------------------------------------------------------------------------------------
+2026-05-08 12:24:05  INFO    me5large       basic_relation         platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    me5large       basic_relation         isotonic     0.708  0.709  0.997  0.829    354   145     1     0
+2026-05-08 12:24:05  INFO    me5large       llm_relation           platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    me5large       llm_relation           isotonic     0.706  0.709  0.994  0.828    353   145     2     0
+2026-05-08 12:24:05  INFO    me5large       template_relation      platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    me5large       template_relation      isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    mmbert         basic_relation         platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    mmbert         basic_relation         isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    mmbert         llm_relation           platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    mmbert         llm_relation           isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    mmbert         template_relation      platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    mmbert         template_relation      isotonic     0.708  0.709  0.997  0.829    354   145     1     0
+2026-05-08 12:24:05  INFO    neodictabert   basic_relation         platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    neodictabert   basic_relation         isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    neodictabert   llm_relation           platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    neodictabert   llm_relation           isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    neodictabert   template_relation      platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    neodictabert   template_relation      isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    xlmroberta     basic_relation         platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    xlmroberta     basic_relation         isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    xlmroberta     llm_relation           platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    xlmroberta     llm_relation           isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    xlmroberta     template_relation      platt        0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO    xlmroberta     template_relation      isotonic     0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO  
+2026-05-08 12:24:05  INFO  WEIGHTED ENSEMBLE  (weights = per-combo CV F1)
+2026-05-08 12:24:05  INFO    thresh     acc   prec    rec     f1     TP    FP    FN    TN
+2026-05-08 12:24:05  INFO    ------------------------------------------------------------
+2026-05-08 12:24:05  INFO      0.30   0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO      0.40   0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO      0.50   0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO      0.60   0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO      0.70   0.706  0.709  0.994  0.828    353   145     2     0
+2026-05-08 12:24:05  INFO      0.80   0.686  0.704  0.963  0.813    342   144    13     1
+2026-05-08 12:24:05  INFO      0.90   0.650  0.697  0.896  0.784    318   138    37     7
+2026-05-08 12:24:05  INFO  
+2026-05-08 12:24:05  INFO  STACKING  (OOF logistic regression on all confidence scores)
+2026-05-08 12:24:05  INFO    thresh     acc   prec    rec     f1     TP    FP    FN    TN
+2026-05-08 12:24:05  INFO    ------------------------------------------------------------
+2026-05-08 12:24:05  INFO      0.30   0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO      0.40   0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO      0.50   0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO      0.60   0.710  0.710  1.000  0.830    355   145     0     0
+2026-05-08 12:24:05  INFO      0.70   0.502  0.689  0.544  0.608    193    87   162    58
+2026-05-08 12:24:05  INFO      0.80   0.308  0.800  0.034  0.065     12     3   343   142
+2026-05-08 12:24:05  INFO      0.90   0.290  0.000  0.000  0.000      0     0   355   145
+2026-05-08 12:24:05  INFO  
+2026-05-08 12:24:05  INFO  CROSS-METHOD BEST F1 COMPARISON
+2026-05-08 12:24:05  INFO    method                                   best_thresh     acc   prec    rec     f1
+2026-05-08 12:24:05  INFO    ---------------------------------------------------------------------------------
+2026-05-08 12:24:05  INFO    cv/me5large/template_relation              0.05     N/A    N/A    N/A  0.830*
+2026-05-08 12:24:05  INFO    cv/mmbert/basic_relation                 0.05     N/A    N/A    N/A  0.830*
+2026-05-08 12:24:05  INFO    cv/mmbert/llm_relation                   0.05     N/A    N/A    N/A  0.830*
+2026-05-08 12:24:05  INFO      * CV F1 is the honest OOF estimate                        
+2026-05-08 12:24:05  INFO    platt/me5large/basic_relation                   0.50   0.710  0.710  1.000  0.830
+2026-05-08 12:24:05  INFO    isotonic/me5large/basic_relation                0.50   0.708  0.709  0.997  0.829
+2026-05-08 12:24:05  INFO    weighted_ensemble                               0.30   0.710  0.710  1.000  0.830
+2026-05-08 12:24:05  INFO    stacking_oof                                    0.30   0.710  0.710  1.000  0.830
+2026-05-08 12:24:05  INFO  ==============================================================================================================
+2026-05-08 12:24:05  INFO  ==============================================================================================================
+2026-05-08 12:24:05  INFO  Summary written to /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_summary.txt
+2026-05-08 12:24:05  INFO  ----------------------------------------------------------------------
+2026-05-08 12:24:05  INFO  [error_analysis]  writing error analysis
+2026-05-08 12:24:05  INFO  Error analysis written to /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_error_analysis.txt
+2026-05-08 12:24:05  INFO  [error_analysis]  FP / FN summary:
+2026-05-08 12:24:05  INFO    platt/me5large/basic_relation               F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/me5large/llm_relation                 F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/me5large/template_relation            F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    isotonic/me5large/template_relation         F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/mmbert/basic_relation                 F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    isotonic/mmbert/basic_relation              F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/mmbert/llm_relation                   F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    isotonic/mmbert/llm_relation                F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/mmbert/template_relation              F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/neodictabert/basic_relation           F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    isotonic/neodictabert/basic_relation        F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/neodictabert/llm_relation             F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    isotonic/neodictabert/llm_relation          F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/neodictabert/template_relation        F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    isotonic/neodictabert/template_relation     F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/xlmroberta/basic_relation             F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    isotonic/xlmroberta/basic_relation          F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/xlmroberta/llm_relation               F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    isotonic/xlmroberta/llm_relation            F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    platt/xlmroberta/template_relation          F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    isotonic/xlmroberta/template_relation       F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    weighted_ensemble                           F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    stacking_oof                                F1=0.830  FP=145  FN=0
+2026-05-08 12:24:05  INFO    isotonic/me5large/basic_relation            F1=0.829  FP=145  FN=1
+2026-05-08 12:24:05  INFO    isotonic/mmbert/template_relation           F1=0.829  FP=145  FN=1
+2026-05-08 12:24:05  INFO    isotonic/me5large/llm_relation              F1=0.828  FP=145  FN=2
+2026-05-08 12:24:05  INFO  ----------------------------------------------------------------------
+2026-05-08 12:24:05  INFO  [analysis]  writing detailed analysis
+2026-05-08 12:24:05  INFO  Detailed analysis written to /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_analysis.txt
+2026-05-08 12:24:05  INFO  ======================================================================
+2026-05-08 12:24:05  INFO  Done.  Total wall time: 0s
+2026-05-08 12:24:05  INFO    /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_classified.csv
+2026-05-08 12:24:05  INFO    /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_summary.txt
+2026-05-08 12:24:05  INFO    /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_error_analysis.txt
+2026-05-08 12:24:05  INFO    /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_advanced_analysis.txt
+2026-05-08 12:24:05  INFO  ======================================================================

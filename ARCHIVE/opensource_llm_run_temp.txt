@@ -1,0 +1,1320 @@
+INFO 05-04 12:49:50 [__init__.py:239] Automatically detected platform cuda.
+2026-05-04 12:49:53  INFO    backend: HuggingFace  (3 GPUs visible)
+2026-05-04 12:49:53  INFO  ======================================================================
+2026-05-04 12:49:53  INFO  clean_dataset_with_opensource_llm.py  started
+2026-05-04 12:49:53  INFO    input:       /home/nlp/ronke21/hebrew_RE/outputs/prepared_gold_dataset_gemma_3_27b_it.csv
+2026-05-04 12:49:53  INFO    output:      /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_classified.csv
+2026-05-04 12:49:53  INFO    log:         /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_classify.log
+2026-05-04 12:49:53  INFO    summary:     /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_summary.txt
+2026-05-04 12:49:53  INFO    label col:   relation_present
+2026-05-04 12:49:53  INFO    batch size:  16
+2026-05-04 12:49:53  INFO    max new tok: 32
+2026-05-04 12:49:53  INFO    models (4):
+2026-05-04 12:49:53  INFO      [qwen3]  Qwen/Qwen3-30B-A3B-Instruct-2507  (type=instruct)
+2026-05-04 12:49:53  INFO      [dictalm3]  dicta-il/DictaLM-3.0-24B-Base  (type=base)
+2026-05-04 12:49:53  INFO      [cohere_aya32b]  CohereLabs/aya-expanse-32b  (type=instruct)
+2026-05-04 12:49:53  INFO      [gemma3]  google/gemma-3-27b-it  (type=instruct)
+2026-05-04 12:49:53  INFO    prompt combos per model (4): [('he', 'triplet'), ('he', 'template'), ('en', 'triplet'), ('en', 'template')]
+2026-05-04 12:49:53  INFO  ======================================================================
+2026-05-04 12:49:53  INFO  [load]  500 rows  (0s)
+2026-05-04 12:49:53  INFO  [load]  label distribution: positive=355, negative=145 (71.0% / 29.0%)
+2026-05-04 12:49:53  INFO  ----------------------------------------------------------------------
+2026-05-04 12:49:53  INFO  [model 1/4]  qwen3  (instruct)
+2026-05-04 12:49:53  INFO      path: Qwen/Qwen3-30B-A3B-Instruct-2507
+2026-05-04 12:49:54  INFO      backend: HuggingFace + flash_attention_2 (dtype=torch.bfloat16)
+`torch_dtype` is deprecated! Use `dtype` instead!
+2026-05-04 12:49:56  WARNING      flash_attention_2 failed (FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.), falling back to default attention
+Loading checkpoint shards:   0%|          | 0/16 [00:00<?, ?it/s]Loading checkpoint shards:   6%|▋         | 1/16 [00:01<00:20,  1.33s/it]Loading checkpoint shards:  12%|█▎        | 2/16 [00:03<00:23,  1.71s/it]Loading checkpoint shards:  19%|█▉        | 3/16 [00:05<00:23,  1.83s/it]Loading checkpoint shards:  25%|██▌       | 4/16 [00:07<00:23,  1.95s/it]Loading checkpoint shards:  31%|███▏      | 5/16 [00:09<00:21,  1.96s/it]Loading checkpoint shards:  38%|███▊      | 6/16 [00:11<00:18,  1.86s/it]Loading checkpoint shards:  44%|████▍     | 7/16 [00:13<00:17,  1.97s/it]Loading checkpoint shards:  50%|█████     | 8/16 [00:14<00:14,  1.86s/it]Loading checkpoint shards:  56%|█████▋    | 9/16 [00:16<00:12,  1.84s/it]Loading checkpoint shards:  62%|██████▎   | 10/16 [00:18<00:10,  1.72s/it]Loading checkpoint shards:  69%|██████▉   | 11/16 [00:19<00:08,  1.74s/it]Loading checkpoint shards:  75%|███████▌  | 12/16 [00:21<00:06,  1.67s/it]Loading checkpoint shards:  81%|████████▏ | 13/16 [00:23<00:05,  1.82s/it]Loading checkpoint shards:  88%|████████▊ | 14/16 [00:25<00:03,  1.83s/it]Loading checkpoint shards:  94%|█████████▍| 15/16 [00:27<00:01,  1.78s/it]Loading checkpoint shards: 100%|██████████| 16/16 [00:27<00:00,  1.33s/it]Loading checkpoint shards: 100%|██████████| 16/16 [00:27<00:00,  1.71s/it]
+2026-05-04 12:50:33  INFO      ready  (30.5B params, device_map=auto, torch.bfloat16)
+2026-05-04 12:50:33  INFO      loaded in 40s
+2026-05-04 12:50:33  INFO  **********************************************************************
+2026-05-04 12:50:33  INFO    STARTING COMBINATION 1/4
+2026-05-04 12:50:33  INFO      model:     qwen3  (Qwen/Qwen3-30B-A3B-Instruct-2507)
+2026-05-04 12:50:33  INFO      lang:      he
+2026-05-04 12:50:33  INFO      rel_type:  triplet
+2026-05-04 12:50:33  INFO  **********************************************************************
+2026-05-04 12:50:33  INFO      output cols: llm_clean_qwen3_he_triplet, llm_raw_qwen3_he_triplet
+2026-05-04 12:50:33  INFO      relation col: basic_relation
+2026-05-04 12:50:33  INFO      example prompt (row 0):
+----------------------------------------
+<|im_start|>system
+אתה מסייע לזיהוי יחסים בטקסטים בעברית. יחס הוא קשר סמנטי בין שתי ישויות: נושא (subject), סוג היחס (predicate) ואובייקט (object). תפקידך לקרוא טקסט ולקבוע האם היחס הנתון מופיע או נובע מהטקסט, כלומר האם ניתן להסיק מהטקסט שהנושא קשור לאובייקט באמצעות היחס המצוין. ענה "כן" אם היחס מופיע בטקסט, או "לא" אם אינו מופיע. ענה במילה אחת בלבד.<|im_end|>
+<|im_start|>user
+טקסט:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+יחס לבדיקה:
+  נושא (subject):  אל-חודיידה
+  יחס (predicate): גובל עם
+  אובייקט (object): רימה
+
+חפש בטקסט האם הקשר בין "אל-חודיידה" ל-"רימה" דרך היחס "גובל עם" מוזכר או נובע ממנו.
+ענה "כן" או "לא" בלבד.<|im_end|>
+<|im_start|>assistant
+
+----------------------------------------
+2026-05-04 12:50:34  INFO  qwen3/he/triplet:   0%|          | 0/32 [00:00<?, ?it/s]
+The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+2026-05-04 12:50:40  INFO  qwen3/he/triplet:   3%|3         | 1/32 [00:06<03:15,  6.30s/it]
+2026-05-04 12:50:43  INFO  qwen3/he/triplet:   6%|6         | 2/32 [00:09<02:15,  4.51s/it]
+2026-05-04 12:50:47  INFO  qwen3/he/triplet:   9%|9         | 3/32 [00:13<01:57,  4.04s/it]
+2026-05-04 12:50:50  INFO  qwen3/he/triplet:  12%|#2        | 4/32 [00:16<01:46,  3.81s/it]
+2026-05-04 12:50:53  INFO  qwen3/he/triplet:  16%|#5        | 5/32 [00:19<01:37,  3.61s/it]
+2026-05-04 12:50:57  INFO  qwen3/he/triplet:  19%|#8        | 6/32 [00:22<01:30,  3.49s/it]
+2026-05-04 12:51:00  INFO      progress: 112/500 (22%)
+2026-05-04 12:51:00  INFO  qwen3/he/triplet:  22%|##1       | 7/32 [00:26<01:25,  3.42s/it]
+2026-05-04 12:51:03  INFO  qwen3/he/triplet:  25%|##5       | 8/32 [00:29<01:21,  3.38s/it]
+2026-05-04 12:51:07  INFO  qwen3/he/triplet:  28%|##8       | 9/32 [00:33<01:18,  3.42s/it]
+2026-05-04 12:51:10  INFO  qwen3/he/triplet:  31%|###1      | 10/32 [00:36<01:14,  3.41s/it]
+2026-05-04 12:51:14  INFO  qwen3/he/triplet:  34%|###4      | 11/32 [00:40<01:14,  3.56s/it]
+2026-05-04 12:51:17  INFO  qwen3/he/triplet:  38%|###7      | 12/32 [00:43<01:10,  3.50s/it]
+2026-05-04 12:51:21  INFO  qwen3/he/triplet:  41%|####      | 13/32 [00:47<01:05,  3.45s/it]
+2026-05-04 12:51:24  INFO      progress: 224/500 (45%)
+2026-05-04 12:51:24  INFO  qwen3/he/triplet:  44%|####3     | 14/32 [00:50<01:01,  3.41s/it]
+2026-05-04 12:51:27  INFO  qwen3/he/triplet:  47%|####6     | 15/32 [00:53<00:57,  3.39s/it]
+2026-05-04 12:51:31  INFO  qwen3/he/triplet:  50%|#####     | 16/32 [00:57<00:54,  3.38s/it]
+2026-05-04 12:51:34  INFO  qwen3/he/triplet:  53%|#####3    | 17/32 [01:00<00:50,  3.36s/it]
+2026-05-04 12:51:37  INFO  qwen3/he/triplet:  56%|#####6    | 18/32 [01:03<00:47,  3.36s/it]
+2026-05-04 12:51:41  INFO  qwen3/he/triplet:  59%|#####9    | 19/32 [01:07<00:44,  3.39s/it]
+2026-05-04 12:51:44  INFO  qwen3/he/triplet:  62%|######2   | 20/32 [01:10<00:41,  3.50s/it]
+2026-05-04 12:51:48  INFO      progress: 336/500 (67%)
+2026-05-04 12:51:48  INFO  qwen3/he/triplet:  66%|######5   | 21/32 [01:14<00:38,  3.54s/it]
+2026-05-04 12:51:52  INFO  qwen3/he/triplet:  69%|######8   | 22/32 [01:18<00:35,  3.54s/it]
+2026-05-04 12:51:55  INFO  qwen3/he/triplet:  72%|#######1  | 23/32 [01:21<00:31,  3.55s/it]
+2026-05-04 12:51:59  INFO  qwen3/he/triplet:  75%|#######5  | 24/32 [01:25<00:28,  3.57s/it]
+2026-05-04 12:52:02  INFO  qwen3/he/triplet:  78%|#######8  | 25/32 [01:28<00:25,  3.57s/it]
+2026-05-04 12:52:06  INFO  qwen3/he/triplet:  81%|########1 | 26/32 [01:32<00:21,  3.56s/it]
+2026-05-04 12:52:10  INFO  qwen3/he/triplet:  84%|########4 | 27/32 [01:35<00:17,  3.55s/it]
+2026-05-04 12:52:13  INFO      progress: 448/500 (90%)
+2026-05-04 12:52:13  INFO  qwen3/he/triplet:  88%|########7 | 28/32 [01:39<00:14,  3.54s/it]
+2026-05-04 12:52:17  INFO  qwen3/he/triplet:  91%|######### | 29/32 [01:43<00:10,  3.55s/it]
+2026-05-04 12:52:20  INFO  qwen3/he/triplet:  94%|#########3| 30/32 [01:46<00:07,  3.54s/it]
+2026-05-04 12:52:24  INFO  qwen3/he/triplet:  97%|#########6| 31/32 [01:50<00:03,  3.55s/it]
+2026-05-04 12:52:27  INFO      progress: 500/500 (100%)
+2026-05-04 12:52:27  INFO  qwen3/he/triplet: 100%|##########| 32/32 [01:53<00:00,  3.37s/it]
+2026-05-04 12:52:27  INFO    ==================================================================
+2026-05-04 12:52:27  INFO    RESULT  qwen3 | he | triplet
+2026-05-04 12:52:27  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 12:52:27  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 12:52:27  INFO     0.788  0.832  0.879  0.855      312     63     43     82      0      4.4    1m 53s
+2026-05-04 12:52:27  INFO    ==================================================================
+2026-05-04 12:52:27  INFO      examples (first 3 rows):
+2026-05-04 12:52:27  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 12:52:27  INFO        raw='לא'  parsed=0  gold=0
+2026-05-04 12:52:27  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 12:52:27  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 12:52:27  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 12:52:27  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 12:52:27  INFO  **********************************************************************
+2026-05-04 12:52:27  INFO    STARTING COMBINATION 2/4
+2026-05-04 12:52:27  INFO      model:     qwen3  (Qwen/Qwen3-30B-A3B-Instruct-2507)
+2026-05-04 12:52:27  INFO      lang:      he
+2026-05-04 12:52:27  INFO      rel_type:  template
+2026-05-04 12:52:27  INFO  **********************************************************************
+2026-05-04 12:52:27  INFO      output cols: llm_clean_qwen3_he_template, llm_raw_qwen3_he_template
+2026-05-04 12:52:27  INFO      relation col: template_relation
+2026-05-04 12:52:27  INFO      example prompt (row 0):
+----------------------------------------
+<|im_start|>system
+אתה מסייע לזיהוי יחסים בטקסטים בעברית. יחס הוא קשר סמנטי בין שתי ישויות, המנוסח כמשפט. תפקידך לקרוא טקסט ולקבוע האם המשפט הנתון נובע מהטקסט או מופיע בו. ענה "כן" אם המשפט נובע מהטקסט, או "לא" אחרת. ענה במילה אחת בלבד.<|im_end|>
+<|im_start|>user
+טקסט:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+משפט לבדיקה: אל-חודיידה גובל ב-רימה
+
+חפש בטקסט האם המשפט הנ"ל נובע ממנו או מופיע בו.
+ענה "כן" או "לא" בלבד.<|im_end|>
+<|im_start|>assistant
+
+----------------------------------------
+2026-05-04 12:52:27  INFO  qwen3/he/template:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 12:52:30  INFO  qwen3/he/template:   3%|3         | 1/32 [00:03<01:37,  3.14s/it]
+2026-05-04 12:52:33  INFO  qwen3/he/template:   6%|6         | 2/32 [00:06<01:34,  3.16s/it]
+2026-05-04 12:52:36  INFO  qwen3/he/template:   9%|9         | 3/32 [00:09<01:32,  3.20s/it]
+2026-05-04 12:52:40  INFO  qwen3/he/template:  12%|#2        | 4/32 [00:12<01:31,  3.26s/it]
+2026-05-04 12:52:43  INFO  qwen3/he/template:  16%|#5        | 5/32 [00:16<01:27,  3.23s/it]
+2026-05-04 12:52:46  INFO  qwen3/he/template:  19%|#8        | 6/32 [00:19<01:23,  3.20s/it]
+2026-05-04 12:52:49  INFO      progress: 112/500 (22%)
+2026-05-04 12:52:49  INFO  qwen3/he/template:  22%|##1       | 7/32 [00:22<01:19,  3.19s/it]
+2026-05-04 12:52:52  INFO  qwen3/he/template:  25%|##5       | 8/32 [00:25<01:16,  3.18s/it]
+2026-05-04 12:52:56  INFO  qwen3/he/template:  28%|##8       | 9/32 [00:28<01:13,  3.21s/it]
+2026-05-04 12:52:59  INFO  qwen3/he/template:  31%|###1      | 10/32 [00:32<01:10,  3.21s/it]
+2026-05-04 12:53:02  INFO  qwen3/he/template:  34%|###4      | 11/32 [00:35<01:07,  3.21s/it]
+2026-05-04 12:53:05  INFO  qwen3/he/template:  38%|###7      | 12/32 [00:38<01:04,  3.21s/it]
+2026-05-04 12:53:08  INFO  qwen3/he/template:  41%|####      | 13/32 [00:41<01:00,  3.20s/it]
+2026-05-04 12:53:12  INFO      progress: 224/500 (45%)
+2026-05-04 12:53:12  INFO  qwen3/he/template:  44%|####3     | 14/32 [00:44<00:57,  3.22s/it]
+2026-05-04 12:53:15  INFO  qwen3/he/template:  47%|####6     | 15/32 [00:48<00:54,  3.22s/it]
+2026-05-04 12:53:18  INFO  qwen3/he/template:  50%|#####     | 16/32 [00:51<00:51,  3.21s/it]
+2026-05-04 12:53:21  INFO  qwen3/he/template:  53%|#####3    | 17/32 [00:54<00:47,  3.20s/it]
+2026-05-04 12:53:24  INFO  qwen3/he/template:  56%|#####6    | 18/32 [00:57<00:44,  3.18s/it]
+2026-05-04 12:53:28  INFO  qwen3/he/template:  59%|#####9    | 19/32 [01:00<00:41,  3.23s/it]
+2026-05-04 12:53:31  INFO  qwen3/he/template:  62%|######2   | 20/32 [01:04<00:39,  3.28s/it]
+2026-05-04 12:53:35  INFO      progress: 336/500 (67%)
+2026-05-04 12:53:35  INFO  qwen3/he/template:  66%|######5   | 21/32 [01:07<00:36,  3.35s/it]
+2026-05-04 12:53:38  INFO  qwen3/he/template:  69%|######8   | 22/32 [01:11<00:33,  3.39s/it]
+2026-05-04 12:53:41  INFO  qwen3/he/template:  72%|#######1  | 23/32 [01:14<00:30,  3.40s/it]
+2026-05-04 12:53:45  INFO  qwen3/he/template:  75%|#######5  | 24/32 [01:18<00:27,  3.44s/it]
+2026-05-04 12:53:48  INFO  qwen3/he/template:  78%|#######8  | 25/32 [01:21<00:24,  3.45s/it]
+2026-05-04 12:53:52  INFO  qwen3/he/template:  81%|########1 | 26/32 [01:25<00:20,  3.43s/it]
+2026-05-04 12:53:55  INFO  qwen3/he/template:  84%|########4 | 27/32 [01:28<00:17,  3.42s/it]
+2026-05-04 12:53:59  INFO      progress: 448/500 (90%)
+2026-05-04 12:53:59  INFO  qwen3/he/template:  88%|########7 | 28/32 [01:31<00:13,  3.41s/it]
+2026-05-04 12:54:02  INFO  qwen3/he/template:  91%|######### | 29/32 [01:35<00:10,  3.42s/it]
+2026-05-04 12:54:06  INFO  qwen3/he/template:  94%|#########3| 30/32 [01:38<00:06,  3.43s/it]
+2026-05-04 12:54:09  INFO  qwen3/he/template:  97%|#########6| 31/32 [01:42<00:03,  3.41s/it]
+2026-05-04 12:54:12  INFO      progress: 500/500 (100%)
+2026-05-04 12:54:12  INFO  qwen3/he/template: 100%|##########| 32/32 [01:45<00:00,  3.31s/it]
+2026-05-04 12:54:12  INFO    ==================================================================
+2026-05-04 12:54:12  INFO    RESULT  qwen3 | he | template
+2026-05-04 12:54:12  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 12:54:12  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 12:54:12  INFO     0.790  0.832  0.882  0.856      313     63     42     82      0      4.7    1m 45s
+2026-05-04 12:54:12  INFO    ==================================================================
+2026-05-04 12:54:12  INFO      examples (first 3 rows):
+2026-05-04 12:54:12  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 12:54:12  INFO        raw='לא'  parsed=0  gold=0
+2026-05-04 12:54:12  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 12:54:12  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 12:54:12  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 12:54:12  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 12:54:12  INFO  **********************************************************************
+2026-05-04 12:54:12  INFO    STARTING COMBINATION 3/4
+2026-05-04 12:54:12  INFO      model:     qwen3  (Qwen/Qwen3-30B-A3B-Instruct-2507)
+2026-05-04 12:54:12  INFO      lang:      en
+2026-05-04 12:54:12  INFO      rel_type:  triplet
+2026-05-04 12:54:12  INFO  **********************************************************************
+2026-05-04 12:54:12  INFO      output cols: llm_clean_qwen3_en_triplet, llm_raw_qwen3_en_triplet
+2026-05-04 12:54:12  INFO      relation col: basic_relation
+2026-05-04 12:54:12  INFO      example prompt (row 0):
+----------------------------------------
+<|im_start|>system
+You are a relation extraction assistant. A relation is a semantic connection between two entities, described by a subject, a predicate (relation type), and an object. Your task is to read a text and determine whether the given relation is expressed or can be inferred from it — i.e., whether the text indicates that the subject is connected to the object via the given predicate. Answer "yes" if the relation is expressed in the text, "no" if it is not. One word only.<|im_end|>
+<|im_start|>user
+Text:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+Relation to check:
+  Subject:   אל-חודיידה
+  Predicate: גובל עם
+  Object:    רימה
+
+Look in the text for whether the connection between "אל-חודיידה" and "רימה" via the relation "גובל עם" is mentioned or can be inferred.
+Answer "yes" or "no" only.<|im_end|>
+<|im_start|>assistant
+
+----------------------------------------
+2026-05-04 12:54:12  INFO  qwen3/en/triplet:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 12:54:15  INFO  qwen3/en/triplet:   3%|3         | 1/32 [00:03<01:42,  3.31s/it]
+2026-05-04 12:54:19  INFO  qwen3/en/triplet:   6%|6         | 2/32 [00:06<01:39,  3.32s/it]
+2026-05-04 12:54:22  INFO  qwen3/en/triplet:   9%|9         | 3/32 [00:10<01:36,  3.34s/it]
+2026-05-04 12:54:25  INFO  qwen3/en/triplet:  12%|#2        | 4/32 [00:13<01:34,  3.38s/it]
+2026-05-04 12:54:29  INFO  qwen3/en/triplet:  16%|#5        | 5/32 [00:16<01:30,  3.34s/it]
+2026-05-04 12:54:32  INFO  qwen3/en/triplet:  19%|#8        | 6/32 [00:20<01:27,  3.35s/it]
+2026-05-04 12:54:35  INFO      progress: 112/500 (22%)
+2026-05-04 12:54:35  INFO  qwen3/en/triplet:  22%|##1       | 7/32 [00:23<01:23,  3.33s/it]
+2026-05-04 12:54:39  INFO  qwen3/en/triplet:  25%|##5       | 8/32 [00:26<01:20,  3.34s/it]
+2026-05-04 12:54:42  INFO  qwen3/en/triplet:  28%|##8       | 9/32 [00:30<01:17,  3.35s/it]
+2026-05-04 12:54:45  INFO  qwen3/en/triplet:  31%|###1      | 10/32 [00:33<01:13,  3.35s/it]
+2026-05-04 12:54:49  INFO  qwen3/en/triplet:  34%|###4      | 11/32 [00:36<01:10,  3.37s/it]
+2026-05-04 12:54:52  INFO  qwen3/en/triplet:  38%|###7      | 12/32 [00:40<01:07,  3.36s/it]
+2026-05-04 12:54:56  INFO  qwen3/en/triplet:  41%|####      | 13/32 [00:43<01:03,  3.35s/it]
+2026-05-04 12:54:59  INFO      progress: 224/500 (45%)
+2026-05-04 12:54:59  INFO  qwen3/en/triplet:  44%|####3     | 14/32 [00:46<01:00,  3.34s/it]
+2026-05-04 12:55:02  INFO  qwen3/en/triplet:  47%|####6     | 15/32 [00:50<00:56,  3.35s/it]
+2026-05-04 12:55:06  INFO  qwen3/en/triplet:  50%|#####     | 16/32 [00:53<00:53,  3.36s/it]
+2026-05-04 12:55:09  INFO  qwen3/en/triplet:  53%|#####3    | 17/32 [00:56<00:50,  3.33s/it]
+2026-05-04 12:55:12  INFO  qwen3/en/triplet:  56%|#####6    | 18/32 [01:00<00:46,  3.33s/it]
+2026-05-04 12:55:16  INFO  qwen3/en/triplet:  59%|#####9    | 19/32 [01:03<00:43,  3.34s/it]
+2026-05-04 12:55:19  INFO  qwen3/en/triplet:  62%|######2   | 20/32 [01:07<00:40,  3.40s/it]
+2026-05-04 12:55:23  INFO      progress: 336/500 (67%)
+2026-05-04 12:55:23  INFO  qwen3/en/triplet:  66%|######5   | 21/32 [01:10<00:38,  3.48s/it]
+2026-05-04 12:55:26  INFO  qwen3/en/triplet:  69%|######8   | 22/32 [01:14<00:35,  3.50s/it]
+2026-05-04 12:55:30  INFO  qwen3/en/triplet:  72%|#######1  | 23/32 [01:17<00:31,  3.52s/it]
+2026-05-04 12:55:33  INFO  qwen3/en/triplet:  75%|#######5  | 24/32 [01:21<00:28,  3.55s/it]
+2026-05-04 12:55:37  INFO  qwen3/en/triplet:  78%|#######8  | 25/32 [01:25<00:24,  3.54s/it]
+2026-05-04 12:55:41  INFO  qwen3/en/triplet:  81%|########1 | 26/32 [01:28<00:21,  3.53s/it]
+2026-05-04 12:55:44  INFO  qwen3/en/triplet:  84%|########4 | 27/32 [01:32<00:17,  3.53s/it]
+2026-05-04 12:55:48  INFO      progress: 448/500 (90%)
+2026-05-04 12:55:48  INFO  qwen3/en/triplet:  88%|########7 | 28/32 [01:35<00:14,  3.52s/it]
+2026-05-04 12:55:51  INFO  qwen3/en/triplet:  91%|######### | 29/32 [01:39<00:10,  3.53s/it]
+2026-05-04 12:55:55  INFO  qwen3/en/triplet:  94%|#########3| 30/32 [01:42<00:07,  3.54s/it]
+2026-05-04 12:55:58  INFO  qwen3/en/triplet:  97%|#########6| 31/32 [01:46<00:03,  3.55s/it]
+2026-05-04 12:56:01  INFO      progress: 500/500 (100%)
+2026-05-04 12:56:01  INFO  qwen3/en/triplet: 100%|##########| 32/32 [01:49<00:00,  3.40s/it]
+2026-05-04 12:56:01  INFO    ==================================================================
+2026-05-04 12:56:01  INFO    RESULT  qwen3 | en | triplet
+2026-05-04 12:56:01  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 12:56:01  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 12:56:01  INFO     0.786  0.802  0.927  0.860      329     81     26     64      0      4.6    1m 49s
+2026-05-04 12:56:01  INFO    ==================================================================
+2026-05-04 12:56:01  INFO      examples (first 3 rows):
+2026-05-04 12:56:01  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 12:56:01  INFO        raw='no'  parsed=0  gold=0
+2026-05-04 12:56:01  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 12:56:01  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 12:56:01  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 12:56:01  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 12:56:01  INFO  **********************************************************************
+2026-05-04 12:56:01  INFO    STARTING COMBINATION 4/4
+2026-05-04 12:56:01  INFO      model:     qwen3  (Qwen/Qwen3-30B-A3B-Instruct-2507)
+2026-05-04 12:56:01  INFO      lang:      en
+2026-05-04 12:56:01  INFO      rel_type:  template
+2026-05-04 12:56:01  INFO  **********************************************************************
+2026-05-04 12:56:01  INFO      output cols: llm_clean_qwen3_en_template, llm_raw_qwen3_en_template
+2026-05-04 12:56:01  INFO      relation col: template_relation
+2026-05-04 12:56:01  INFO      example prompt (row 0):
+----------------------------------------
+<|im_start|>system
+You are a textual entailment assistant. A relation between two entities is expressed here as a natural-language statement. Your task is to read a text and determine whether the given statement is entailed by or expressed in it. Answer "yes" if entailed, "no" if not. One word only.<|im_end|>
+<|im_start|>user
+Text:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+Statement to check: אל-חודיידה גובל ב-רימה
+
+Look in the text for whether the above statement is expressed or can be inferred from it.
+Answer "yes" or "no" only.<|im_end|>
+<|im_start|>assistant
+
+----------------------------------------
+2026-05-04 12:56:01  INFO  qwen3/en/template:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 12:56:05  INFO  qwen3/en/template:   3%|3         | 1/32 [00:03<01:39,  3.22s/it]
+2026-05-04 12:56:08  INFO  qwen3/en/template:   6%|6         | 2/32 [00:06<01:36,  3.23s/it]
+2026-05-04 12:56:11  INFO  qwen3/en/template:   9%|9         | 3/32 [00:09<01:33,  3.24s/it]
+2026-05-04 12:56:14  INFO  qwen3/en/template:  12%|#2        | 4/32 [00:13<01:31,  3.28s/it]
+2026-05-04 12:56:18  INFO  qwen3/en/template:  16%|#5        | 5/32 [00:16<01:27,  3.24s/it]
+2026-05-04 12:56:21  INFO  qwen3/en/template:  19%|#8        | 6/32 [00:19<01:23,  3.21s/it]
+2026-05-04 12:56:24  INFO      progress: 112/500 (22%)
+2026-05-04 12:56:24  INFO  qwen3/en/template:  22%|##1       | 7/32 [00:22<01:19,  3.20s/it]
+2026-05-04 12:56:27  INFO  qwen3/en/template:  25%|##5       | 8/32 [00:25<01:16,  3.20s/it]
+2026-05-04 12:56:30  INFO  qwen3/en/template:  28%|##8       | 9/32 [00:28<01:13,  3.21s/it]
+2026-05-04 12:56:34  INFO  qwen3/en/template:  31%|###1      | 10/32 [00:32<01:11,  3.23s/it]
+2026-05-04 12:56:37  INFO  qwen3/en/template:  34%|###4      | 11/32 [00:35<01:08,  3.25s/it]
+2026-05-04 12:56:40  INFO  qwen3/en/template:  38%|###7      | 12/32 [00:38<01:05,  3.26s/it]
+2026-05-04 12:56:43  INFO  qwen3/en/template:  41%|####      | 13/32 [00:42<01:01,  3.23s/it]
+2026-05-04 12:56:46  INFO      progress: 224/500 (45%)
+2026-05-04 12:56:46  INFO  qwen3/en/template:  44%|####3     | 14/32 [00:45<00:58,  3.23s/it]
+2026-05-04 12:56:50  INFO  qwen3/en/template:  47%|####6     | 15/32 [00:48<00:55,  3.25s/it]
+2026-05-04 12:56:53  INFO  qwen3/en/template:  50%|#####     | 16/32 [00:51<00:51,  3.21s/it]
+2026-05-04 12:56:56  INFO  qwen3/en/template:  53%|#####3    | 17/32 [00:54<00:48,  3.21s/it]
+2026-05-04 12:56:59  INFO  qwen3/en/template:  56%|#####6    | 18/32 [00:58<00:44,  3.20s/it]
+2026-05-04 12:57:03  INFO  qwen3/en/template:  59%|#####9    | 19/32 [01:01<00:42,  3.27s/it]
+2026-05-04 12:57:06  INFO  qwen3/en/template:  62%|######2   | 20/32 [01:04<00:39,  3.32s/it]
+2026-05-04 12:57:10  INFO      progress: 336/500 (67%)
+2026-05-04 12:57:10  INFO  qwen3/en/template:  66%|######5   | 21/32 [01:08<00:37,  3.37s/it]
+2026-05-04 12:57:13  INFO  qwen3/en/template:  69%|######8   | 22/32 [01:11<00:33,  3.39s/it]
+2026-05-04 12:57:16  INFO  qwen3/en/template:  72%|#######1  | 23/32 [01:15<00:30,  3.38s/it]
+2026-05-04 12:57:20  INFO  qwen3/en/template:  75%|#######5  | 24/32 [01:18<00:27,  3.41s/it]
+2026-05-04 12:57:23  INFO  qwen3/en/template:  78%|#######8  | 25/32 [01:22<00:23,  3.42s/it]
+2026-05-04 12:57:27  INFO  qwen3/en/template:  81%|########1 | 26/32 [01:25<00:20,  3.40s/it]
+2026-05-04 12:57:30  INFO  qwen3/en/template:  84%|########4 | 27/32 [01:28<00:17,  3.40s/it]
+2026-05-04 12:57:34  INFO      progress: 448/500 (90%)
+2026-05-04 12:57:34  INFO  qwen3/en/template:  88%|########7 | 28/32 [01:32<00:13,  3.41s/it]
+2026-05-04 12:57:37  INFO  qwen3/en/template:  91%|######### | 29/32 [01:35<00:10,  3.41s/it]
+2026-05-04 12:57:40  INFO  qwen3/en/template:  94%|#########3| 30/32 [01:39<00:06,  3.42s/it]
+2026-05-04 12:57:44  INFO  qwen3/en/template:  97%|#########6| 31/32 [01:42<00:03,  3.41s/it]
+2026-05-04 12:57:47  INFO      progress: 500/500 (100%)
+2026-05-04 12:57:47  INFO  qwen3/en/template: 100%|##########| 32/32 [01:45<00:00,  3.27s/it]
+2026-05-04 12:57:47  INFO    ==================================================================
+2026-05-04 12:57:47  INFO    RESULT  qwen3 | en | template
+2026-05-04 12:57:47  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 12:57:47  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 12:57:47  INFO     0.766  0.795  0.904  0.846      321     83     34     62      0      4.7    1m 45s
+2026-05-04 12:57:47  INFO    ==================================================================
+2026-05-04 12:57:47  INFO      examples (first 3 rows):
+2026-05-04 12:57:47  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 12:57:47  INFO        raw='no'  parsed=0  gold=0
+2026-05-04 12:57:47  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 12:57:47  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 12:57:47  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 12:57:47  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 12:57:47  INFO      GPU cache cleared
+2026-05-04 12:57:47  INFO    [qwen3] total time: 7m 53s
+2026-05-04 12:57:47  INFO  [save]  500 rows written to /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_classified.csv  (0s)
+2026-05-04 12:57:47  INFO  ----------------------------------------------------------------------
+2026-05-04 12:57:47  INFO  [model 2/4]  dictalm3  (base)
+2026-05-04 12:57:47  INFO      path: dicta-il/DictaLM-3.0-24B-Base
+2026-05-04 12:57:47  INFO      backend: HuggingFace + flash_attention_2 (dtype=torch.bfloat16)
+2026-05-04 12:57:49  WARNING      flash_attention_2 failed (FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.), falling back to default attention
+Loading checkpoint shards:   0%|          | 0/10 [00:00<?, ?it/s]Loading checkpoint shards:  10%|█         | 1/10 [00:01<00:09,  1.03s/it]Loading checkpoint shards:  20%|██        | 2/10 [00:01<00:07,  1.06it/s]Loading checkpoint shards:  30%|███       | 3/10 [00:02<00:06,  1.05it/s]Loading checkpoint shards:  40%|████      | 4/10 [00:04<00:06,  1.05s/it]Loading checkpoint shards:  50%|█████     | 5/10 [00:04<00:04,  1.01it/s]Loading checkpoint shards:  60%|██████    | 6/10 [00:06<00:04,  1.01s/it]Loading checkpoint shards:  70%|███████   | 7/10 [00:07<00:03,  1.10s/it]Loading checkpoint shards:  80%|████████  | 8/10 [00:08<00:02,  1.12s/it]Loading checkpoint shards:  90%|█████████ | 9/10 [00:09<00:01,  1.15s/it]Loading checkpoint shards: 100%|██████████| 10/10 [00:10<00:00,  1.18s/it]Loading checkpoint shards: 100%|██████████| 10/10 [00:10<00:00,  1.09s/it]
+2026-05-04 12:58:01  INFO      ready  (23.6B params, device_map=auto, torch.bfloat16)
+2026-05-04 12:58:01  INFO      loaded in 13s
+2026-05-04 12:58:01  INFO  **********************************************************************
+2026-05-04 12:58:01  INFO    STARTING COMBINATION 1/4
+2026-05-04 12:58:01  INFO      model:     dictalm3  (dicta-il/DictaLM-3.0-24B-Base)
+2026-05-04 12:58:01  INFO      lang:      he
+2026-05-04 12:58:01  INFO      rel_type:  triplet
+2026-05-04 12:58:01  INFO  **********************************************************************
+2026-05-04 12:58:01  INFO      output cols: llm_clean_dictalm3_he_triplet, llm_raw_dictalm3_he_triplet
+2026-05-04 12:58:01  INFO      relation col: basic_relation
+2026-05-04 12:58:01  INFO      example prompt (row 0):
+----------------------------------------
+קרא את הטקסט הבא וענה על השאלה.
+
+הסבר: יחס הוא קשר סמנטי בין שתי ישויות המתואר על ידי נושא, סוג יחס ואובייקט. עליך לקבוע האם יחס זה מופיע או נובע מהטקסט.
+
+טקסט:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+יחס לבדיקה:
+  נושא (subject):   אל-חודיידה
+  יחס (predicate):  גובל עם
+  אובייקט (object): רימה
+
+חפש בטקסט האם הקשר בין "אל-חודיידה" ל-"רימה" דרך היחס "גובל עם" מוזכר או נובע ממנו.
+תשובה (כן/לא):
+----------------------------------------
+2026-05-04 12:58:01  INFO  dictalm3/he/triplet:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 12:58:02  INFO  dictalm3/he/triplet:   3%|3         | 1/32 [00:01<00:42,  1.38s/it]
+2026-05-04 12:58:04  INFO  dictalm3/he/triplet:   6%|6         | 2/32 [00:03<00:46,  1.54s/it]
+2026-05-04 12:58:05  INFO  dictalm3/he/triplet:   9%|9         | 3/32 [00:04<00:43,  1.48s/it]
+2026-05-04 12:58:07  INFO  dictalm3/he/triplet:  12%|#2        | 4/32 [00:05<00:39,  1.42s/it]
+2026-05-04 12:58:08  INFO  dictalm3/he/triplet:  16%|#5        | 5/32 [00:06<00:36,  1.34s/it]
+2026-05-04 12:58:09  INFO  dictalm3/he/triplet:  19%|#8        | 6/32 [00:08<00:33,  1.30s/it]
+2026-05-04 12:58:10  INFO      progress: 112/500 (22%)
+2026-05-04 12:58:10  INFO  dictalm3/he/triplet:  22%|##1       | 7/32 [00:09<00:31,  1.27s/it]
+2026-05-04 12:58:12  INFO  dictalm3/he/triplet:  25%|##5       | 8/32 [00:10<00:30,  1.29s/it]
+2026-05-04 12:58:13  INFO  dictalm3/he/triplet:  28%|##8       | 9/32 [00:12<00:30,  1.34s/it]
+2026-05-04 12:58:14  INFO  dictalm3/he/triplet:  31%|###1      | 10/32 [00:13<00:29,  1.32s/it]
+2026-05-04 12:58:16  INFO  dictalm3/he/triplet:  34%|###4      | 11/32 [00:14<00:28,  1.35s/it]
+2026-05-04 12:58:17  INFO  dictalm3/he/triplet:  38%|###7      | 12/32 [00:16<00:27,  1.36s/it]
+2026-05-04 12:58:19  INFO  dictalm3/he/triplet:  41%|####      | 13/32 [00:17<00:25,  1.35s/it]
+2026-05-04 12:58:20  INFO      progress: 224/500 (45%)
+2026-05-04 12:58:20  INFO  dictalm3/he/triplet:  44%|####3     | 14/32 [00:18<00:24,  1.34s/it]
+2026-05-04 12:58:21  INFO  dictalm3/he/triplet:  47%|####6     | 15/32 [00:20<00:22,  1.35s/it]
+2026-05-04 12:58:23  INFO  dictalm3/he/triplet:  50%|#####     | 16/32 [00:21<00:21,  1.31s/it]
+2026-05-04 12:58:24  INFO  dictalm3/he/triplet:  53%|#####3    | 17/32 [00:22<00:19,  1.32s/it]
+2026-05-04 12:58:25  INFO  dictalm3/he/triplet:  56%|#####6    | 18/32 [00:24<00:18,  1.29s/it]
+2026-05-04 12:58:27  INFO  dictalm3/he/triplet:  59%|#####9    | 19/32 [00:25<00:18,  1.43s/it]
+2026-05-04 12:58:29  INFO  dictalm3/he/triplet:  62%|######2   | 20/32 [00:27<00:19,  1.61s/it]
+2026-05-04 12:58:31  INFO      progress: 336/500 (67%)
+2026-05-04 12:58:31  INFO  dictalm3/he/triplet:  66%|######5   | 21/32 [00:30<00:20,  1.83s/it]
+2026-05-04 12:58:33  INFO  dictalm3/he/triplet:  69%|######8   | 22/32 [00:32<00:18,  1.87s/it]
+2026-05-04 12:58:35  INFO  dictalm3/he/triplet:  72%|#######1  | 23/32 [00:34<00:17,  1.90s/it]
+2026-05-04 12:58:37  INFO  dictalm3/he/triplet:  75%|#######5  | 24/32 [00:35<00:15,  1.88s/it]
+2026-05-04 12:58:39  INFO  dictalm3/he/triplet:  78%|#######8  | 25/32 [00:38<00:13,  1.94s/it]
+2026-05-04 12:58:41  INFO  dictalm3/he/triplet:  81%|########1 | 26/32 [00:39<00:11,  1.94s/it]
+2026-05-04 12:58:43  INFO  dictalm3/he/triplet:  84%|########4 | 27/32 [00:41<00:09,  1.94s/it]
+2026-05-04 12:58:45  INFO      progress: 448/500 (90%)
+2026-05-04 12:58:45  INFO  dictalm3/he/triplet:  88%|########7 | 28/32 [00:43<00:07,  1.95s/it]
+2026-05-04 12:58:47  INFO  dictalm3/he/triplet:  91%|######### | 29/32 [00:45<00:05,  1.91s/it]
+2026-05-04 12:58:49  INFO  dictalm3/he/triplet:  94%|#########3| 30/32 [00:47<00:03,  1.89s/it]
+2026-05-04 12:58:50  INFO  dictalm3/he/triplet:  97%|#########6| 31/32 [00:49<00:01,  1.89s/it]
+2026-05-04 12:58:51  INFO      progress: 500/500 (100%)
+2026-05-04 12:58:51  INFO  dictalm3/he/triplet: 100%|##########| 32/32 [00:49<00:00,  1.46s/it]
+2026-05-04 12:58:51  INFO    ==================================================================
+2026-05-04 12:58:51  INFO    RESULT  dictalm3 | he | triplet
+2026-05-04 12:58:51  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 12:58:51  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 12:58:51  INFO     0.760  0.912  0.732  0.812      260     25     95    120      2     10.0       49s
+2026-05-04 12:58:51  INFO    ==================================================================
+2026-05-04 12:58:51  INFO      examples (first 3 rows):
+2026-05-04 12:58:51  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 12:58:51  INFO        raw='לא'  parsed=0  gold=0
+2026-05-04 12:58:51  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 12:58:51  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 12:58:51  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 12:58:51  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 12:58:51  INFO  **********************************************************************
+2026-05-04 12:58:51  INFO    STARTING COMBINATION 2/4
+2026-05-04 12:58:51  INFO      model:     dictalm3  (dicta-il/DictaLM-3.0-24B-Base)
+2026-05-04 12:58:51  INFO      lang:      he
+2026-05-04 12:58:51  INFO      rel_type:  template
+2026-05-04 12:58:51  INFO  **********************************************************************
+2026-05-04 12:58:51  INFO      output cols: llm_clean_dictalm3_he_template, llm_raw_dictalm3_he_template
+2026-05-04 12:58:51  INFO      relation col: template_relation
+2026-05-04 12:58:51  INFO      example prompt (row 0):
+----------------------------------------
+קרא את הטקסט הבא וענה על השאלה.
+
+הסבר: עליך לקבוע האם המשפט הנתון, המבטא קשר בין שתי ישויות, נובע מהטקסט או מופיע בו.
+
+טקסט:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+משפט לבדיקה: אל-חודיידה גובל ב-רימה
+
+חפש בטקסט האם המשפט הנ"ל נובע ממנו או מופיע בו.
+תשובה (כן/לא):
+----------------------------------------
+2026-05-04 12:58:51  INFO  dictalm3/he/template:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 12:58:52  INFO  dictalm3/he/template:   3%|3         | 1/32 [00:01<00:34,  1.12s/it]
+2026-05-04 12:58:53  INFO  dictalm3/he/template:   6%|6         | 2/32 [00:02<00:31,  1.06s/it]
+2026-05-04 12:58:54  INFO  dictalm3/he/template:   9%|9         | 3/32 [00:03<00:33,  1.15s/it]
+2026-05-04 12:58:55  INFO  dictalm3/he/template:  12%|#2        | 4/32 [00:04<00:32,  1.16s/it]
+2026-05-04 12:58:57  INFO  dictalm3/he/template:  16%|#5        | 5/32 [00:05<00:29,  1.11s/it]
+2026-05-04 12:58:58  INFO  dictalm3/he/template:  19%|#8        | 6/32 [00:06<00:28,  1.08s/it]
+2026-05-04 12:58:59  INFO      progress: 112/500 (22%)
+2026-05-04 12:58:59  INFO  dictalm3/he/template:  22%|##1       | 7/32 [00:07<00:26,  1.06s/it]
+2026-05-04 12:59:00  INFO  dictalm3/he/template:  25%|##5       | 8/32 [00:08<00:25,  1.08s/it]
+2026-05-04 12:59:01  INFO  dictalm3/he/template:  28%|##8       | 9/32 [00:09<00:25,  1.12s/it]
+2026-05-04 12:59:02  INFO  dictalm3/he/template:  31%|###1      | 10/32 [00:11<00:24,  1.11s/it]
+2026-05-04 12:59:03  INFO  dictalm3/he/template:  34%|###4      | 11/32 [00:12<00:25,  1.20s/it]
+2026-05-04 12:59:05  INFO  dictalm3/he/template:  38%|###7      | 12/32 [00:13<00:23,  1.18s/it]
+2026-05-04 12:59:06  INFO  dictalm3/he/template:  41%|####      | 13/32 [00:14<00:22,  1.18s/it]
+2026-05-04 12:59:07  INFO      progress: 224/500 (45%)
+2026-05-04 12:59:07  INFO  dictalm3/he/template:  44%|####3     | 14/32 [00:15<00:20,  1.16s/it]
+2026-05-04 12:59:08  INFO  dictalm3/he/template:  47%|####6     | 15/32 [00:17<00:19,  1.16s/it]
+2026-05-04 12:59:09  INFO  dictalm3/he/template:  50%|#####     | 16/32 [00:18<00:17,  1.12s/it]
+2026-05-04 12:59:10  INFO  dictalm3/he/template:  53%|#####3    | 17/32 [00:19<00:16,  1.13s/it]
+2026-05-04 12:59:11  INFO  dictalm3/he/template:  56%|#####6    | 18/32 [00:20<00:15,  1.11s/it]
+2026-05-04 12:59:13  INFO  dictalm3/he/template:  59%|#####9    | 19/32 [00:21<00:15,  1.19s/it]
+2026-05-04 12:59:14  INFO  dictalm3/he/template:  62%|######2   | 20/32 [00:23<00:16,  1.35s/it]
+2026-05-04 12:59:16  INFO      progress: 336/500 (67%)
+2026-05-04 12:59:16  INFO  dictalm3/he/template:  66%|######5   | 21/32 [00:25<00:16,  1.51s/it]
+2026-05-04 12:59:18  INFO  dictalm3/he/template:  69%|######8   | 22/32 [00:27<00:16,  1.61s/it]
+2026-05-04 12:59:20  INFO  dictalm3/he/template:  72%|#######1  | 23/32 [00:28<00:14,  1.66s/it]
+2026-05-04 12:59:21  INFO  dictalm3/he/template:  75%|#######5  | 24/32 [00:30<00:13,  1.65s/it]
+2026-05-04 12:59:23  INFO  dictalm3/he/template:  78%|#######8  | 25/32 [00:32<00:12,  1.72s/it]
+2026-05-04 12:59:25  INFO  dictalm3/he/template:  81%|########1 | 26/32 [00:34<00:10,  1.73s/it]
+2026-05-04 12:59:27  INFO  dictalm3/he/template:  84%|########4 | 27/32 [00:35<00:08,  1.73s/it]
+2026-05-04 12:59:29  INFO      progress: 448/500 (90%)
+2026-05-04 12:59:29  INFO  dictalm3/he/template:  88%|########7 | 28/32 [00:37<00:06,  1.73s/it]
+2026-05-04 12:59:30  INFO  dictalm3/he/template:  91%|######### | 29/32 [00:39<00:05,  1.70s/it]
+2026-05-04 12:59:32  INFO  dictalm3/he/template:  94%|#########3| 30/32 [00:40<00:03,  1.70s/it]
+2026-05-04 12:59:34  INFO  dictalm3/he/template:  97%|#########6| 31/32 [00:42<00:01,  1.70s/it]
+2026-05-04 12:59:34  INFO      progress: 500/500 (100%)
+2026-05-04 12:59:34  INFO  dictalm3/he/template: 100%|##########| 32/32 [00:43<00:00,  1.32s/it]
+2026-05-04 12:59:34  INFO    ==================================================================
+2026-05-04 12:59:34  INFO    RESULT  dictalm3 | he | template
+2026-05-04 12:59:34  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 12:59:34  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 12:59:34  INFO     0.582  0.987  0.417  0.586      148      2    207    143     15     11.6       43s
+2026-05-04 12:59:34  INFO    ==================================================================
+2026-05-04 12:59:34  INFO      examples (first 3 rows):
+2026-05-04 12:59:34  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 12:59:34  INFO        raw='לא'  parsed=0  gold=0
+2026-05-04 12:59:34  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 12:59:34  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 12:59:34  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 12:59:34  INFO        raw='לא'  parsed=0  gold=1
+2026-05-04 12:59:34  INFO  **********************************************************************
+2026-05-04 12:59:34  INFO    STARTING COMBINATION 3/4
+2026-05-04 12:59:34  INFO      model:     dictalm3  (dicta-il/DictaLM-3.0-24B-Base)
+2026-05-04 12:59:34  INFO      lang:      en
+2026-05-04 12:59:34  INFO      rel_type:  triplet
+2026-05-04 12:59:34  INFO  **********************************************************************
+2026-05-04 12:59:34  INFO      output cols: llm_clean_dictalm3_en_triplet, llm_raw_dictalm3_en_triplet
+2026-05-04 12:59:34  INFO      relation col: basic_relation
+2026-05-04 12:59:34  INFO      example prompt (row 0):
+----------------------------------------
+Read the following text and answer the question.
+
+Note: A relation is a semantic connection between two entities described by a subject, a predicate (relation type), and an object. Determine whether this relation is expressed or can be inferred from the text.
+
+Text:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+Relation to check:
+  Subject:   אל-חודיידה
+  Predicate: גובל עם
+  Object:    רימה
+
+Look in the text for whether the connection between "אל-חודיידה" and "רימה" via the relation "גובל עם" is mentioned or can be inferred.
+Answer (yes/no):
+----------------------------------------
+2026-05-04 12:59:34  INFO  dictalm3/en/triplet:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 12:59:35  INFO  dictalm3/en/triplet:   3%|3         | 1/32 [00:01<00:36,  1.16s/it]
+2026-05-04 12:59:36  INFO  dictalm3/en/triplet:   6%|6         | 2/32 [00:02<00:33,  1.12s/it]
+2026-05-04 12:59:38  INFO  dictalm3/en/triplet:   9%|9         | 3/32 [00:03<00:34,  1.19s/it]
+2026-05-04 12:59:39  INFO  dictalm3/en/triplet:  12%|#2        | 4/32 [00:04<00:33,  1.20s/it]
+2026-05-04 12:59:40  INFO  dictalm3/en/triplet:  16%|#5        | 5/32 [00:05<00:31,  1.15s/it]
+2026-05-04 12:59:41  INFO  dictalm3/en/triplet:  19%|#8        | 6/32 [00:06<00:29,  1.14s/it]
+2026-05-04 12:59:42  INFO      progress: 112/500 (22%)
+2026-05-04 12:59:42  INFO  dictalm3/en/triplet:  22%|##1       | 7/32 [00:08<00:28,  1.12s/it]
+2026-05-04 12:59:43  INFO  dictalm3/en/triplet:  25%|##5       | 8/32 [00:09<00:27,  1.14s/it]
+2026-05-04 12:59:45  INFO  dictalm3/en/triplet:  28%|##8       | 9/32 [00:10<00:27,  1.20s/it]
+2026-05-04 12:59:46  INFO  dictalm3/en/triplet:  31%|###1      | 10/32 [00:11<00:26,  1.20s/it]
+2026-05-04 12:59:47  INFO  dictalm3/en/triplet:  34%|###4      | 11/32 [00:13<00:25,  1.22s/it]
+2026-05-04 12:59:48  INFO  dictalm3/en/triplet:  38%|###7      | 12/32 [00:14<00:24,  1.23s/it]
+2026-05-04 12:59:49  INFO  dictalm3/en/triplet:  41%|####      | 13/32 [00:15<00:23,  1.22s/it]
+2026-05-04 12:59:51  INFO      progress: 224/500 (45%)
+2026-05-04 12:59:51  INFO  dictalm3/en/triplet:  44%|####3     | 14/32 [00:16<00:21,  1.21s/it]
+2026-05-04 12:59:52  INFO  dictalm3/en/triplet:  47%|####6     | 15/32 [00:17<00:20,  1.22s/it]
+2026-05-04 12:59:53  INFO  dictalm3/en/triplet:  50%|#####     | 16/32 [00:18<00:18,  1.19s/it]
+2026-05-04 12:59:54  INFO  dictalm3/en/triplet:  53%|#####3    | 17/32 [00:20<00:17,  1.19s/it]
+2026-05-04 12:59:55  INFO  dictalm3/en/triplet:  56%|#####6    | 18/32 [00:21<00:16,  1.17s/it]
+2026-05-04 12:59:57  INFO  dictalm3/en/triplet:  59%|#####9    | 19/32 [00:22<00:16,  1.25s/it]
+2026-05-04 12:59:59  INFO  dictalm3/en/triplet:  62%|######2   | 20/32 [00:24<00:16,  1.41s/it]
+2026-05-04 13:00:01  INFO      progress: 336/500 (67%)
+2026-05-04 13:00:01  INFO  dictalm3/en/triplet:  66%|######5   | 21/32 [00:26<00:17,  1.58s/it]
+2026-05-04 13:00:02  INFO  dictalm3/en/triplet:  69%|######8   | 22/32 [00:28<00:16,  1.66s/it]
+2026-05-04 13:00:04  INFO  dictalm3/en/triplet:  72%|#######1  | 23/32 [00:30<00:15,  1.71s/it]
+2026-05-04 13:00:06  INFO  dictalm3/en/triplet:  75%|#######5  | 24/32 [00:31<00:13,  1.72s/it]
+2026-05-04 13:00:08  INFO  dictalm3/en/triplet:  78%|#######8  | 25/32 [00:33<00:12,  1.79s/it]
+2026-05-04 13:00:10  INFO  dictalm3/en/triplet:  81%|########1 | 26/32 [00:35<00:10,  1.80s/it]
+2026-05-04 13:00:12  INFO  dictalm3/en/triplet:  84%|########4 | 27/32 [00:37<00:08,  1.80s/it]
+2026-05-04 13:00:13  INFO      progress: 448/500 (90%)
+2026-05-04 13:00:13  INFO  dictalm3/en/triplet:  88%|########7 | 28/32 [00:39<00:07,  1.79s/it]
+2026-05-04 13:00:15  INFO  dictalm3/en/triplet:  91%|######### | 29/32 [00:40<00:05,  1.77s/it]
+2026-05-04 13:00:17  INFO  dictalm3/en/triplet:  94%|#########3| 30/32 [00:42<00:03,  1.75s/it]
+2026-05-04 13:00:19  INFO  dictalm3/en/triplet:  97%|#########6| 31/32 [00:44<00:01,  1.76s/it]
+2026-05-04 13:00:19  INFO      progress: 500/500 (100%)
+2026-05-04 13:00:19  INFO  dictalm3/en/triplet: 100%|##########| 32/32 [00:44<00:00,  1.36s/it]
+2026-05-04 13:00:19  INFO    ==================================================================
+2026-05-04 13:00:19  INFO    RESULT  dictalm3 | en | triplet
+2026-05-04 13:00:19  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 13:00:19  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 13:00:19  INFO     0.814  0.883  0.851  0.867      302     40     53    105      1     11.1       44s
+2026-05-04 13:00:19  INFO    ==================================================================
+2026-05-04 13:00:19  INFO      examples (first 3 rows):
+2026-05-04 13:00:19  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 13:00:19  INFO        raw='no'  parsed=0  gold=0
+2026-05-04 13:00:19  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 13:00:19  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 13:00:19  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 13:00:19  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 13:00:19  INFO  **********************************************************************
+2026-05-04 13:00:19  INFO    STARTING COMBINATION 4/4
+2026-05-04 13:00:19  INFO      model:     dictalm3  (dicta-il/DictaLM-3.0-24B-Base)
+2026-05-04 13:00:19  INFO      lang:      en
+2026-05-04 13:00:19  INFO      rel_type:  template
+2026-05-04 13:00:19  INFO  **********************************************************************
+2026-05-04 13:00:19  INFO      output cols: llm_clean_dictalm3_en_template, llm_raw_dictalm3_en_template
+2026-05-04 13:00:19  INFO      relation col: template_relation
+2026-05-04 13:00:19  INFO      example prompt (row 0):
+----------------------------------------
+Read the following text and answer the question.
+
+Note: Determine whether the statement below, which expresses a relation between two entities, is entailed by or expressed in the text.
+
+Text:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+Statement to check: אל-חודיידה גובל ב-רימה
+
+Look in the text for whether the above statement is expressed or can be inferred from it.
+Answer (yes/no):
+----------------------------------------
+2026-05-04 13:00:19  INFO  dictalm3/en/template:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 13:00:20  INFO  dictalm3/en/template:   3%|3         | 1/32 [00:01<00:31,  1.02s/it]
+2026-05-04 13:00:21  INFO  dictalm3/en/template:   6%|6         | 2/32 [00:01<00:28,  1.04it/s]
+2026-05-04 13:00:22  INFO  dictalm3/en/template:   9%|9         | 3/32 [00:03<00:30,  1.05s/it]
+2026-05-04 13:00:23  INFO  dictalm3/en/template:  12%|#2        | 4/32 [00:04<00:29,  1.06s/it]
+2026-05-04 13:00:24  INFO  dictalm3/en/template:  16%|#5        | 5/32 [00:05<00:27,  1.01s/it]
+2026-05-04 13:00:25  INFO  dictalm3/en/template:  19%|#8        | 6/32 [00:06<00:26,  1.04s/it]
+2026-05-04 13:00:26  INFO      progress: 112/500 (22%)
+2026-05-04 13:00:26  INFO  dictalm3/en/template:  22%|##1       | 7/32 [00:07<00:25,  1.00s/it]
+2026-05-04 13:00:27  INFO  dictalm3/en/template:  25%|##5       | 8/32 [00:08<00:24,  1.01s/it]
+2026-05-04 13:00:28  INFO  dictalm3/en/template:  28%|##8       | 9/32 [00:09<00:23,  1.04s/it]
+2026-05-04 13:00:29  INFO  dictalm3/en/template:  31%|###1      | 10/32 [00:10<00:22,  1.03s/it]
+2026-05-04 13:00:30  INFO  dictalm3/en/template:  34%|###4      | 11/32 [00:11<00:22,  1.06s/it]
+2026-05-04 13:00:31  INFO  dictalm3/en/template:  38%|###7      | 12/32 [00:12<00:21,  1.05s/it]
+2026-05-04 13:00:32  INFO  dictalm3/en/template:  41%|####      | 13/32 [00:13<00:20,  1.06s/it]
+2026-05-04 13:00:33  INFO      progress: 224/500 (45%)
+2026-05-04 13:00:33  INFO  dictalm3/en/template:  44%|####3     | 14/32 [00:14<00:18,  1.05s/it]
+2026-05-04 13:00:35  INFO  dictalm3/en/template:  47%|####6     | 15/32 [00:15<00:17,  1.06s/it]
+2026-05-04 13:00:35  INFO  dictalm3/en/template:  50%|#####     | 16/32 [00:16<00:16,  1.02s/it]
+2026-05-04 13:00:37  INFO  dictalm3/en/template:  53%|#####3    | 17/32 [00:17<00:15,  1.02s/it]
+2026-05-04 13:00:37  INFO  dictalm3/en/template:  56%|#####6    | 18/32 [00:18<00:14,  1.01s/it]
+2026-05-04 13:00:39  INFO  dictalm3/en/template:  59%|#####9    | 19/32 [00:19<00:14,  1.09s/it]
+2026-05-04 13:00:40  INFO  dictalm3/en/template:  62%|######2   | 20/32 [00:21<00:15,  1.25s/it]
+2026-05-04 13:00:42  INFO      progress: 336/500 (67%)
+2026-05-04 13:00:42  INFO  dictalm3/en/template:  66%|######5   | 21/32 [00:23<00:15,  1.41s/it]
+2026-05-04 13:00:44  INFO  dictalm3/en/template:  69%|######8   | 22/32 [00:24<00:15,  1.51s/it]
+2026-05-04 13:00:46  INFO  dictalm3/en/template:  72%|#######1  | 23/32 [00:26<00:14,  1.57s/it]
+2026-05-04 13:00:47  INFO  dictalm3/en/template:  75%|#######5  | 24/32 [00:28<00:12,  1.56s/it]
+2026-05-04 13:00:49  INFO  dictalm3/en/template:  78%|#######8  | 25/32 [00:30<00:11,  1.62s/it]
+2026-05-04 13:00:51  INFO  dictalm3/en/template:  81%|########1 | 26/32 [00:31<00:09,  1.63s/it]
+2026-05-04 13:00:52  INFO  dictalm3/en/template:  84%|########4 | 27/32 [00:33<00:08,  1.62s/it]
+2026-05-04 13:00:54  INFO      progress: 448/500 (90%)
+2026-05-04 13:00:54  INFO  dictalm3/en/template:  88%|########7 | 28/32 [00:34<00:06,  1.62s/it]
+2026-05-04 13:00:55  INFO  dictalm3/en/template:  91%|######### | 29/32 [00:36<00:04,  1.60s/it]
+2026-05-04 13:00:57  INFO  dictalm3/en/template:  94%|#########3| 30/32 [00:38<00:03,  1.60s/it]
+2026-05-04 13:00:59  INFO  dictalm3/en/template:  97%|#########6| 31/32 [00:39<00:01,  1.59s/it]
+2026-05-04 13:00:59  INFO      progress: 500/500 (100%)
+2026-05-04 13:00:59  INFO  dictalm3/en/template: 100%|##########| 32/32 [00:39<00:00,  1.23s/it]
+2026-05-04 13:00:59  INFO    ==================================================================
+2026-05-04 13:00:59  INFO    RESULT  dictalm3 | en | template
+2026-05-04 13:00:59  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 13:00:59  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 13:00:59  INFO     0.738  0.876  0.735  0.799      261     37     94    108      0     12.5       39s
+2026-05-04 13:00:59  INFO    ==================================================================
+2026-05-04 13:00:59  INFO      examples (first 3 rows):
+2026-05-04 13:00:59  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 13:00:59  INFO        raw='no'  parsed=0  gold=0
+2026-05-04 13:00:59  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 13:00:59  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 13:00:59  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 13:00:59  INFO        raw='no'  parsed=0  gold=1
+2026-05-04 13:01:00  INFO      GPU cache cleared
+2026-05-04 13:01:00  INFO    [dictalm3] total time: 3m 11s
+2026-05-04 13:01:00  INFO  [save]  500 rows written to /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_classified.csv  (0s)
+2026-05-04 13:01:00  INFO  ----------------------------------------------------------------------
+2026-05-04 13:01:00  INFO  [model 3/4]  cohere_aya32b  (instruct)
+2026-05-04 13:01:00  INFO      path: CohereLabs/aya-expanse-32b
+2026-05-04 13:01:00  INFO      backend: HuggingFace + flash_attention_2 (dtype=torch.bfloat16)
+2026-05-04 13:01:01  WARNING      flash_attention_2 failed (FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.), falling back to default attention
+Loading checkpoint shards:   0%|          | 0/14 [00:00<?, ?it/s]Loading checkpoint shards:   7%|▋         | 1/14 [00:01<00:19,  1.53s/it]Loading checkpoint shards:  14%|█▍        | 2/14 [00:03<00:19,  1.61s/it]Loading checkpoint shards:  21%|██▏       | 3/14 [00:04<00:16,  1.51s/it]Loading checkpoint shards:  29%|██▊       | 4/14 [00:05<00:14,  1.45s/it]Loading checkpoint shards:  36%|███▌      | 5/14 [00:07<00:11,  1.31s/it]Loading checkpoint shards:  43%|████▎     | 6/14 [00:08<00:10,  1.26s/it]Loading checkpoint shards:  50%|█████     | 7/14 [00:09<00:09,  1.29s/it]Loading checkpoint shards:  57%|█████▋    | 8/14 [00:10<00:08,  1.34s/it]Loading checkpoint shards:  64%|██████▍   | 9/14 [00:12<00:06,  1.28s/it]Loading checkpoint shards:  71%|███████▏  | 10/14 [00:13<00:05,  1.27s/it]Loading checkpoint shards:  79%|███████▊  | 11/14 [00:14<00:03,  1.24s/it]Loading checkpoint shards:  86%|████████▌ | 12/14 [00:15<00:02,  1.21s/it]Loading checkpoint shards:  93%|█████████▎| 13/14 [00:16<00:01,  1.15s/it]Loading checkpoint shards: 100%|██████████| 14/14 [00:17<00:00,  1.11it/s]Loading checkpoint shards: 100%|██████████| 14/14 [00:17<00:00,  1.22s/it]
+2026-05-04 13:01:19  INFO      ready  (32.3B params, device_map=auto, torch.bfloat16)
+2026-05-04 13:01:19  INFO      loaded in 19s
+2026-05-04 13:01:19  INFO  **********************************************************************
+2026-05-04 13:01:19  INFO    STARTING COMBINATION 1/4
+2026-05-04 13:01:19  INFO      model:     cohere_aya32b  (CohereLabs/aya-expanse-32b)
+2026-05-04 13:01:19  INFO      lang:      he
+2026-05-04 13:01:19  INFO      rel_type:  triplet
+2026-05-04 13:01:19  INFO  **********************************************************************
+2026-05-04 13:01:19  INFO      output cols: llm_clean_cohere_aya32b_he_triplet, llm_raw_cohere_aya32b_he_triplet
+2026-05-04 13:01:19  INFO      relation col: basic_relation
+2026-05-04 13:01:19  INFO      example prompt (row 0):
+----------------------------------------
+<BOS_TOKEN><|START_OF_TURN_TOKEN|><|SYSTEM_TOKEN|>אתה מסייע לזיהוי יחסים בטקסטים בעברית. יחס הוא קשר סמנטי בין שתי ישויות: נושא (subject), סוג היחס (predicate) ואובייקט (object). תפקידך לקרוא טקסט ולקבוע האם היחס הנתון מופיע או נובע מהטקסט, כלומר האם ניתן להסיק מהטקסט שהנושא קשור לאובייקט באמצעות היחס המצוין. ענה "כן" אם היחס מופיע בטקסט, או "לא" אם אינו מופיע. ענה במילה אחת בלבד.<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|USER_TOKEN|>טקסט:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+יחס לבדיקה:
+  נושא (subject):  אל-חודיידה
+  יחס (predicate): גובל עם
+  אובייקט (object): רימה
+
+חפש בטקסט האם הקשר בין "אל-חודיידה" ל-"רימה" דרך היחס "גובל עם" מוזכר או נובע ממנו.
+ענה "כן" או "לא" בלבד.<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>
+----------------------------------------
+2026-05-04 13:01:19  INFO  cohere_aya32b/he/triplet:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 13:01:22  INFO  cohere_aya32b/he/triplet:   3%|3         | 1/32 [00:02<01:08,  2.20s/it]
+2026-05-04 13:01:23  INFO  cohere_aya32b/he/triplet:   6%|6         | 2/32 [00:04<01:01,  2.04s/it]
+2026-05-04 13:01:26  INFO  cohere_aya32b/he/triplet:   9%|9         | 3/32 [00:06<01:02,  2.14s/it]
+2026-05-04 13:01:28  INFO  cohere_aya32b/he/triplet:  12%|#2        | 4/32 [00:08<00:59,  2.13s/it]
+2026-05-04 13:01:30  INFO  cohere_aya32b/he/triplet:  16%|#5        | 5/32 [00:10<00:55,  2.05s/it]
+2026-05-04 13:01:32  INFO  cohere_aya32b/he/triplet:  19%|#8        | 6/32 [00:12<00:52,  2.03s/it]
+2026-05-04 13:01:34  INFO      progress: 112/500 (22%)
+2026-05-04 13:01:34  INFO  cohere_aya32b/he/triplet:  22%|##1       | 7/32 [00:14<00:49,  1.99s/it]
+2026-05-04 13:01:36  INFO  cohere_aya32b/he/triplet:  25%|##5       | 8/32 [00:16<00:48,  2.04s/it]
+2026-05-04 13:01:38  INFO  cohere_aya32b/he/triplet:  28%|##8       | 9/32 [00:18<00:48,  2.10s/it]
+2026-05-04 13:01:40  INFO  cohere_aya32b/he/triplet:  31%|###1      | 10/32 [00:20<00:45,  2.09s/it]
+2026-05-04 13:01:42  INFO  cohere_aya32b/he/triplet:  34%|###4      | 11/32 [00:22<00:44,  2.11s/it]
+2026-05-04 13:01:44  INFO  cohere_aya32b/he/triplet:  38%|###7      | 12/32 [00:24<00:41,  2.09s/it]
+2026-05-04 13:01:46  INFO  cohere_aya32b/he/triplet:  41%|####      | 13/32 [00:27<00:40,  2.11s/it]
+2026-05-04 13:01:49  INFO      progress: 224/500 (45%)
+2026-05-04 13:01:49  INFO  cohere_aya32b/he/triplet:  44%|####3     | 14/32 [00:29<00:37,  2.09s/it]
+2026-05-04 13:01:51  INFO  cohere_aya32b/he/triplet:  47%|####6     | 15/32 [00:31<00:35,  2.10s/it]
+2026-05-04 13:01:53  INFO  cohere_aya32b/he/triplet:  50%|#####     | 16/32 [00:33<00:33,  2.09s/it]
+2026-05-04 13:01:55  INFO  cohere_aya32b/he/triplet:  53%|#####3    | 17/32 [00:35<00:31,  2.10s/it]
+2026-05-04 13:01:57  INFO  cohere_aya32b/he/triplet:  56%|#####6    | 18/32 [00:37<00:28,  2.05s/it]
+2026-05-04 13:01:59  INFO  cohere_aya32b/he/triplet:  59%|#####9    | 19/32 [00:39<00:28,  2.20s/it]
+2026-05-04 13:02:02  INFO  cohere_aya32b/he/triplet:  62%|######2   | 20/32 [00:42<00:28,  2.36s/it]
+2026-05-04 13:02:05  INFO      progress: 336/500 (67%)
+2026-05-04 13:02:05  INFO  cohere_aya32b/he/triplet:  66%|######5   | 21/32 [00:45<00:27,  2.51s/it]
+2026-05-04 13:02:08  INFO  cohere_aya32b/he/triplet:  69%|######8   | 22/32 [00:48<00:26,  2.64s/it]
+2026-05-04 13:02:11  INFO  cohere_aya32b/he/triplet:  72%|#######1  | 23/32 [00:51<00:24,  2.71s/it]
+2026-05-04 13:02:14  INFO  cohere_aya32b/he/triplet:  75%|#######5  | 24/32 [00:54<00:21,  2.74s/it]
+2026-05-04 13:02:16  INFO  cohere_aya32b/he/triplet:  78%|#######8  | 25/32 [00:57<00:19,  2.79s/it]
+2026-05-04 13:02:19  INFO  cohere_aya32b/he/triplet:  81%|########1 | 26/32 [00:59<00:16,  2.81s/it]
+2026-05-04 13:02:22  INFO  cohere_aya32b/he/triplet:  84%|########4 | 27/32 [01:02<00:13,  2.79s/it]
+2026-05-04 13:02:25  INFO      progress: 448/500 (90%)
+2026-05-04 13:02:25  INFO  cohere_aya32b/he/triplet:  88%|########7 | 28/32 [01:05<00:11,  2.79s/it]
+2026-05-04 13:02:28  INFO  cohere_aya32b/he/triplet:  91%|######### | 29/32 [01:08<00:08,  2.76s/it]
+2026-05-04 13:02:30  INFO  cohere_aya32b/he/triplet:  94%|#########3| 30/32 [01:11<00:05,  2.79s/it]
+2026-05-04 13:02:33  INFO  cohere_aya32b/he/triplet:  97%|#########6| 31/32 [01:13<00:02,  2.77s/it]
+2026-05-04 13:02:34  INFO      progress: 500/500 (100%)
+2026-05-04 13:02:34  INFO  cohere_aya32b/he/triplet: 100%|##########| 32/32 [01:14<00:00,  2.19s/it]
+2026-05-04 13:02:34  INFO    ==================================================================
+2026-05-04 13:02:34  INFO    RESULT  cohere_aya32b | he | triplet
+2026-05-04 13:02:34  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 13:02:34  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 13:02:34  INFO     0.776  0.773  0.969  0.860      344    101     11     44      0      6.7    1m 14s
+2026-05-04 13:02:34  INFO    ==================================================================
+2026-05-04 13:02:34  INFO      examples (first 3 rows):
+2026-05-04 13:02:34  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 13:02:34  INFO        raw='לא'  parsed=0  gold=0
+2026-05-04 13:02:34  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 13:02:34  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 13:02:34  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 13:02:34  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 13:02:34  INFO  **********************************************************************
+2026-05-04 13:02:34  INFO    STARTING COMBINATION 2/4
+2026-05-04 13:02:34  INFO      model:     cohere_aya32b  (CohereLabs/aya-expanse-32b)
+2026-05-04 13:02:34  INFO      lang:      he
+2026-05-04 13:02:34  INFO      rel_type:  template
+2026-05-04 13:02:34  INFO  **********************************************************************
+2026-05-04 13:02:34  INFO      output cols: llm_clean_cohere_aya32b_he_template, llm_raw_cohere_aya32b_he_template
+2026-05-04 13:02:34  INFO      relation col: template_relation
+2026-05-04 13:02:34  INFO      example prompt (row 0):
+----------------------------------------
+<BOS_TOKEN><|START_OF_TURN_TOKEN|><|SYSTEM_TOKEN|>אתה מסייע לזיהוי יחסים בטקסטים בעברית. יחס הוא קשר סמנטי בין שתי ישויות, המנוסח כמשפט. תפקידך לקרוא טקסט ולקבוע האם המשפט הנתון נובע מהטקסט או מופיע בו. ענה "כן" אם המשפט נובע מהטקסט, או "לא" אחרת. ענה במילה אחת בלבד.<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|USER_TOKEN|>טקסט:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+משפט לבדיקה: אל-חודיידה גובל ב-רימה
+
+חפש בטקסט האם המשפט הנ"ל נובע ממנו או מופיע בו.
+ענה "כן" או "לא" בלבד.<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>
+----------------------------------------
+2026-05-04 13:02:34  INFO  cohere_aya32b/he/template:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 13:02:36  INFO  cohere_aya32b/he/template:   3%|3         | 1/32 [00:01<00:53,  1.73s/it]
+2026-05-04 13:02:37  INFO  cohere_aya32b/he/template:   6%|6         | 2/32 [00:03<00:48,  1.63s/it]
+2026-05-04 13:02:39  INFO  cohere_aya32b/he/template:   9%|9         | 3/32 [00:05<00:51,  1.79s/it]
+2026-05-04 13:02:41  INFO  cohere_aya32b/he/template:  12%|#2        | 4/32 [00:07<00:49,  1.78s/it]
+2026-05-04 13:02:43  INFO  cohere_aya32b/he/template:  16%|#5        | 5/32 [00:08<00:45,  1.70s/it]
+2026-05-04 13:02:44  INFO  cohere_aya32b/he/template:  19%|#8        | 6/32 [00:10<00:43,  1.68s/it]
+2026-05-04 13:02:46  INFO      progress: 112/500 (22%)
+2026-05-04 13:02:46  INFO  cohere_aya32b/he/template:  22%|##1       | 7/32 [00:11<00:40,  1.64s/it]
+2026-05-04 13:02:48  INFO  cohere_aya32b/he/template:  25%|##5       | 8/32 [00:13<00:40,  1.68s/it]
+2026-05-04 13:02:49  INFO  cohere_aya32b/he/template:  28%|##8       | 9/32 [00:15<00:40,  1.74s/it]
+2026-05-04 13:02:51  INFO  cohere_aya32b/he/template:  31%|###1      | 10/32 [00:17<00:38,  1.74s/it]
+2026-05-04 13:02:53  INFO  cohere_aya32b/he/template:  34%|###4      | 11/32 [00:19<00:37,  1.77s/it]
+2026-05-04 13:02:55  INFO  cohere_aya32b/he/template:  38%|###7      | 12/32 [00:20<00:35,  1.76s/it]
+2026-05-04 13:02:56  INFO  cohere_aya32b/he/template:  41%|####      | 13/32 [00:22<00:33,  1.76s/it]
+2026-05-04 13:02:58  INFO      progress: 224/500 (45%)
+2026-05-04 13:02:58  INFO  cohere_aya32b/he/template:  44%|####3     | 14/32 [00:24<00:31,  1.73s/it]
+2026-05-04 13:03:00  INFO  cohere_aya32b/he/template:  47%|####6     | 15/32 [00:25<00:29,  1.75s/it]
+2026-05-04 13:03:02  INFO  cohere_aya32b/he/template:  50%|#####     | 16/32 [00:27<00:27,  1.73s/it]
+2026-05-04 13:03:03  INFO  cohere_aya32b/he/template:  53%|#####3    | 17/32 [00:29<00:26,  1.74s/it]
+2026-05-04 13:03:05  INFO  cohere_aya32b/he/template:  56%|#####6    | 18/32 [00:31<00:23,  1.71s/it]
+2026-05-04 13:03:07  INFO  cohere_aya32b/he/template:  59%|#####9    | 19/32 [00:33<00:23,  1.81s/it]
+2026-05-04 13:03:09  INFO  cohere_aya32b/he/template:  62%|######2   | 20/32 [00:35<00:23,  1.98s/it]
+2026-05-04 13:03:12  INFO      progress: 336/500 (67%)
+2026-05-04 13:03:12  INFO  cohere_aya32b/he/template:  66%|######5   | 21/32 [00:37<00:23,  2.12s/it]
+2026-05-04 13:03:14  INFO  cohere_aya32b/he/template:  69%|######8   | 22/32 [00:40<00:22,  2.24s/it]
+2026-05-04 13:03:17  INFO  cohere_aya32b/he/template:  72%|#######1  | 23/32 [00:42<00:20,  2.29s/it]
+2026-05-04 13:03:19  INFO  cohere_aya32b/he/template:  75%|#######5  | 24/32 [00:45<00:18,  2.31s/it]
+2026-05-04 13:03:22  INFO  cohere_aya32b/he/template:  78%|#######8  | 25/32 [00:47<00:16,  2.37s/it]
+2026-05-04 13:03:24  INFO  cohere_aya32b/he/template:  81%|########1 | 26/32 [00:50<00:14,  2.41s/it]
+2026-05-04 13:03:27  INFO  cohere_aya32b/he/template:  84%|########4 | 27/32 [00:52<00:11,  2.40s/it]
+2026-05-04 13:03:29  INFO      progress: 448/500 (90%)
+2026-05-04 13:03:29  INFO  cohere_aya32b/he/template:  88%|########7 | 28/32 [00:54<00:09,  2.39s/it]
+2026-05-04 13:03:31  INFO  cohere_aya32b/he/template:  91%|######### | 29/32 [00:57<00:07,  2.41s/it]
+2026-05-04 13:03:34  INFO  cohere_aya32b/he/template:  94%|#########3| 30/32 [00:59<00:04,  2.44s/it]
+2026-05-04 13:03:36  INFO  cohere_aya32b/he/template:  97%|#########6| 31/32 [01:02<00:02,  2.44s/it]
+2026-05-04 13:03:37  INFO      progress: 500/500 (100%)
+2026-05-04 13:03:37  INFO  cohere_aya32b/he/template: 100%|##########| 32/32 [01:03<00:00,  1.93s/it]
+2026-05-04 13:03:37  INFO    ==================================================================
+2026-05-04 13:03:37  INFO    RESULT  cohere_aya32b | he | template
+2026-05-04 13:03:37  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 13:03:37  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 13:03:37  INFO     0.800  0.815  0.930  0.868      330     75     25     70      0      7.9     1m 3s
+2026-05-04 13:03:37  INFO    ==================================================================
+2026-05-04 13:03:37  INFO      examples (first 3 rows):
+2026-05-04 13:03:37  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 13:03:37  INFO        raw='כן'  parsed=1  gold=0
+2026-05-04 13:03:37  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 13:03:37  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 13:03:37  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 13:03:37  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 13:03:37  INFO  **********************************************************************
+2026-05-04 13:03:37  INFO    STARTING COMBINATION 3/4
+2026-05-04 13:03:37  INFO      model:     cohere_aya32b  (CohereLabs/aya-expanse-32b)
+2026-05-04 13:03:37  INFO      lang:      en
+2026-05-04 13:03:37  INFO      rel_type:  triplet
+2026-05-04 13:03:37  INFO  **********************************************************************
+2026-05-04 13:03:37  INFO      output cols: llm_clean_cohere_aya32b_en_triplet, llm_raw_cohere_aya32b_en_triplet
+2026-05-04 13:03:37  INFO      relation col: basic_relation
+2026-05-04 13:03:37  INFO      example prompt (row 0):
+----------------------------------------
+<BOS_TOKEN><|START_OF_TURN_TOKEN|><|SYSTEM_TOKEN|>You are a relation extraction assistant. A relation is a semantic connection between two entities, described by a subject, a predicate (relation type), and an object. Your task is to read a text and determine whether the given relation is expressed or can be inferred from it — i.e., whether the text indicates that the subject is connected to the object via the given predicate. Answer "yes" if the relation is expressed in the text, "no" if it is not. One word only.<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|USER_TOKEN|>Text:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+Relation to check:
+  Subject:   אל-חודיידה
+  Predicate: גובל עם
+  Object:    רימה
+
+Look in the text for whether the connection between "אל-חודיידה" and "רימה" via the relation "גובל עם" is mentioned or can be inferred.
+Answer "yes" or "no" only.<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>
+----------------------------------------
+2026-05-04 13:03:37  INFO  cohere_aya32b/en/triplet:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 13:03:39  INFO  cohere_aya32b/en/triplet:   3%|3         | 1/32 [00:01<00:55,  1.78s/it]
+2026-05-04 13:03:41  INFO  cohere_aya32b/en/triplet:   6%|6         | 2/32 [00:03<00:52,  1.74s/it]
+2026-05-04 13:03:43  INFO  cohere_aya32b/en/triplet:   9%|9         | 3/32 [00:05<00:54,  1.88s/it]
+2026-05-04 13:03:45  INFO  cohere_aya32b/en/triplet:  12%|#2        | 4/32 [00:07<00:52,  1.89s/it]
+2026-05-04 13:03:49  INFO  cohere_aya32b/en/triplet:  16%|#5        | 5/32 [00:11<01:12,  2.68s/it]
+2026-05-04 13:03:50  INFO  cohere_aya32b/en/triplet:  19%|#8        | 6/32 [00:13<01:01,  2.38s/it]
+2026-05-04 13:03:54  INFO      progress: 112/500 (22%)
+2026-05-04 13:03:54  INFO  cohere_aya32b/en/triplet:  22%|##1       | 7/32 [00:17<01:13,  2.93s/it]
+2026-05-04 13:03:56  INFO  cohere_aya32b/en/triplet:  25%|##5       | 8/32 [00:19<01:02,  2.61s/it]
+2026-05-04 13:03:58  INFO  cohere_aya32b/en/triplet:  28%|##8       | 9/32 [00:21<00:55,  2.43s/it]
+2026-05-04 13:04:00  INFO  cohere_aya32b/en/triplet:  31%|###1      | 10/32 [00:23<00:49,  2.25s/it]
+2026-05-04 13:04:02  INFO  cohere_aya32b/en/triplet:  34%|###4      | 11/32 [00:25<00:45,  2.16s/it]
+2026-05-04 13:04:04  INFO  cohere_aya32b/en/triplet:  38%|###7      | 12/32 [00:26<00:41,  2.06s/it]
+2026-05-04 13:04:06  INFO  cohere_aya32b/en/triplet:  41%|####      | 13/32 [00:28<00:38,  2.02s/it]
+2026-05-04 13:04:08  INFO      progress: 224/500 (45%)
+2026-05-04 13:04:08  INFO  cohere_aya32b/en/triplet:  44%|####3     | 14/32 [00:30<00:35,  1.96s/it]
+2026-05-04 13:04:10  INFO  cohere_aya32b/en/triplet:  47%|####6     | 15/32 [00:32<00:33,  1.95s/it]
+2026-05-04 13:04:12  INFO  cohere_aya32b/en/triplet:  50%|#####     | 16/32 [00:34<00:30,  1.91s/it]
+2026-05-04 13:04:13  INFO  cohere_aya32b/en/triplet:  53%|#####3    | 17/32 [00:36<00:28,  1.91s/it]
+2026-05-04 13:04:15  INFO  cohere_aya32b/en/triplet:  56%|#####6    | 18/32 [00:38<00:25,  1.85s/it]
+2026-05-04 13:04:17  INFO  cohere_aya32b/en/triplet:  59%|#####9    | 19/32 [00:40<00:25,  1.95s/it]
+2026-05-04 13:04:20  INFO  cohere_aya32b/en/triplet:  62%|######2   | 20/32 [00:42<00:25,  2.14s/it]
+2026-05-04 13:04:23  INFO      progress: 336/500 (67%)
+2026-05-04 13:04:23  INFO  cohere_aya32b/en/triplet:  66%|######5   | 21/32 [00:45<00:25,  2.28s/it]
+2026-05-04 13:04:25  INFO  cohere_aya32b/en/triplet:  69%|######8   | 22/32 [00:48<00:23,  2.38s/it]
+2026-05-04 13:04:28  INFO  cohere_aya32b/en/triplet:  72%|#######1  | 23/32 [00:50<00:21,  2.44s/it]
+2026-05-04 13:04:30  INFO  cohere_aya32b/en/triplet:  75%|#######5  | 24/32 [00:53<00:19,  2.47s/it]
+2026-05-04 13:04:33  INFO  cohere_aya32b/en/triplet:  78%|#######8  | 25/32 [00:55<00:17,  2.52s/it]
+2026-05-04 13:04:35  INFO  cohere_aya32b/en/triplet:  81%|########1 | 26/32 [00:58<00:15,  2.54s/it]
+2026-05-04 13:04:38  INFO  cohere_aya32b/en/triplet:  84%|########4 | 27/32 [01:00<00:12,  2.51s/it]
+2026-05-04 13:04:40  INFO      progress: 448/500 (90%)
+2026-05-04 13:04:40  INFO  cohere_aya32b/en/triplet:  88%|########7 | 28/32 [01:03<00:09,  2.50s/it]
+2026-05-04 13:04:43  INFO  cohere_aya32b/en/triplet:  91%|######### | 29/32 [01:05<00:07,  2.48s/it]
+2026-05-04 13:04:46  INFO  cohere_aya32b/en/triplet:  94%|#########3| 30/32 [01:08<00:05,  2.53s/it]
+2026-05-04 13:04:48  INFO  cohere_aya32b/en/triplet:  97%|#########6| 31/32 [01:10<00:02,  2.51s/it]
+2026-05-04 13:04:49  INFO      progress: 500/500 (100%)
+2026-05-04 13:04:49  INFO  cohere_aya32b/en/triplet: 100%|##########| 32/32 [01:11<00:00,  1.97s/it]
+2026-05-04 13:04:49  INFO    ==================================================================
+2026-05-04 13:04:49  INFO    RESULT  cohere_aya32b | en | triplet
+2026-05-04 13:04:49  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 13:04:49  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 13:04:49  INFO     0.812  0.804  0.972  0.880      345     84     10     61      0      7.0    1m 11s
+2026-05-04 13:04:49  INFO    ==================================================================
+2026-05-04 13:04:49  INFO      examples (first 3 rows):
+2026-05-04 13:04:49  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 13:04:49  INFO        raw='no'  parsed=0  gold=0
+2026-05-04 13:04:49  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 13:04:49  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 13:04:49  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 13:04:49  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 13:04:49  INFO  **********************************************************************
+2026-05-04 13:04:49  INFO    STARTING COMBINATION 4/4
+2026-05-04 13:04:49  INFO      model:     cohere_aya32b  (CohereLabs/aya-expanse-32b)
+2026-05-04 13:04:49  INFO      lang:      en
+2026-05-04 13:04:49  INFO      rel_type:  template
+2026-05-04 13:04:49  INFO  **********************************************************************
+2026-05-04 13:04:49  INFO      output cols: llm_clean_cohere_aya32b_en_template, llm_raw_cohere_aya32b_en_template
+2026-05-04 13:04:49  INFO      relation col: template_relation
+2026-05-04 13:04:49  INFO      example prompt (row 0):
+----------------------------------------
+<BOS_TOKEN><|START_OF_TURN_TOKEN|><|SYSTEM_TOKEN|>You are a textual entailment assistant. A relation between two entities is expressed here as a natural-language statement. Your task is to read a text and determine whether the given statement is entailed by or expressed in it. Answer "yes" if entailed, "no" if not. One word only.<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|USER_TOKEN|>Text:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+Statement to check: אל-חודיידה גובל ב-רימה
+
+Look in the text for whether the above statement is expressed or can be inferred from it.
+Answer "yes" or "no" only.<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>
+----------------------------------------
+2026-05-04 13:04:49  INFO  cohere_aya32b/en/template:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 13:04:50  INFO  cohere_aya32b/en/template:   3%|3         | 1/32 [00:01<00:45,  1.48s/it]
+2026-05-04 13:04:52  INFO  cohere_aya32b/en/template:   6%|6         | 2/32 [00:02<00:42,  1.42s/it]
+2026-05-04 13:04:53  INFO  cohere_aya32b/en/template:   9%|9         | 3/32 [00:04<00:45,  1.57s/it]
+2026-05-04 13:04:55  INFO  cohere_aya32b/en/template:  12%|#2        | 4/32 [00:06<00:45,  1.61s/it]
+2026-05-04 13:04:56  INFO  cohere_aya32b/en/template:  16%|#5        | 5/32 [00:07<00:41,  1.53s/it]
+2026-05-04 13:04:58  INFO  cohere_aya32b/en/template:  19%|#8        | 6/32 [00:09<00:38,  1.50s/it]
+2026-05-04 13:04:59  INFO      progress: 112/500 (22%)
+2026-05-04 13:04:59  INFO  cohere_aya32b/en/template:  22%|##1       | 7/32 [00:10<00:36,  1.46s/it]
+2026-05-04 13:05:01  INFO  cohere_aya32b/en/template:  25%|##5       | 8/32 [00:12<00:35,  1.49s/it]
+2026-05-04 13:05:02  INFO  cohere_aya32b/en/template:  28%|##8       | 9/32 [00:13<00:35,  1.55s/it]
+2026-05-04 13:05:04  INFO  cohere_aya32b/en/template:  31%|###1      | 10/32 [00:15<00:33,  1.55s/it]
+2026-05-04 13:05:06  INFO  cohere_aya32b/en/template:  34%|###4      | 11/32 [00:16<00:33,  1.58s/it]
+2026-05-04 13:05:07  INFO  cohere_aya32b/en/template:  38%|###7      | 12/32 [00:18<00:31,  1.59s/it]
+2026-05-04 13:05:09  INFO  cohere_aya32b/en/template:  41%|####      | 13/32 [00:20<00:30,  1.59s/it]
+2026-05-04 13:05:10  INFO      progress: 224/500 (45%)
+2026-05-04 13:05:10  INFO  cohere_aya32b/en/template:  44%|####3     | 14/32 [00:21<00:27,  1.55s/it]
+2026-05-04 13:05:12  INFO  cohere_aya32b/en/template:  47%|####6     | 15/32 [00:23<00:26,  1.57s/it]
+2026-05-04 13:05:13  INFO  cohere_aya32b/en/template:  50%|#####     | 16/32 [00:24<00:24,  1.54s/it]
+2026-05-04 13:05:15  INFO  cohere_aya32b/en/template:  53%|#####3    | 17/32 [00:26<00:23,  1.55s/it]
+2026-05-04 13:05:16  INFO  cohere_aya32b/en/template:  56%|#####6    | 18/32 [00:27<00:21,  1.52s/it]
+2026-05-04 13:05:18  INFO  cohere_aya32b/en/template:  59%|#####9    | 19/32 [00:29<00:21,  1.63s/it]
+2026-05-04 13:05:20  INFO  cohere_aya32b/en/template:  62%|######2   | 20/32 [00:31<00:21,  1.80s/it]
+2026-05-04 13:05:23  INFO      progress: 336/500 (67%)
+2026-05-04 13:05:23  INFO  cohere_aya32b/en/template:  66%|######5   | 21/32 [00:34<00:21,  1.94s/it]
+2026-05-04 13:05:25  INFO  cohere_aya32b/en/template:  69%|######8   | 22/32 [00:36<00:20,  2.05s/it]
+2026-05-04 13:05:27  INFO  cohere_aya32b/en/template:  72%|#######1  | 23/32 [00:38<00:18,  2.11s/it]
+2026-05-04 13:05:29  INFO  cohere_aya32b/en/template:  75%|#######5  | 24/32 [00:40<00:16,  2.11s/it]
+2026-05-04 13:05:32  INFO  cohere_aya32b/en/template:  78%|#######8  | 25/32 [00:42<00:15,  2.16s/it]
+2026-05-04 13:05:34  INFO  cohere_aya32b/en/template:  81%|########1 | 26/32 [00:45<00:13,  2.20s/it]
+2026-05-04 13:05:36  INFO  cohere_aya32b/en/template:  84%|########4 | 27/32 [00:47<00:10,  2.17s/it]
+2026-05-04 13:05:38  INFO      progress: 448/500 (90%)
+2026-05-04 13:05:38  INFO  cohere_aya32b/en/template:  88%|########7 | 28/32 [00:49<00:08,  2.17s/it]
+2026-05-04 13:05:40  INFO  cohere_aya32b/en/template:  91%|######### | 29/32 [00:51<00:06,  2.15s/it]
+2026-05-04 13:05:43  INFO  cohere_aya32b/en/template:  94%|#########3| 30/32 [00:53<00:04,  2.19s/it]
+2026-05-04 13:05:45  INFO  cohere_aya32b/en/template:  97%|#########6| 31/32 [00:55<00:02,  2.15s/it]
+2026-05-04 13:05:45  INFO      progress: 500/500 (100%)
+2026-05-04 13:05:45  INFO  cohere_aya32b/en/template: 100%|##########| 32/32 [00:56<00:00,  1.69s/it]
+2026-05-04 13:05:45  INFO    ==================================================================
+2026-05-04 13:05:45  INFO    RESULT  cohere_aya32b | en | template
+2026-05-04 13:05:45  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 13:05:45  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 13:05:45  INFO     0.808  0.817  0.941  0.874      334     75     21     70      0      8.8       56s
+2026-05-04 13:05:45  INFO    ==================================================================
+2026-05-04 13:05:45  INFO      examples (first 3 rows):
+2026-05-04 13:05:45  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 13:05:45  INFO        raw='yes'  parsed=1  gold=0
+2026-05-04 13:05:45  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 13:05:45  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 13:05:45  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 13:05:45  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 13:05:46  INFO      GPU cache cleared
+2026-05-04 13:05:46  INFO    [cohere_aya32b] total time: 4m 45s
+2026-05-04 13:05:46  INFO  [save]  500 rows written to /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_classified.csv  (0s)
+2026-05-04 13:05:46  INFO  ----------------------------------------------------------------------
+2026-05-04 13:05:46  INFO  [model 4/4]  gemma3  (instruct)
+2026-05-04 13:05:46  INFO      path: google/gemma-3-27b-it
+2026-05-04 13:05:46  INFO      backend: HuggingFace + flash_attention_2 (dtype=torch.bfloat16)
+2026-05-04 13:05:48  WARNING      flash_attention_2 failed (FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.), falling back to default attention
+Loading checkpoint shards:   0%|          | 0/12 [00:00<?, ?it/s]Loading checkpoint shards:   8%|▊         | 1/12 [02:19<25:30, 139.12s/it]Loading checkpoint shards:  17%|█▋        | 2/12 [06:59<37:02, 222.25s/it]Loading checkpoint shards:  25%|██▌       | 3/12 [11:24<36:15, 241.68s/it]Loading checkpoint shards:  33%|███▎      | 4/12 [16:17<34:54, 261.87s/it]Loading checkpoint shards:  42%|████▏     | 5/12 [20:39<30:34, 262.12s/it]Loading checkpoint shards:  50%|█████     | 6/12 [25:38<27:27, 274.66s/it]Loading checkpoint shards:  58%|█████▊    | 7/12 [30:43<23:42, 284.58s/it]Loading checkpoint shards:  67%|██████▋   | 8/12 [35:39<19:12, 288.18s/it]Loading checkpoint shards:  75%|███████▌  | 9/12 [40:43<14:39, 293.14s/it]Loading checkpoint shards:  83%|████████▎ | 10/12 [45:11<09:30, 285.31s/it]Loading checkpoint shards:  92%|█████████▏| 11/12 [50:05<04:48, 288.10s/it]Loading checkpoint shards: 100%|██████████| 12/12 [50:39<00:00, 210.80s/it]Loading checkpoint shards: 100%|██████████| 12/12 [50:39<00:00, 253.32s/it]
+2026-05-04 13:56:30  INFO      ready  (27.4B params, device_map=auto, torch.bfloat16)
+2026-05-04 13:56:30  INFO      loaded in 50m 44s
+2026-05-04 13:56:30  INFO  **********************************************************************
+2026-05-04 13:56:30  INFO    STARTING COMBINATION 1/4
+2026-05-04 13:56:30  INFO      model:     gemma3  (google/gemma-3-27b-it)
+2026-05-04 13:56:30  INFO      lang:      he
+2026-05-04 13:56:30  INFO      rel_type:  triplet
+2026-05-04 13:56:30  INFO  **********************************************************************
+2026-05-04 13:56:30  INFO      output cols: llm_clean_gemma3_he_triplet, llm_raw_gemma3_he_triplet
+2026-05-04 13:56:30  INFO      relation col: basic_relation
+2026-05-04 13:56:30  INFO      example prompt (row 0):
+----------------------------------------
+<bos><start_of_turn>user
+אתה מסייע לזיהוי יחסים בטקסטים בעברית. יחס הוא קשר סמנטי בין שתי ישויות: נושא (subject), סוג היחס (predicate) ואובייקט (object). תפקידך לקרוא טקסט ולקבוע האם היחס הנתון מופיע או נובע מהטקסט, כלומר האם ניתן להסיק מהטקסט שהנושא קשור לאובייקט באמצעות היחס המצוין. ענה "כן" אם היחס מופיע בטקסט, או "לא" אם אינו מופיע. ענה במילה אחת בלבד.
+
+טקסט:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+יחס לבדיקה:
+  נושא (subject):  אל-חודיידה
+  יחס (predicate): גובל עם
+  אובייקט (object): רימה
+
+חפש בטקסט האם הקשר בין "אל-חודיידה" ל-"רימה" דרך היחס "גובל עם" מוזכר או נובע ממנו.
+ענה "כן" או "לא" בלבד.<end_of_turn>
+<start_of_turn>model
+
+----------------------------------------
+2026-05-04 13:56:30  INFO  gemma3/he/triplet:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 13:56:33  INFO  gemma3/he/triplet:   3%|3         | 1/32 [00:03<01:39,  3.20s/it]
+2026-05-04 13:56:35  INFO  gemma3/he/triplet:   6%|6         | 2/32 [00:05<01:20,  2.70s/it]
+2026-05-04 13:56:38  INFO  gemma3/he/triplet:   9%|9         | 3/32 [00:08<01:21,  2.83s/it]
+2026-05-04 13:56:41  INFO  gemma3/he/triplet:  12%|#2        | 4/32 [00:11<01:15,  2.71s/it]
+2026-05-04 13:56:43  INFO  gemma3/he/triplet:  16%|#5        | 5/32 [00:13<01:09,  2.58s/it]
+2026-05-04 13:56:46  INFO  gemma3/he/triplet:  19%|#8        | 6/32 [00:15<01:06,  2.54s/it]
+2026-05-04 13:56:48  INFO      progress: 112/500 (22%)
+2026-05-04 13:56:48  INFO  gemma3/he/triplet:  22%|##1       | 7/32 [00:18<01:02,  2.48s/it]
+2026-05-04 13:56:51  INFO  gemma3/he/triplet:  25%|##5       | 8/32 [00:20<01:00,  2.53s/it]
+2026-05-04 13:56:53  INFO  gemma3/he/triplet:  28%|##8       | 9/32 [00:23<00:59,  2.59s/it]
+2026-05-04 13:56:56  INFO  gemma3/he/triplet:  31%|###1      | 10/32 [00:26<00:56,  2.58s/it]
+2026-05-04 13:56:58  INFO  gemma3/he/triplet:  34%|###4      | 11/32 [00:28<00:54,  2.57s/it]
+2026-05-04 13:57:01  INFO  gemma3/he/triplet:  38%|###7      | 12/32 [00:31<00:51,  2.57s/it]
+2026-05-04 13:57:04  INFO  gemma3/he/triplet:  41%|####      | 13/32 [00:33<00:49,  2.60s/it]
+2026-05-04 13:57:06  INFO      progress: 224/500 (45%)
+2026-05-04 13:57:06  INFO  gemma3/he/triplet:  44%|####3     | 14/32 [00:36<00:46,  2.57s/it]
+2026-05-04 13:57:09  INFO  gemma3/he/triplet:  47%|####6     | 15/32 [00:38<00:43,  2.56s/it]
+2026-05-04 13:57:11  INFO  gemma3/he/triplet:  50%|#####     | 16/32 [00:41<00:40,  2.52s/it]
+2026-05-04 13:57:14  INFO  gemma3/he/triplet:  53%|#####3    | 17/32 [00:43<00:37,  2.52s/it]
+2026-05-04 13:57:16  INFO  gemma3/he/triplet:  56%|#####6    | 18/32 [00:46<00:35,  2.51s/it]
+2026-05-04 13:57:19  INFO  gemma3/he/triplet:  59%|#####9    | 19/32 [00:49<00:34,  2.67s/it]
+2026-05-04 13:57:23  INFO  gemma3/he/triplet:  62%|######2   | 20/32 [00:52<00:34,  2.89s/it]
+2026-05-04 13:57:26  INFO      progress: 336/500 (67%)
+2026-05-04 13:57:26  INFO  gemma3/he/triplet:  66%|######5   | 21/32 [00:56<00:34,  3.13s/it]
+2026-05-04 13:57:30  INFO  gemma3/he/triplet:  69%|######8   | 22/32 [01:00<00:32,  3.25s/it]
+2026-05-04 13:57:33  INFO  gemma3/he/triplet:  72%|#######1  | 23/32 [01:03<00:29,  3.32s/it]
+2026-05-04 13:57:37  INFO  gemma3/he/triplet:  75%|#######5  | 24/32 [01:06<00:26,  3.33s/it]
+2026-05-04 13:57:40  INFO  gemma3/he/triplet:  78%|#######8  | 25/32 [01:10<00:23,  3.43s/it]
+2026-05-04 13:57:44  INFO  gemma3/he/triplet:  81%|########1 | 26/32 [01:14<00:20,  3.44s/it]
+2026-05-04 13:57:47  INFO  gemma3/he/triplet:  84%|########4 | 27/32 [01:17<00:17,  3.43s/it]
+2026-05-04 13:57:50  INFO      progress: 448/500 (90%)
+2026-05-04 13:57:50  INFO  gemma3/he/triplet:  88%|########7 | 28/32 [01:20<00:13,  3.38s/it]
+2026-05-04 13:57:54  INFO  gemma3/he/triplet:  91%|######### | 29/32 [01:24<00:10,  3.36s/it]
+2026-05-04 13:57:57  INFO  gemma3/he/triplet:  94%|#########3| 30/32 [01:27<00:06,  3.32s/it]
+2026-05-04 13:58:00  INFO  gemma3/he/triplet:  97%|#########6| 31/32 [01:30<00:03,  3.36s/it]
+2026-05-04 13:58:02  INFO      progress: 500/500 (100%)
+2026-05-04 13:58:02  INFO  gemma3/he/triplet: 100%|##########| 32/32 [01:31<00:00,  2.68s/it]
+2026-05-04 13:58:02  INFO    ==================================================================
+2026-05-04 13:58:02  INFO    RESULT  gemma3 | he | triplet
+2026-05-04 13:58:02  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 13:58:02  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 13:58:02  INFO     0.834  0.845  0.938  0.889      333     61     22     84      0      5.4    1m 31s
+2026-05-04 13:58:02  INFO    ==================================================================
+2026-05-04 13:58:02  INFO      examples (first 3 rows):
+2026-05-04 13:58:02  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 13:58:02  INFO        raw='לא'  parsed=0  gold=0
+2026-05-04 13:58:02  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 13:58:02  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 13:58:02  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 13:58:02  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 13:58:02  INFO  **********************************************************************
+2026-05-04 13:58:02  INFO    STARTING COMBINATION 2/4
+2026-05-04 13:58:02  INFO      model:     gemma3  (google/gemma-3-27b-it)
+2026-05-04 13:58:02  INFO      lang:      he
+2026-05-04 13:58:02  INFO      rel_type:  template
+2026-05-04 13:58:02  INFO  **********************************************************************
+2026-05-04 13:58:02  INFO      output cols: llm_clean_gemma3_he_template, llm_raw_gemma3_he_template
+2026-05-04 13:58:02  INFO      relation col: template_relation
+2026-05-04 13:58:02  INFO      example prompt (row 0):
+----------------------------------------
+<bos><start_of_turn>user
+אתה מסייע לזיהוי יחסים בטקסטים בעברית. יחס הוא קשר סמנטי בין שתי ישויות, המנוסח כמשפט. תפקידך לקרוא טקסט ולקבוע האם המשפט הנתון נובע מהטקסט או מופיע בו. ענה "כן" אם המשפט נובע מהטקסט, או "לא" אחרת. ענה במילה אחת בלבד.
+
+טקסט:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+משפט לבדיקה: אל-חודיידה גובל ב-רימה
+
+חפש בטקסט האם המשפט הנ"ל נובע ממנו או מופיע בו.
+ענה "כן" או "לא" בלבד.<end_of_turn>
+<start_of_turn>model
+
+----------------------------------------
+2026-05-04 13:58:02  INFO  gemma3/he/template:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 13:58:04  INFO  gemma3/he/template:   3%|3         | 1/32 [00:02<01:05,  2.10s/it]
+2026-05-04 13:58:06  INFO  gemma3/he/template:   6%|6         | 2/32 [00:04<01:00,  2.02s/it]
+2026-05-04 13:58:08  INFO  gemma3/he/template:   9%|9         | 3/32 [00:06<01:02,  2.16s/it]
+2026-05-04 13:58:10  INFO  gemma3/he/template:  12%|#2        | 4/32 [00:08<01:00,  2.16s/it]
+2026-05-04 13:58:12  INFO  gemma3/he/template:  16%|#5        | 5/32 [00:10<00:56,  2.09s/it]
+2026-05-04 13:58:14  INFO  gemma3/he/template:  19%|#8        | 6/32 [00:12<00:54,  2.08s/it]
+2026-05-04 13:58:16  INFO      progress: 112/500 (22%)
+2026-05-04 13:58:16  INFO  gemma3/he/template:  22%|##1       | 7/32 [00:14<00:52,  2.11s/it]
+2026-05-04 13:58:18  INFO  gemma3/he/template:  25%|##5       | 8/32 [00:16<00:50,  2.12s/it]
+2026-05-04 13:58:21  INFO  gemma3/he/template:  28%|##8       | 9/32 [00:19<00:50,  2.18s/it]
+2026-05-04 13:58:23  INFO  gemma3/he/template:  31%|###1      | 10/32 [00:21<00:47,  2.17s/it]
+2026-05-04 13:58:25  INFO  gemma3/he/template:  34%|###4      | 11/32 [00:23<00:45,  2.18s/it]
+2026-05-04 13:58:27  INFO  gemma3/he/template:  38%|###7      | 12/32 [00:25<00:43,  2.17s/it]
+2026-05-04 13:58:29  INFO  gemma3/he/template:  41%|####      | 13/32 [00:27<00:41,  2.18s/it]
+2026-05-04 13:58:32  INFO      progress: 224/500 (45%)
+2026-05-04 13:58:32  INFO  gemma3/he/template:  44%|####3     | 14/32 [00:30<00:38,  2.16s/it]
+2026-05-04 13:58:34  INFO  gemma3/he/template:  47%|####6     | 15/32 [00:32<00:36,  2.18s/it]
+2026-05-04 13:58:36  INFO  gemma3/he/template:  50%|#####     | 16/32 [00:34<00:34,  2.13s/it]
+2026-05-04 13:58:38  INFO  gemma3/he/template:  53%|#####3    | 17/32 [00:36<00:31,  2.13s/it]
+2026-05-04 13:58:40  INFO  gemma3/he/template:  56%|#####6    | 18/32 [00:38<00:29,  2.12s/it]
+2026-05-04 13:58:43  INFO  gemma3/he/template:  59%|#####9    | 19/32 [00:41<00:29,  2.25s/it]
+2026-05-04 13:58:46  INFO  gemma3/he/template:  62%|######2   | 20/32 [00:44<00:29,  2.49s/it]
+2026-05-04 13:58:49  INFO      progress: 336/500 (67%)
+2026-05-04 13:58:49  INFO  gemma3/he/template:  66%|######5   | 21/32 [00:47<00:29,  2.71s/it]
+2026-05-04 13:58:52  INFO  gemma3/he/template:  69%|######8   | 22/32 [00:50<00:28,  2.88s/it]
+2026-05-04 13:58:55  INFO  gemma3/he/template:  72%|#######1  | 23/32 [00:53<00:26,  2.93s/it]
+2026-05-04 13:58:58  INFO  gemma3/he/template:  75%|#######5  | 24/32 [00:56<00:23,  2.91s/it]
+2026-05-04 13:59:01  INFO  gemma3/he/template:  78%|#######8  | 25/32 [00:59<00:21,  3.02s/it]
+2026-05-04 13:59:04  INFO  gemma3/he/template:  81%|########1 | 26/32 [01:02<00:18,  3.02s/it]
+2026-05-04 13:59:07  INFO  gemma3/he/template:  84%|########4 | 27/32 [01:05<00:15,  3.01s/it]
+2026-05-04 13:59:10  INFO      progress: 448/500 (90%)
+2026-05-04 13:59:10  INFO  gemma3/he/template:  88%|########7 | 28/32 [01:08<00:11,  2.99s/it]
+2026-05-04 13:59:13  INFO  gemma3/he/template:  91%|######### | 29/32 [01:11<00:08,  2.96s/it]
+2026-05-04 13:59:16  INFO  gemma3/he/template:  94%|#########3| 30/32 [01:14<00:05,  2.93s/it]
+2026-05-04 13:59:19  INFO  gemma3/he/template:  97%|#########6| 31/32 [01:17<00:02,  2.95s/it]
+2026-05-04 13:59:20  INFO      progress: 500/500 (100%)
+2026-05-04 13:59:20  INFO  gemma3/he/template: 100%|##########| 32/32 [01:18<00:00,  2.36s/it]
+2026-05-04 13:59:20  INFO    ==================================================================
+2026-05-04 13:59:20  INFO    RESULT  gemma3 | he | template
+2026-05-04 13:59:20  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 13:59:20  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 13:59:20  INFO     0.826  0.890  0.862  0.876      306     38     49    107      0      6.4    1m 18s
+2026-05-04 13:59:20  INFO    ==================================================================
+2026-05-04 13:59:20  INFO      examples (first 3 rows):
+2026-05-04 13:59:20  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 13:59:20  INFO        raw='לא'  parsed=0  gold=0
+2026-05-04 13:59:20  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 13:59:20  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 13:59:20  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 13:59:20  INFO        raw='כן'  parsed=1  gold=1
+2026-05-04 13:59:20  INFO  **********************************************************************
+2026-05-04 13:59:20  INFO    STARTING COMBINATION 3/4
+2026-05-04 13:59:20  INFO      model:     gemma3  (google/gemma-3-27b-it)
+2026-05-04 13:59:20  INFO      lang:      en
+2026-05-04 13:59:20  INFO      rel_type:  triplet
+2026-05-04 13:59:20  INFO  **********************************************************************
+2026-05-04 13:59:20  INFO      output cols: llm_clean_gemma3_en_triplet, llm_raw_gemma3_en_triplet
+2026-05-04 13:59:20  INFO      relation col: basic_relation
+2026-05-04 13:59:20  INFO      example prompt (row 0):
+----------------------------------------
+<bos><start_of_turn>user
+You are a relation extraction assistant. A relation is a semantic connection between two entities, described by a subject, a predicate (relation type), and an object. Your task is to read a text and determine whether the given relation is expressed or can be inferred from it — i.e., whether the text indicates that the subject is connected to the object via the given predicate. Answer "yes" if the relation is expressed in the text, "no" if it is not. One word only.
+
+Text:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+Relation to check:
+  Subject:   אל-חודיידה
+  Predicate: גובל עם
+  Object:    רימה
+
+Look in the text for whether the connection between "אל-חודיידה" and "רימה" via the relation "גובל עם" is mentioned or can be inferred.
+Answer "yes" or "no" only.<end_of_turn>
+<start_of_turn>model
+
+----------------------------------------
+2026-05-04 13:59:20  INFO  gemma3/en/triplet:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 13:59:22  INFO  gemma3/en/triplet:   3%|3         | 1/32 [00:02<01:02,  2.00s/it]
+2026-05-04 13:59:24  INFO  gemma3/en/triplet:   6%|6         | 2/32 [00:04<01:02,  2.07s/it]
+2026-05-04 13:59:26  INFO  gemma3/en/triplet:   9%|9         | 3/32 [00:06<01:01,  2.13s/it]
+2026-05-04 13:59:28  INFO  gemma3/en/triplet:  12%|#2        | 4/32 [00:08<00:59,  2.11s/it]
+2026-05-04 13:59:30  INFO  gemma3/en/triplet:  16%|#5        | 5/32 [00:10<00:54,  2.03s/it]
+2026-05-04 13:59:32  INFO  gemma3/en/triplet:  19%|#8        | 6/32 [00:12<00:52,  2.02s/it]
+2026-05-04 13:59:34  INFO      progress: 112/500 (22%)
+2026-05-04 13:59:34  INFO  gemma3/en/triplet:  22%|##1       | 7/32 [00:14<00:50,  2.00s/it]
+2026-05-04 13:59:37  INFO  gemma3/en/triplet:  25%|##5       | 8/32 [00:16<00:49,  2.05s/it]
+2026-05-04 13:59:39  INFO  gemma3/en/triplet:  28%|##8       | 9/32 [00:18<00:48,  2.12s/it]
+2026-05-04 13:59:41  INFO  gemma3/en/triplet:  31%|###1      | 10/32 [00:20<00:46,  2.11s/it]
+2026-05-04 13:59:43  INFO  gemma3/en/triplet:  34%|###4      | 11/32 [00:22<00:44,  2.12s/it]
+2026-05-04 13:59:45  INFO  gemma3/en/triplet:  38%|###7      | 12/32 [00:25<00:42,  2.14s/it]
+2026-05-04 13:59:47  INFO  gemma3/en/triplet:  41%|####      | 13/32 [00:27<00:40,  2.15s/it]
+2026-05-04 13:59:49  INFO      progress: 224/500 (45%)
+2026-05-04 13:59:49  INFO  gemma3/en/triplet:  44%|####3     | 14/32 [00:29<00:38,  2.13s/it]
+2026-05-04 13:59:52  INFO  gemma3/en/triplet:  47%|####6     | 15/32 [00:31<00:36,  2.14s/it]
+2026-05-04 13:59:54  INFO  gemma3/en/triplet:  50%|#####     | 16/32 [00:33<00:33,  2.09s/it]
+2026-05-04 13:59:56  INFO  gemma3/en/triplet:  53%|#####3    | 17/32 [00:35<00:31,  2.09s/it]
+2026-05-04 13:59:58  INFO  gemma3/en/triplet:  56%|#####6    | 18/32 [00:37<00:28,  2.06s/it]
+2026-05-04 14:00:00  INFO  gemma3/en/triplet:  59%|#####9    | 19/32 [00:40<00:28,  2.20s/it]
+2026-05-04 14:00:03  INFO  gemma3/en/triplet:  62%|######2   | 20/32 [00:42<00:28,  2.41s/it]
+2026-05-04 14:00:06  INFO      progress: 336/500 (67%)
+2026-05-04 14:00:06  INFO  gemma3/en/triplet:  66%|######5   | 21/32 [00:46<00:28,  2.63s/it]
+2026-05-04 14:00:09  INFO  gemma3/en/triplet:  69%|######8   | 22/32 [00:49<00:27,  2.78s/it]
+2026-05-04 14:00:12  INFO  gemma3/en/triplet:  72%|#######1  | 23/32 [00:52<00:25,  2.85s/it]
+2026-05-04 14:00:15  INFO  gemma3/en/triplet:  75%|#######5  | 24/32 [00:55<00:22,  2.85s/it]
+2026-05-04 14:00:18  INFO  gemma3/en/triplet:  78%|#######8  | 25/32 [00:58<00:20,  2.97s/it]
+2026-05-04 14:00:21  INFO  gemma3/en/triplet:  81%|########1 | 26/32 [01:01<00:17,  2.97s/it]
+2026-05-04 14:00:24  INFO  gemma3/en/triplet:  84%|########4 | 27/32 [01:04<00:14,  2.95s/it]
+2026-05-04 14:00:27  INFO      progress: 448/500 (90%)
+2026-05-04 14:00:27  INFO  gemma3/en/triplet:  88%|########7 | 28/32 [01:07<00:11,  2.92s/it]
+2026-05-04 14:00:30  INFO  gemma3/en/triplet:  91%|######### | 29/32 [01:09<00:08,  2.90s/it]
+2026-05-04 14:00:33  INFO  gemma3/en/triplet:  94%|#########3| 30/32 [01:12<00:05,  2.86s/it]
+2026-05-04 14:00:36  INFO  gemma3/en/triplet:  97%|#########6| 31/32 [01:15<00:02,  2.90s/it]
+2026-05-04 14:00:37  INFO      progress: 500/500 (100%)
+2026-05-04 14:00:37  INFO  gemma3/en/triplet: 100%|##########| 32/32 [01:16<00:00,  2.29s/it]
+2026-05-04 14:00:37  INFO    ==================================================================
+2026-05-04 14:00:37  INFO    RESULT  gemma3 | en | triplet
+2026-05-04 14:00:37  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 14:00:37  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 14:00:37  INFO     0.814  0.810  0.963  0.880      342     80     13     65      0      6.5    1m 16s
+2026-05-04 14:00:37  INFO    ==================================================================
+2026-05-04 14:00:37  INFO      examples (first 3 rows):
+2026-05-04 14:00:37  INFO        hypothesis: 'אל-חודיידה גובל עם רימה'
+2026-05-04 14:00:37  INFO        raw='no'  parsed=0  gold=0
+2026-05-04 14:00:37  INFO        hypothesis: 'אינם מדינה רוסיה'
+2026-05-04 14:00:37  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 14:00:37  INFO        hypothesis: 'אוסטריה עילית מדינה אוסטריה'
+2026-05-04 14:00:37  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 14:00:37  INFO  **********************************************************************
+2026-05-04 14:00:37  INFO    STARTING COMBINATION 4/4
+2026-05-04 14:00:37  INFO      model:     gemma3  (google/gemma-3-27b-it)
+2026-05-04 14:00:37  INFO      lang:      en
+2026-05-04 14:00:37  INFO      rel_type:  template
+2026-05-04 14:00:37  INFO  **********************************************************************
+2026-05-04 14:00:37  INFO      output cols: llm_clean_gemma3_en_template, llm_raw_gemma3_en_template
+2026-05-04 14:00:37  INFO      relation col: template_relation
+2026-05-04 14:00:37  INFO      example prompt (row 0):
+----------------------------------------
+<bos><start_of_turn>user
+You are a textual entailment assistant. A relation between two entities is expressed here as a natural-language statement. Your task is to read a text and determine whether the given statement is entailed by or expressed in it. Answer "yes" if entailed, "no" if not. One word only.
+
+Text:
+מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן.
+בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מחוז נפרד בפני עצמו. המחוז הוא ה-9 בגודלו בתימן מבחינת גודל אוכלוסייה (919,215 איש) והמחוז ה-10 בגודלו מבחינת שטח (13,730 קמ"ר). המחוז גובל בצפון עם אל-ג'וף ועם עמראן, בצפון מערב הוא גובל עם אל-מחוית ועם אל-חודיידה, בדרום עם רימה ועם דמאר ועם אל-ביידא ובמזרח עם מאריב.
+
+Statement to check: אל-חודיידה גובל ב-רימה
+
+Look in the text for whether the above statement is expressed or can be inferred from it.
+Answer "yes" or "no" only.<end_of_turn>
+<start_of_turn>model
+
+----------------------------------------
+2026-05-04 14:00:37  INFO  gemma3/en/template:   0%|          | 0/32 [00:00<?, ?it/s]
+2026-05-04 14:00:38  INFO  gemma3/en/template:   3%|3         | 1/32 [00:01<00:53,  1.72s/it]
+2026-05-04 14:00:40  INFO  gemma3/en/template:   6%|6         | 2/32 [00:03<00:49,  1.64s/it]
+2026-05-04 14:00:42  INFO  gemma3/en/template:   9%|9         | 3/32 [00:05<00:53,  1.86s/it]
+2026-05-04 14:00:44  INFO  gemma3/en/template:  12%|#2        | 4/32 [00:07<00:51,  1.84s/it]
+2026-05-04 14:00:46  INFO  gemma3/en/template:  16%|#5        | 5/32 [00:08<00:47,  1.75s/it]
+2026-05-04 14:00:47  INFO  gemma3/en/template:  19%|#8        | 6/32 [00:10<00:45,  1.73s/it]
+2026-05-04 14:00:49  INFO      progress: 112/500 (22%)
+2026-05-04 14:00:49  INFO  gemma3/en/template:  22%|##1       | 7/32 [00:12<00:42,  1.72s/it]
+2026-05-04 14:00:51  INFO  gemma3/en/template:  25%|##5       | 8/32 [00:14<00:41,  1.75s/it]
+2026-05-04 14:00:53  INFO  gemma3/en/template:  28%|##8       | 9/32 [00:15<00:41,  1.79s/it]
+2026-05-04 14:00:54  INFO  gemma3/en/template:  31%|###1      | 10/32 [00:17<00:38,  1.77s/it]
+2026-05-04 14:00:56  INFO  gemma3/en/template:  34%|###4      | 11/32 [00:19<00:37,  1.78s/it]
+2026-05-04 14:00:58  INFO  gemma3/en/template:  38%|###7      | 12/32 [00:21<00:35,  1.77s/it]
+2026-05-04 14:01:00  INFO  gemma3/en/template:  41%|####      | 13/32 [00:22<00:33,  1.78s/it]
+2026-05-04 14:01:01  INFO      progress: 224/500 (45%)
+2026-05-04 14:01:01  INFO  gemma3/en/template:  44%|####3     | 14/32 [00:24<00:31,  1.77s/it]
+2026-05-04 14:01:03  INFO  gemma3/en/template:  47%|####6     | 15/32 [00:26<00:30,  1.78s/it]
+2026-05-04 14:01:05  INFO  gemma3/en/template:  50%|#####     | 16/32 [00:28<00:27,  1.74s/it]
+2026-05-04 14:01:07  INFO  gemma3/en/template:  53%|#####3    | 17/32 [00:29<00:26,  1.74s/it]
+2026-05-04 14:01:08  INFO  gemma3/en/template:  56%|#####6    | 18/32 [00:31<00:24,  1.73s/it]
+2026-05-04 14:01:10  INFO  gemma3/en/template:  59%|#####9    | 19/32 [00:33<00:24,  1.87s/it]
+2026-05-04 14:01:13  INFO  gemma3/en/template:  62%|######2   | 20/32 [00:36<00:25,  2.09s/it]
+2026-05-04 14:01:16  INFO      progress: 336/500 (67%)
+2026-05-04 14:01:16  INFO  gemma3/en/template:  66%|######5   | 21/32 [00:39<00:25,  2.30s/it]
+2026-05-04 14:01:19  INFO  gemma3/en/template:  69%|######8   | 22/32 [00:41<00:24,  2.44s/it]
+2026-05-04 14:01:21  INFO  gemma3/en/template:  72%|#######1  | 23/32 [00:44<00:22,  2.52s/it]
+2026-05-04 14:01:24  INFO  gemma3/en/template:  75%|#######5  | 24/32 [00:47<00:20,  2.52s/it]
+2026-05-04 14:01:27  INFO  gemma3/en/template:  78%|#######8  | 25/32 [00:50<00:18,  2.61s/it]
+2026-05-04 14:01:29  INFO  gemma3/en/template:  81%|########1 | 26/32 [00:52<00:15,  2.64s/it]
+2026-05-04 14:01:32  INFO  gemma3/en/template:  84%|########4 | 27/32 [00:55<00:13,  2.62s/it]
+2026-05-04 14:01:35  INFO      progress: 448/500 (90%)
+2026-05-04 14:01:35  INFO  gemma3/en/template:  88%|########7 | 28/32 [00:57<00:10,  2.60s/it]
+2026-05-04 14:01:37  INFO  gemma3/en/template:  91%|######### | 29/32 [01:00<00:07,  2.58s/it]
+2026-05-04 14:01:40  INFO  gemma3/en/template:  94%|#########3| 30/32 [01:02<00:05,  2.55s/it]
+2026-05-04 14:01:42  INFO  gemma3/en/template:  97%|#########6| 31/32 [01:05<00:02,  2.57s/it]
+2026-05-04 14:01:43  INFO      progress: 500/500 (100%)
+2026-05-04 14:01:43  INFO  gemma3/en/template: 100%|##########| 32/32 [01:06<00:00,  2.03s/it]
+2026-05-04 14:01:43  INFO    ==================================================================
+2026-05-04 14:01:43  INFO    RESULT  gemma3 | en | template
+2026-05-04 14:01:43  INFO    ──────────────────────────────────────────────────────────────────
+2026-05-04 14:01:43  INFO       acc   prec    rec     f1      TP    FP    FN    TN    unk   rows/s      time
+2026-05-04 14:01:43  INFO     0.828  0.851  0.918  0.883      326     57     29     88      0      7.5     1m 6s
+2026-05-04 14:01:43  INFO    ==================================================================
+2026-05-04 14:01:43  INFO      examples (first 3 rows):
+2026-05-04 14:01:43  INFO        hypothesis: 'אל-חודיידה גובל ב-רימה'
+2026-05-04 14:01:43  INFO        raw='no'  parsed=0  gold=0
+2026-05-04 14:01:43  INFO        hypothesis: 'המיקום של אינם הוא במדינת רוסיה'
+2026-05-04 14:01:43  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 14:01:43  INFO        hypothesis: 'המיקום של אוסטריה עילית הוא במדינת אוסטריה'
+2026-05-04 14:01:43  INFO        raw='yes'  parsed=1  gold=1
+2026-05-04 14:01:43  INFO      GPU cache cleared
+2026-05-04 14:01:43  INFO    [gemma3] total time: 55m 57s
+2026-05-04 14:01:43  INFO  [save]  500 rows written to /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_classified.csv  (0s)
+2026-05-04 14:01:43  INFO  ======================================================================
+2026-05-04 14:01:43  INFO  [majority]  computing majority-vote columns
+2026-05-04 14:01:43  INFO    llm_majority_he_triplet: acc=0.834 prec=0.876 rec=0.893 f1=0.884  unk=60
+2026-05-04 14:01:43  INFO    llm_majority_he_template: acc=0.818 prec=0.910 rec=0.825 f1=0.866  unk=54
+2026-05-04 14:01:43  INFO    llm_majority_en_triplet: acc=0.832 prec=0.843 rec=0.938 f1=0.888  unk=36
+2026-05-04 14:01:43  INFO    llm_majority_en_template: acc=0.824 prec=0.868 rec=0.887 f1=0.877  unk=44
+2026-05-04 14:01:43  INFO    best combo for qwen3: en/triplet (F1=0.860)
+2026-05-04 14:01:43  INFO    best combo for dictalm3: en/triplet (F1=0.867)
+2026-05-04 14:01:43  INFO    best combo for cohere_aya32b: en/triplet (F1=0.880)
+2026-05-04 14:01:43  INFO    best combo for gemma3: he/triplet (F1=0.889)
+2026-05-04 14:01:43  INFO    llm_majority_best_per_model: acc=0.840 prec=0.857 rec=0.930 f1=0.892  unk=39
+2026-05-04 14:01:43  INFO    llm_majority_all: acc=0.834 prec=0.852 rec=0.927 f1=0.888  unk=20
+2026-05-04 14:01:43  INFO  [save]  500 rows written with majority columns  (0s)
+2026-05-04 14:01:43  INFO  ====================================================================================================
+2026-05-04 14:01:43  INFO  LLM CLASSIFICATION SUMMARY
+2026-05-04 14:01:43  INFO  Total wall time: 1h 11m 50s
+2026-05-04 14:01:43  INFO  ====================================================================================================
+2026-05-04 14:01:43  INFO  
+2026-05-04 14:01:43  INFO  Per-model total inference time:
+2026-05-04 14:01:43  INFO    qwen3         7m 13s  (4.6 rows/s across all combos)
+2026-05-04 14:01:43  INFO    dictalm3      2m 57s  (11.2 rows/s across all combos)
+2026-05-04 14:01:43  INFO    cohere_aya32b  4m 25s  (7.5 rows/s across all combos)
+2026-05-04 14:01:43  INFO    gemma3        5m 13s  (6.4 rows/s across all combos)
+2026-05-04 14:01:43  INFO  
+2026-05-04 14:01:43  INFO    model      lang rel_type      acc   prec    rec     f1     TP    FP    FN    TN   unk   rows/s      time
+2026-05-04 14:01:43  INFO    --------------------------------------------------------------------------------------------------------
+2026-05-04 14:01:43  INFO    qwen3      he   triplet     0.788  0.832  0.879  0.855    312    63    43    82     0      4.4    1m 53s
+2026-05-04 14:01:43  INFO    qwen3      he   template    0.790  0.832  0.882  0.856    313    63    42    82     0      4.7    1m 45s
+2026-05-04 14:01:43  INFO    qwen3      en   triplet     0.786  0.802  0.927  0.860    329    81    26    64     0      4.6    1m 49s
+2026-05-04 14:01:43  INFO    qwen3      en   template    0.766  0.795  0.904  0.846    321    83    34    62     0      4.7    1m 45s
+2026-05-04 14:01:43  INFO    dictalm3   he   triplet     0.760  0.912  0.732  0.812    260    25    95   120     2     10.0       49s
+2026-05-04 14:01:43  INFO    dictalm3   he   template    0.582  0.987  0.417  0.586    148     2   207   143    15     11.6       43s
+2026-05-04 14:01:43  INFO    dictalm3   en   triplet     0.814  0.883  0.851  0.867    302    40    53   105     1     11.1       44s
+2026-05-04 14:01:43  INFO    dictalm3   en   template    0.738  0.876  0.735  0.799    261    37    94   108     0     12.5       39s
+2026-05-04 14:01:43  INFO    cohere_aya32b he   triplet     0.776  0.773  0.969  0.860    344   101    11    44     0      6.7    1m 14s
+2026-05-04 14:01:43  INFO    cohere_aya32b he   template    0.800  0.815  0.930  0.868    330    75    25    70     0      7.9     1m 3s
+2026-05-04 14:01:43  INFO    cohere_aya32b en   triplet     0.812  0.804  0.972  0.880    345    84    10    61     0      7.0    1m 11s
+2026-05-04 14:01:43  INFO    cohere_aya32b en   template    0.808  0.817  0.941  0.874    334    75    21    70     0      8.8       56s
+2026-05-04 14:01:43  INFO    gemma3     he   triplet     0.834  0.845  0.938  0.889    333    61    22    84     0      5.4    1m 31s
+2026-05-04 14:01:43  INFO    gemma3     he   template    0.826  0.890  0.862  0.876    306    38    49   107     0      6.4    1m 18s
+2026-05-04 14:01:43  INFO    gemma3     en   triplet     0.814  0.810  0.963  0.880    342    80    13    65     0      6.5    1m 16s
+2026-05-04 14:01:43  INFO    gemma3     en   template    0.828  0.851  0.918  0.883    326    57    29    88     0      7.5     1m 6s
+2026-05-04 14:01:43  INFO  
+2026-05-04 14:01:43  INFO  Majority vote columns:
+2026-05-04 14:01:43  INFO    column                                      acc   prec    rec     f1     TP    FP    FN    TN   unk  voters
+2026-05-04 14:01:43  INFO    -----------------------------------------------------------------------------------------------------------
+2026-05-04 14:01:43  INFO    llm_majority_he_triplet                   0.834  0.876  0.893  0.884    317    45    38   100    60       4
+2026-05-04 14:01:43  INFO    llm_majority_he_template                  0.818  0.910  0.825  0.866    293    29    62   116    54       4
+2026-05-04 14:01:43  INFO    llm_majority_en_triplet                   0.832  0.843  0.938  0.888    333    62    22    83    36       4
+2026-05-04 14:01:43  INFO    llm_majority_en_template                  0.824  0.868  0.887  0.877    315    48    40    97    44       4
+2026-05-04 14:01:43  INFO    llm_majority_best_per_model               0.840  0.857  0.930  0.892    330    55    25    90    39       4
+2026-05-04 14:01:43  INFO    llm_majority_all                          0.834  0.852  0.927  0.888    329    57    26    88    20      16
+2026-05-04 14:01:43  INFO  ====================================================================================================
+2026-05-04 14:01:43  INFO  Summary written to /home/nlp/ronke21/hebrew_RE/outputs/opensource_llm_summary.txt

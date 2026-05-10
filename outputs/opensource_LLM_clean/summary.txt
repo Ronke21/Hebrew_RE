@@ -1,0 +1,204 @@
+========================================================================================================================
+OPEN-SOURCE LLM CLASSIFICATION SUMMARY
+Total wall time: 38m 54s
+========================================================================================================================
+
+Per-model total inference time:
+  qwen3           0s  (inf rows/s across all combos)
+  dictalm3        0s  (inf rows/s across all combos)
+  cohere_aya32b   0s  (inf rows/s across all combos)
+  gemma3          0s  (inf rows/s across all combos)
+  gemma4_it       0s  (inf rows/s across all combos)
+  gemma4_31b_it   30m 29s  (3.3 rows/s across all combos)
+
+Hard-label metrics (per combo):
+  model          lang rel        shot     acc   prec    rec     f1     TP    FP    FN    TN   unk   rows/s      time
+  ------------------------------------------------------------------------------------------------------------------
+  qwen3          he   triplet       0   0.800  0.838  0.890  0.863    316    61    39    84     0      inf        0s
+  qwen3          he   triplet       2   0.830  0.895  0.862  0.878    306    36    49   109     0      inf        0s
+  qwen3          he   triplet       5   0.820  0.889  0.854  0.871    303    38    52   107     0      inf        0s
+  qwen3          he   template      0   0.772  0.825  0.862  0.843    306    65    49    80     0      inf        0s
+  qwen3          he   template      2   0.808  0.880  0.845  0.862    300    41    55   104     0      inf        0s
+  qwen3          he   template      5   0.812  0.856  0.885  0.870    314    53    41    92     0      inf        0s
+  qwen3          en   triplet       0   0.790  0.803  0.932  0.863    331    81    24    64     0      inf        0s
+  qwen3          en   triplet       2   0.804  0.832  0.907  0.868    322    65    33    80     0      inf        0s
+  qwen3          en   triplet       5   0.820  0.863  0.887  0.875    315    50    40    95     0      inf        0s
+  qwen3          en   template      0   0.766  0.795  0.904  0.846    321    83    34    62     0      inf        0s
+  qwen3          en   template      2   0.786  0.815  0.904  0.857    321    73    34    72     0      inf        0s
+  qwen3          en   template      5   0.810  0.835  0.913  0.872    324    64    31    81     0      inf        0s
+  dictalm3       he   triplet       0   0.640  0.919  0.541  0.681    192    17   163   128     0      inf        0s
+  dictalm3       he   triplet       2   0.780  0.884  0.794  0.837    282    37    73   108     0      inf        0s
+  dictalm3       he   triplet       5   0.788  0.931  0.758  0.835    269    20    86   125     0      inf        0s
+  dictalm3       he   template      0   0.568  0.979  0.400  0.568    142     3   213   142   108      inf        0s
+  dictalm3       he   template      2   0.728  0.895  0.699  0.785    248    29   107   116     0      inf        0s
+  dictalm3       he   template      5   0.718  0.869  0.710  0.781    252    38   103   107     0      inf        0s
+  dictalm3       en   triplet       0   0.642  0.876  0.577  0.696    205    29   150   116     0      inf        0s
+  dictalm3       en   triplet       2   0.642  0.958  0.518  0.673    184     8   171   137     0      inf        0s
+  dictalm3       en   triplet       5   0.528  0.992  0.338  0.504    120     1   235   144     0      inf        0s
+  dictalm3       en   template      0   0.760  0.793  0.896  0.841    318    83    37    62     0      inf        0s
+  dictalm3       en   template      2   0.758  0.816  0.851  0.833    302    68    53    77     0      inf        0s
+  dictalm3       en   template      5   0.770  0.847  0.825  0.836    293    53    62    92     0      inf        0s
+  cohere_aya32b  he   triplet       0   0.784  0.783  0.963  0.864    342    95    13    50     0      inf        0s
+  cohere_aya32b  he   triplet       2   0.798  0.783  0.989  0.874    351    97     4    48     0      inf        0s
+  cohere_aya32b  he   triplet       5   0.804  0.795  0.975  0.876    346    89     9    56     0      inf        0s
+  cohere_aya32b  he   template      0   0.804  0.820  0.927  0.870    329    72    26    73     0      inf        0s
+  cohere_aya32b  he   template      2   0.824  0.833  0.941  0.884    334    67    21    78     0      inf        0s
+  cohere_aya32b  he   template      5   0.798  0.795  0.963  0.871    342    88    13    57     0      inf        0s
+  cohere_aya32b  en   triplet       0   0.812  0.804  0.972  0.880    345    84    10    61     0      inf        0s
+  cohere_aya32b  en   triplet       2   0.796  0.779  0.994  0.874    353   100     2    45     0      inf        0s
+  cohere_aya32b  en   triplet       5   0.800  0.788  0.983  0.875    349    94     6    51     0      inf        0s
+  cohere_aya32b  en   template      0   0.808  0.818  0.938  0.874    333    74    22    71     0      inf        0s
+  cohere_aya32b  en   template      2   0.808  0.820  0.935  0.874    332    73    23    72     0      inf        0s
+  cohere_aya32b  en   template      5   0.804  0.802  0.961  0.874    341    84    14    61     0      inf        0s
+  gemma3         he   triplet       0   0.834  0.851  0.930  0.888    330    58    25    87     0      inf        0s
+  gemma3         he   triplet       2   0.844  0.856  0.938  0.895    333    56    22    89     0      inf        0s
+  gemma3         he   triplet       5   0.844  0.856  0.938  0.895    333    56    22    89     0      inf        0s
+  gemma3         he   template      0   0.836  0.893  0.873  0.883    310    37    45   108     0      inf        0s
+  gemma3         he   template      2   0.834  0.912  0.848  0.879    301    29    54   116     0      inf        0s
+  gemma3         he   template      5   0.850  0.917  0.868  0.891    308    28    47   117     0      inf        0s
+  gemma3         en   triplet       0   0.816  0.812  0.963  0.881    342    79    13    66     0      inf        0s
+  gemma3         en   triplet       2   0.852  0.858  0.949  0.901    337    56    18    89     0      inf        0s
+  gemma3         en   triplet       5   0.854  0.858  0.952  0.903    338    56    17    89     0      inf        0s
+  gemma3         en   template      0   0.826  0.853  0.913  0.882    324    56    31    89     0      inf        0s
+  gemma3         en   template      2   0.836  0.868  0.907  0.887    322    49    33    96     0      inf        0s
+  gemma3         en   template      5   0.840  0.881  0.896  0.888    318    43    37   102     0      inf        0s
+  gemma4_it      he   triplet       0   0.762  0.937  0.713  0.810    253    17   102   128     0      inf        0s
+  gemma4_it      he   triplet       2   0.764  0.947  0.707  0.810    251    14   104   131     0      inf        0s
+  gemma4_it      he   triplet       5   0.712  0.961  0.620  0.753    220     9   135   136     0      inf        0s
+  gemma4_it      he   template      0   0.832  0.936  0.820  0.874    291    20    64   125     0      inf        0s
+  gemma4_it      he   template      2   0.830  0.927  0.825  0.873    293    23    62   122     0      inf        0s
+  gemma4_it      he   template      5   0.836  0.931  0.831  0.878    295    22    60   123     0      inf        0s
+  gemma4_it      en   triplet       0   0.820  0.893  0.848  0.870    301    36    54   109     0      inf        0s
+  gemma4_it      en   triplet       2   0.840  0.913  0.856  0.884    304    29    51   116     0      inf        0s
+  gemma4_it      en   triplet       5   0.844  0.921  0.854  0.886    303    26    52   119     0      inf        0s
+  gemma4_it      en   template      0   0.846  0.926  0.851  0.887    302    24    53   121     0      inf        0s
+  gemma4_it      en   template      2   0.840  0.928  0.839  0.882    298    23    57   122     0      inf        0s
+  gemma4_it      en   template      5   0.850  0.938  0.845  0.889    300    20    55   125     0      inf        0s
+  gemma4_31b_it  he   triplet       0   0.838  0.928  0.837  0.880    297    23    58   122     0      4.5    1m 50s
+  gemma4_31b_it  he   triplet       2   0.886  0.936  0.901  0.918    320    22    35   123     0      2.8     3m 0s
+  gemma4_31b_it  he   triplet       5   0.876  0.943  0.879  0.910    312    19    43   126     0      1.8    4m 43s
+  gemma4_31b_it  he   template      0   0.892  0.947  0.899  0.922    319    18    36   127     0      5.4    1m 31s
+  gemma4_31b_it  he   template      2   0.898  0.947  0.907  0.927    322    18    33   127     0      3.6    2m 20s
+  gemma4_31b_it  he   template      5   0.896  0.944  0.907  0.925    322    19    33   126     0      2.3    3m 33s
+  gemma4_31b_it  en   triplet       0   0.816  0.931  0.800  0.861    284    21    71   124     0      5.2    1m 36s
+  gemma4_31b_it  en   triplet       2   0.898  0.944  0.910  0.927    323    19    32   126     0      3.6    2m 19s
+  gemma4_31b_it  en   triplet       5   0.894  0.949  0.899  0.923    319    17    36   128     0      2.3    3m 34s
+  gemma4_31b_it  en   template      0   0.892  0.936  0.910  0.923    323    22    32   123     0      6.1    1m 22s
+  gemma4_31b_it  en   template      2   0.890  0.936  0.907  0.921    322    22    33   123     0      4.3    1m 55s
+  gemma4_31b_it  en   template      5   0.896  0.942  0.910  0.926    323    20    32   125     0      3.1    2m 41s
+
+Soft-score metrics (best F1 threshold per combo):
+  model          lang rel        shot  best_thr     acc   prec    rec     f1     TP    FP    FN    TN
+  ---------------------------------------------------------------------------------------------------
+  qwen3          he   triplet       0      0.50   0.798  0.836  0.890  0.862    316    62    39    83
+  qwen3          he   triplet       2      0.50   0.828  0.892  0.862  0.877    306    37    49   108
+  qwen3          he   triplet       5      0.30   0.824  0.880  0.870  0.875    309    42    46   103
+  qwen3          he   template      0      0.30   0.778  0.821  0.879  0.849    312    68    43    77
+  qwen3          he   template      2      0.90   0.828  0.924  0.825  0.872    293    24    62   121
+  qwen3          he   template      5      0.90   0.830  0.890  0.868  0.879    308    38    47   107
+  qwen3          en   triplet       0      0.50   0.792  0.804  0.935  0.865    332    81    23    64
+  qwen3          en   triplet       2      0.30   0.804  0.825  0.918  0.869    326    69    29    76
+  qwen3          en   triplet       5      0.40   0.822  0.863  0.890  0.877    316    50    39    95
+  qwen3          en   template      0      0.30   0.770  0.793  0.915  0.850    325    85    30    60
+  qwen3          en   template      2      0.60   0.792  0.821  0.904  0.861    321    70    34    75
+  qwen3          en   template      5      0.70   0.812  0.841  0.907  0.873    322    61    33    84
+  dictalm3       he   triplet       0      0.30   0.770  0.816  0.873  0.844    310    70    45    75
+  dictalm3       he   triplet       2      0.30   0.794  0.809  0.930  0.865    330    78    25    67
+  dictalm3       he   triplet       5      0.30   0.812  0.824  0.935  0.876    332    71    23    74
+  dictalm3       he   template      0      0.30   0.714  0.829  0.752  0.789    267    55    88    90
+  dictalm3       he   template      2      0.30   0.762  0.824  0.845  0.834    300    64    55    81
+  dictalm3       he   template      5      0.30   0.758  0.802  0.876  0.837    311    77    44    68
+  dictalm3       en   triplet       0      0.30   0.714  0.745  0.907  0.818    322   110    33    35
+  dictalm3       en   triplet       2      0.30   0.778  0.859  0.823  0.840    292    48    63    97
+  dictalm3       en   triplet       5      0.30   0.758  0.903  0.738  0.812    262    28    93   117
+  dictalm3       en   template      0      0.50   0.766  0.801  0.893  0.844    317    79    38    66
+  dictalm3       en   template      2      0.30   0.748  0.762  0.938  0.841    333   104    22    41
+  dictalm3       en   template      5      0.30   0.762  0.774  0.938  0.848    333    97    22    48
+  cohere_aya32b  he   triplet       0      0.30   0.332  1.000  0.059  0.112     21     0   334   145
+  cohere_aya32b  he   triplet       2      0.30   0.290  0.000  0.000  0.000      0     0   355   145
+  cohere_aya32b  he   triplet       5      0.30   0.290  0.000  0.000  0.000      0     0   355   145
+  cohere_aya32b  he   template      0      0.30   0.382  1.000  0.130  0.229     46     0   309   145
+  cohere_aya32b  he   template      2      0.30   0.294  1.000  0.006  0.011      2     0   353   145
+  cohere_aya32b  he   template      5      0.30   0.292  1.000  0.003  0.006      1     0   354   145
+  cohere_aya32b  en   triplet       0      0.70   0.818  0.813  0.966  0.883    343    79    12    66
+  cohere_aya32b  en   triplet       2      0.90   0.816  0.807  0.975  0.883    346    83     9    62
+  cohere_aya32b  en   triplet       5      0.90   0.816  0.805  0.977  0.883    347    84     8    61
+  cohere_aya32b  en   template      0      0.70   0.822  0.834  0.935  0.882    332    66    23    79
+  cohere_aya32b  en   template      2      0.90   0.824  0.841  0.927  0.882    329    62    26    83
+  cohere_aya32b  en   template      5      0.90   0.812  0.816  0.949  0.878    337    76    18    69
+  gemma3         he   triplet       0      0.80   0.840  0.857  0.930  0.892    330    55    25    90
+  gemma3         he   triplet       2      0.80   0.848  0.860  0.938  0.898    333    54    22    91
+  gemma3         he   triplet       5      0.70   0.846  0.858  0.938  0.896    333    55    22    90
+  gemma3         he   template      0      0.60   0.838  0.896  0.873  0.884    310    36    45   109
+  gemma3         he   template      2      0.50   0.834  0.910  0.851  0.879    302    30    53   115
+  gemma3         he   template      5      0.30   0.854  0.912  0.879  0.895    312    30    43   115
+  gemma3         en   triplet       0      0.80   0.820  0.816  0.963  0.884    342    77    13    68
+  gemma3         en   triplet       2      0.90   0.856  0.864  0.946  0.903    336    53    19    92
+  gemma3         en   triplet       5      0.30   0.854  0.858  0.952  0.903    338    56    17    89
+  gemma3         en   template      0      0.90   0.836  0.866  0.910  0.887    323    50    32    95
+  gemma3         en   template      2      0.90   0.844  0.879  0.904  0.892    321    44    34   101
+  gemma3         en   template      5      0.80   0.846  0.890  0.893  0.892    317    39    38   106
+  gemma4_it      he   triplet       0      0.30   0.768  0.931  0.727  0.816    258    19    97   126
+  gemma4_it      he   triplet       2      0.30   0.766  0.947  0.710  0.812    252    14   103   131
+  gemma4_it      he   triplet       5      0.30   0.712  0.961  0.620  0.753    220     9   135   136
+  gemma4_it      he   template      0      0.60   0.838  0.945  0.820  0.878    291    17    64   128
+  gemma4_it      he   template      2      0.60   0.830  0.927  0.825  0.873    293    23    62   122
+  gemma4_it      he   template      5      0.40   0.838  0.931  0.834  0.880    296    22    59   123
+  gemma4_it      en   triplet       0      0.60   0.824  0.899  0.848  0.872    301    34    54   111
+  gemma4_it      en   triplet       2      0.70   0.846  0.921  0.856  0.888    304    26    51   119
+  gemma4_it      en   triplet       5      0.90   0.850  0.932  0.851  0.890    302    22    53   123
+  gemma4_it      en   template      0      0.90   0.852  0.943  0.842  0.890    299    18    56   127
+  gemma4_it      en   template      2      0.80   0.844  0.934  0.839  0.884    298    21    57   124
+  gemma4_it      en   template      5      0.30   0.852  0.938  0.848  0.891    301    20    54   125
+  gemma4_31b_it  he   triplet       0      0.90   0.842  0.934  0.837  0.883    297    21    58   124
+  gemma4_31b_it  he   triplet       2      0.80   0.890  0.941  0.901  0.921    320    20    35   125
+  gemma4_31b_it  he   triplet       5      0.30   0.876  0.940  0.882  0.910    313    20    42   125
+  gemma4_31b_it  he   template      0      0.30   0.892  0.947  0.899  0.922    319    18    36   127
+  gemma4_31b_it  he   template      2      0.30   0.900  0.947  0.910  0.928    323    18    32   127
+  gemma4_31b_it  he   template      5      0.90   0.898  0.950  0.904  0.926    321    17    34   128
+  gemma4_31b_it  en   triplet       0      0.80   0.820  0.937  0.800  0.863    284    19    71   126
+  gemma4_31b_it  en   triplet       2      0.30   0.898  0.942  0.913  0.927    324    20    31   125
+  gemma4_31b_it  en   triplet       5      0.40   0.894  0.949  0.899  0.923    319    17    36   128
+  gemma4_31b_it  en   template      0      0.30   0.894  0.936  0.913  0.924    324    22    31   123
+  gemma4_31b_it  en   template      2      0.30   0.890  0.936  0.907  0.921    322    22    33   123
+  gemma4_31b_it  en   template      5      0.50   0.896  0.942  0.910  0.926    323    20    32   125
+
+Uniform majority-vote columns:
+  column                                                 acc   prec    rec     f1     TP    FP    FN    TN   unk  voters
+  ----------------------------------------------------------------------------------------------------------------------
+  llm_majority_all_models_he_triplet_0s_nc             0.848  0.929  0.851  0.888    302    23    53   122    49       6
+  llm_majority_all_models_he_triplet_2s_nc             0.886  0.938  0.899  0.918    319    21    36   124    41       6
+  llm_majority_all_models_he_triplet_5s_nc             0.866  0.944  0.862  0.901    306    18    49   127    34       6
+  llm_majority_all_models_he_template_0s_nc            0.852  0.924  0.862  0.892    306    25    49   120    26       6
+  llm_majority_all_models_he_template_2s_nc            0.860  0.933  0.865  0.898    307    22    48   123    30       6
+  llm_majority_all_models_he_template_5s_nc            0.866  0.926  0.882  0.903    313    25    42   120    28       6
+  llm_majority_all_models_en_triplet_0s_nc             0.834  0.880  0.887  0.884    315    43    40   102    44       6
+  llm_majority_all_models_en_triplet_2s_nc             0.876  0.920  0.904  0.912    321    28    34   117    37       6
+  llm_majority_all_models_en_triplet_5s_nc             0.884  0.935  0.899  0.917    319    22    36   123    29       6
+  llm_majority_all_models_en_template_0s_nc            0.836  0.872  0.901  0.886    320    47    35    98    27       6
+  llm_majority_all_models_en_template_2s_nc            0.844  0.888  0.893  0.890    317    40    38   105    28       6
+  llm_majority_all_models_en_template_5s_nc            0.858  0.899  0.901  0.900    320    36    35   109    23       6
+  llm_majority_best_per_model                          0.886  0.928  0.910  0.919    323    25    32   120    43       6
+  llm_majority_all                                     0.870  0.901  0.918  0.909    326    36    29   109     2      72
+
+F1-weighted majority-vote columns:
+  llm_wmajority_best_per_model                        acc=0.890  prec=0.914  rec=0.932  f1=0.923  unk=0  voters=6
+  llm_wmajority_all                                   acc=0.864  prec=0.893  rec=0.918  f1=0.906  unk=0  voters=72
+
+Soft-score ensemble columns (best F1 threshold):
+  column                                              best_thr     acc   prec    rec     f1     TP    FP    FN    TN  voters
+  --------------------------------------------------------------------------------------------------------------------------
+  llm_soft_ens_all_models_en_template_2s_nc               0.60   0.858  0.908  0.890  0.899    316    32    39   113       6
+  llm_soft_ens_all_models_he_triplet_2s_nc                0.40   0.886  0.931  0.907  0.919    322    24    33   121       6
+  llm_soft_ens_all_models_he_template_2s_nc               0.40   0.868  0.926  0.885  0.905    314    25    41   120       6
+  llm_soft_ens_all_models_he_triplet_5s_nc                0.40   0.878  0.938  0.887  0.912    315    21    40   124       6
+  llm_soft_ens_all_models_he_triplet_0s_nc                0.30   0.856  0.877  0.927  0.901    329    46    26    99       6
+  llm_soft_ens_all_models_en_triplet_0s_nc                0.60   0.842  0.890  0.887  0.889    315    39    40   106       6
+  llm_soft_ens_all_models_en_triplet_2s_nc                0.60   0.876  0.922  0.901  0.912    320    27    35   118       6
+  llm_soft_ens_all_models_en_template_0s_nc               0.70   0.868  0.931  0.879  0.904    312    23    43   122       6
+  llm_soft_ens_all_models_en_template_5s_nc               0.60   0.864  0.914  0.893  0.903    317    30    38   115       6
+  llm_soft_ens_all_models_he_template_5s_nc               0.30   0.880  0.909  0.924  0.916    328    33    27   112       6
+  llm_soft_ens_all_models_he_template_0s_nc               0.30   0.864  0.902  0.907  0.904    322    35    33   110       6
+  llm_soft_ens_all_models_en_triplet_5s_nc                0.60   0.882  0.935  0.896  0.915    318    22    37   123       6
+  llm_soft_ens_all_nocot                                  0.50   0.888  0.928  0.913  0.920    324    25    31   120      72
+========================================================================================================================

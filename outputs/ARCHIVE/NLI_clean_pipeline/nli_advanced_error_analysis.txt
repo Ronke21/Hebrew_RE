@@ -1,0 +1,490 @@
+
+==============================================================================================================
+  NLI ADVANCED EVALUATION — ERROR ANALYSIS
+  Threshold        : 0.5
+  Total rows       : 500
+  Pos / Neg        : 355 / 145  (71.0% / 29.0%)
+==============================================================================================================
+
+==============================================================================================================
+  SECTION 1 — FP / FN COUNT SUMMARY  (all methods, threshold=0.5)
+==============================================================================================================
+  method                                          f1   prec    rec     FP    FN  fp_rate  fn_rate
+  -----------------------------------------------------------------------------------------------
+  platt/me5large/basic_relation                0.830  0.710  1.000    145     0  1.000    0.000
+  platt/me5large/llm_relation                  0.830  0.710  1.000    145     0  1.000    0.000
+  platt/me5large/template_relation             0.830  0.710  1.000    145     0  1.000    0.000
+  isotonic/me5large/template_relation          0.830  0.710  1.000    145     0  1.000    0.000
+  platt/mmbert/basic_relation                  0.830  0.710  1.000    145     0  1.000    0.000
+  isotonic/mmbert/basic_relation               0.830  0.710  1.000    145     0  1.000    0.000
+  platt/mmbert/llm_relation                    0.830  0.710  1.000    145     0  1.000    0.000
+  isotonic/mmbert/llm_relation                 0.830  0.710  1.000    145     0  1.000    0.000
+  platt/mmbert/template_relation               0.830  0.710  1.000    145     0  1.000    0.000
+  platt/neodictabert/basic_relation            0.830  0.710  1.000    145     0  1.000    0.000
+  isotonic/neodictabert/basic_relation         0.830  0.710  1.000    145     0  1.000    0.000
+  platt/neodictabert/llm_relation              0.830  0.710  1.000    145     0  1.000    0.000
+  isotonic/neodictabert/llm_relation           0.830  0.710  1.000    145     0  1.000    0.000
+  platt/neodictabert/template_relation         0.830  0.710  1.000    145     0  1.000    0.000
+  isotonic/neodictabert/template_relation      0.830  0.710  1.000    145     0  1.000    0.000
+  platt/xlmroberta/basic_relation              0.830  0.710  1.000    145     0  1.000    0.000
+  isotonic/xlmroberta/basic_relation           0.830  0.710  1.000    145     0  1.000    0.000
+  platt/xlmroberta/llm_relation                0.830  0.710  1.000    145     0  1.000    0.000
+  isotonic/xlmroberta/llm_relation             0.830  0.710  1.000    145     0  1.000    0.000
+  platt/xlmroberta/template_relation           0.830  0.710  1.000    145     0  1.000    0.000
+  isotonic/xlmroberta/template_relation        0.830  0.710  1.000    145     0  1.000    0.000
+  weighted_ensemble                            0.830  0.710  1.000    145     0  1.000    0.000
+  stacking_oof                                 0.830  0.710  1.000    145     0  1.000    0.000
+  isotonic/me5large/basic_relation             0.829  0.709  0.997    145     1  1.000    0.003
+  isotonic/mmbert/template_relation            0.829  0.709  0.997    145     1  1.000    0.003
+  isotonic/me5large/llm_relation               0.828  0.709  0.994    145     2  1.000    0.006
+
+==============================================================================================================
+  FALSE POSITIVES  [weighted_ensemble]  (predicted=1, gold=0) — 145 total
+==============================================================================================================
+  [row 0]  predicate=גובל עם  score=0.9777
+    text      : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן. בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מח"
+    subject   : 'אל-חודיידה'
+    object    : 'רימה'
+    relation  : 'אל-חודיידה גובל עם רימה'
+  [row 3]  predicate=מדינה  score=0.9834
+    text      : "סימי ואלי (באנגלית: Simi Valley) היא עיר במדינת קליפורניה בארצות הברית, הממוקמת בדרום-מזרח מחוז ונטורה, כ-48 קילומטרים ממרכז לוס אנג'לס, ומהווה חלק מא"
+    subject   : 'אנגלית'
+    object    : 'ארצות הברית'
+    relation  : 'אנגלית מדינה ארצות הברית'
+  [row 5]  predicate=יחסים דיפלומטיים  score=0.9898
+    text      : 'רעידת האדמה ב[[נפות טורקיה|נפת]] [[אלזי (נפה)|אלזי]] שב[[טורקיה]] הייתה רעידת אדמה שהתרחשה ב-24 בינואר 2020 ב-20:55:12 לפי השעון המקומי (17:55:12 בשעו'
+    subject   : 'איראן'
+    object    : 'לבנון'
+    relation  : 'איראן יחסים דיפלומטיים לבנון'
+  [row 7]  predicate=מדינה  score=0.9882
+    text      : 'דופטאנה (ברומנית: Doftana) היה בית סוהר ביישוב דופטאנה שבמחוז פרחובה, ברומניה. בשנות העשרים והשלושים של המאה ה-20 שימש בית הסוהר דופטאנה לכליאת אסירים'
+    subject   : 'רומנית'
+    object    : 'רומניה'
+    relation  : 'רומנית מדינה רומניה'
+  [row 9]  predicate=ההפך מ־  score=0.8757
+    text      : 'ארכיפלג רוס (באנגלית: Ross Archipelago) הוא שמו של ארכיפלג אשר ביחד עם מדף הקרח המצוי בתחומו, מהווה את הגבול המזרחי והדרומי של מצר מקמרדו באנטארקטיקה.'
+    subject   : 'מזרח'
+    object    : 'דרומ'
+    relation  : 'מזרח ההפך מ־ דרומ'
+  [row 19]  predicate=יחסים דיפלומטיים  score=0.9369
+    text      : 'Paper Monsters הוא אלבום הסולו הראשון שהוציא דייב גהאן, סולן להקת דפש מוד, בשנת 2003. דייב גהאן יצא לסיבוב הופעות לקידום האלבום שנקרא Live Monsters. ה'
+    subject   : 'ארצות הברית'
+    object    : 'בריטניה'
+    relation  : 'ארצות הברית יחסים דיפלומטיים בריטניה'
+  [row 27]  predicate=בירה של  score=0.9816
+    text      : "מגדל האמנות מיטו (ביפנית: 戸 芸 術 館, מיטו גייג'וצוקאן) הוא מתחם אומנויות במיטו, איבראקי, יפן. הוא נפתח בשנת 1990 במסגרת חגיגות המאה של עיריית מיטו. הוא "
+    subject   : 'מיטו'
+    object    : 'איבראקי'
+    relation  : 'מיטו בירה של איבראקי'
+  [row 29]  predicate=מייסד  score=0.9768
+    text      : 'אנ-מן-לו-אנה מבאד-טיבירה היה מלך מיתולוגי של שומר. בתקופת שלטונו, המרכז השלטוני עבר מארידו לבאד-טיבירה. לפי רשימת המלכים השומרית, שלט בתקופה טרום-שושל'
+    subject   : 'באד-טיבירה'
+    object    : 'אנ-מן-לו-אנה'
+    relation  : 'באד-טיבירה מייסד אנ-מן-לו-אנה'
+  [row 36]  predicate=מדינה  score=0.7871
+    text      : 'ממוזער|200px|דגל המשרד משרד החוץ של בלארוס (בבלארוסית: Міністэрства замежных спраў Рэспублікі Беларусь) הוא משרד בממשלת בלארוס המפקח על קשרי החוץ של ב'
+    subject   : 'בלארוסית'
+    object    : 'בלארוס'
+    relation  : 'בלארוסית מדינה בלארוס'
+  [row 38]  predicate=מדינה  score=0.9790
+    text      : "דודג' ביוטי ווינר (באנגלית: Dodge Beauty Winner) היא מכונית משפחתית אשר יוצרה על ידי חטיבת דודג' בקונצרן הרכב האמריקאי קרייזלר בין השנים 1935–1936. פי"
+    subject   : 'קרייזלר'
+    object    : 'האמריקאי'
+    relation  : 'קרייזלר מדינה האמריקאי'
+  ... and 135 more
+
+==============================================================================================================
+  FALSE NEGATIVES  [weighted_ensemble]  (predicted=0, gold=1) — 0 total
+==============================================================================================================
+
+==============================================================================================================
+  FALSE POSITIVES  [stacking_oof]  (predicted=1, gold=0) — 145 total
+==============================================================================================================
+  [row 0]  predicate=גובל עם  score=0.7029
+    text      : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן. בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מח"
+    subject   : 'אל-חודיידה'
+    object    : 'רימה'
+    relation  : 'אל-חודיידה גובל עם רימה'
+  [row 3]  predicate=מדינה  score=0.6989
+    text      : "סימי ואלי (באנגלית: Simi Valley) היא עיר במדינת קליפורניה בארצות הברית, הממוקמת בדרום-מזרח מחוז ונטורה, כ-48 קילומטרים ממרכז לוס אנג'לס, ומהווה חלק מא"
+    subject   : 'אנגלית'
+    object    : 'ארצות הברית'
+    relation  : 'אנגלית מדינה ארצות הברית'
+  [row 5]  predicate=יחסים דיפלומטיים  score=0.6953
+    text      : 'רעידת האדמה ב[[נפות טורקיה|נפת]] [[אלזי (נפה)|אלזי]] שב[[טורקיה]] הייתה רעידת אדמה שהתרחשה ב-24 בינואר 2020 ב-20:55:12 לפי השעון המקומי (17:55:12 בשעו'
+    subject   : 'איראן'
+    object    : 'לבנון'
+    relation  : 'איראן יחסים דיפלומטיים לבנון'
+  [row 7]  predicate=מדינה  score=0.6961
+    text      : 'דופטאנה (ברומנית: Doftana) היה בית סוהר ביישוב דופטאנה שבמחוז פרחובה, ברומניה. בשנות העשרים והשלושים של המאה ה-20 שימש בית הסוהר דופטאנה לכליאת אסירים'
+    subject   : 'רומנית'
+    object    : 'רומניה'
+    relation  : 'רומנית מדינה רומניה'
+  [row 9]  predicate=ההפך מ־  score=0.7451
+    text      : 'ארכיפלג רוס (באנגלית: Ross Archipelago) הוא שמו של ארכיפלג אשר ביחד עם מדף הקרח המצוי בתחומו, מהווה את הגבול המזרחי והדרומי של מצר מקמרדו באנטארקטיקה.'
+    subject   : 'מזרח'
+    object    : 'דרומ'
+    relation  : 'מזרח ההפך מ־ דרומ'
+  [row 19]  predicate=יחסים דיפלומטיים  score=0.7091
+    text      : 'Paper Monsters הוא אלבום הסולו הראשון שהוציא דייב גהאן, סולן להקת דפש מוד, בשנת 2003. דייב גהאן יצא לסיבוב הופעות לקידום האלבום שנקרא Live Monsters. ה'
+    subject   : 'ארצות הברית'
+    object    : 'בריטניה'
+    relation  : 'ארצות הברית יחסים דיפלומטיים בריטניה'
+  [row 27]  predicate=בירה של  score=0.6978
+    text      : "מגדל האמנות מיטו (ביפנית: 戸 芸 術 館, מיטו גייג'וצוקאן) הוא מתחם אומנויות במיטו, איבראקי, יפן. הוא נפתח בשנת 1990 במסגרת חגיגות המאה של עיריית מיטו. הוא "
+    subject   : 'מיטו'
+    object    : 'איבראקי'
+    relation  : 'מיטו בירה של איבראקי'
+  [row 29]  predicate=מייסד  score=0.7099
+    text      : 'אנ-מן-לו-אנה מבאד-טיבירה היה מלך מיתולוגי של שומר. בתקופת שלטונו, המרכז השלטוני עבר מארידו לבאד-טיבירה. לפי רשימת המלכים השומרית, שלט בתקופה טרום-שושל'
+    subject   : 'באד-טיבירה'
+    object    : 'אנ-מן-לו-אנה'
+    relation  : 'באד-טיבירה מייסד אנ-מן-לו-אנה'
+  [row 36]  predicate=מדינה  score=0.8059
+    text      : 'ממוזער|200px|דגל המשרד משרד החוץ של בלארוס (בבלארוסית: Міністэрства замежных спраў Рэспублікі Беларусь) הוא משרד בממשלת בלארוס המפקח על קשרי החוץ של ב'
+    subject   : 'בלארוסית'
+    object    : 'בלארוס'
+    relation  : 'בלארוסית מדינה בלארוס'
+  [row 38]  predicate=מדינה  score=0.7034
+    text      : "דודג' ביוטי ווינר (באנגלית: Dodge Beauty Winner) היא מכונית משפחתית אשר יוצרה על ידי חטיבת דודג' בקונצרן הרכב האמריקאי קרייזלר בין השנים 1935–1936. פי"
+    subject   : 'קרייזלר'
+    object    : 'האמריקאי'
+    relation  : 'קרייזלר מדינה האמריקאי'
+  ... and 135 more
+
+==============================================================================================================
+  FALSE NEGATIVES  [stacking_oof]  (predicted=0, gold=1) — 0 total
+==============================================================================================================
+
+==============================================================================================================
+  SECTION 4 — HARD ROWS: ALL METHODS WRONG
+==============================================================================================================
+
+  145 rows (29.0%) where every method is wrong.  Showing up to 10.
+
+  [row 0]  gold=0  predicate=גובל עם
+    text    : "מחוז צנעא (בערבית: محافظة صنعاء; תעתיק מדויק: מחאפט'ת צנעאא) הוא מחוז במערבה של תימן. בירת המחוז היא העיר צנעא שהיא גם בירת המדינה, למרות שהעיר היא מח"
+    subject : 'אל-חודיידה'
+    object  : 'רימה'
+    platt/me5large/basic_relation              score=0.7095  pred=1
+    isotonic/me5large/basic_relation           score=0.7317  pred=1
+    platt/me5large/llm_relation                score=0.7108  pred=1
+    isotonic/me5large/llm_relation             score=0.7189  pred=1
+    platt/me5large/template_relation           score=0.7091  pred=1
+    isotonic/me5large/template_relation        score=0.7299  pred=1
+    platt/mmbert/basic_relation                score=0.7062  pred=1
+    isotonic/mmbert/basic_relation             score=0.7048  pred=1
+    platt/mmbert/llm_relation                  score=0.7125  pred=1
+    isotonic/mmbert/llm_relation               score=0.6986  pred=1
+    platt/mmbert/template_relation             score=0.7087  pred=1
+    isotonic/mmbert/template_relation          score=0.7009  pred=1
+    platt/neodictabert/basic_relation          score=0.7064  pred=1
+    isotonic/neodictabert/basic_relation       score=0.7139  pred=1
+    platt/neodictabert/llm_relation            score=0.7060  pred=1
+    isotonic/neodictabert/llm_relation         score=0.6954  pred=1
+    platt/neodictabert/template_relation       score=0.7068  pred=1
+    isotonic/neodictabert/template_relation    score=0.7115  pred=1
+    platt/xlmroberta/basic_relation            score=0.7073  pred=1
+    isotonic/xlmroberta/basic_relation         score=0.6941  pred=1
+    platt/xlmroberta/llm_relation              score=0.7089  pred=1
+    isotonic/xlmroberta/llm_relation           score=0.6781  pred=1
+    platt/xlmroberta/template_relation         score=0.7095  pred=1
+    isotonic/xlmroberta/template_relation      score=0.6812  pred=1
+    weighted_ensemble                          score=0.9777  pred=1
+    stacking_oof                               score=0.7029  pred=1
+
+  [row 3]  gold=0  predicate=מדינה
+    text    : "סימי ואלי (באנגלית: Simi Valley) היא עיר במדינת קליפורניה בארצות הברית, הממוקמת בדרום-מזרח מחוז ונטורה, כ-48 קילומטרים ממרכז לוס אנג'לס, ומהווה חלק מא"
+    subject : 'אנגלית'
+    object  : 'ארצות הברית'
+    platt/me5large/basic_relation              score=0.7099  pred=1
+    isotonic/me5large/basic_relation           score=0.7117  pred=1
+    platt/me5large/llm_relation                score=0.7089  pred=1
+    isotonic/me5large/llm_relation             score=0.7207  pred=1
+    platt/me5large/template_relation           score=0.7095  pred=1
+    isotonic/me5large/template_relation        score=0.7283  pred=1
+    platt/mmbert/basic_relation                score=0.7090  pred=1
+    isotonic/mmbert/basic_relation             score=0.7317  pred=1
+    platt/mmbert/llm_relation                  score=0.7099  pred=1
+    isotonic/mmbert/llm_relation               score=0.6915  pred=1
+    platt/mmbert/template_relation             score=0.7104  pred=1
+    isotonic/mmbert/template_relation          score=0.6950  pred=1
+    platt/neodictabert/basic_relation          score=0.7076  pred=1
+    isotonic/neodictabert/basic_relation       score=0.7195  pred=1
+    platt/neodictabert/llm_relation            score=0.7078  pred=1
+    isotonic/neodictabert/llm_relation         score=0.7119  pred=1
+    platt/neodictabert/template_relation       score=0.7068  pred=1
+    isotonic/neodictabert/template_relation    score=0.7191  pred=1
+    platt/xlmroberta/basic_relation            score=0.7052  pred=1
+    isotonic/xlmroberta/basic_relation         score=0.7284  pred=1
+    platt/xlmroberta/llm_relation              score=0.7053  pred=1
+    isotonic/xlmroberta/llm_relation           score=0.6753  pred=1
+    platt/xlmroberta/template_relation         score=0.7081  pred=1
+    isotonic/xlmroberta/template_relation      score=0.7467  pred=1
+    weighted_ensemble                          score=0.9834  pred=1
+    stacking_oof                               score=0.6989  pred=1
+
+  [row 5]  gold=0  predicate=יחסים דיפלומטיים
+    text    : 'רעידת האדמה ב[[נפות טורקיה|נפת]] [[אלזי (נפה)|אלזי]] שב[[טורקיה]] הייתה רעידת אדמה שהתרחשה ב-24 בינואר 2020 ב-20:55:12 לפי השעון המקומי (17:55:12 בשעו'
+    subject : 'איראן'
+    object  : 'לבנון'
+    platt/me5large/basic_relation              score=0.7102  pred=1
+    isotonic/me5large/basic_relation           score=0.7020  pred=1
+    platt/me5large/llm_relation                score=0.7092  pred=1
+    isotonic/me5large/llm_relation             score=0.7085  pred=1
+    platt/me5large/template_relation           score=0.7096  pred=1
+    isotonic/me5large/template_relation        score=0.7024  pred=1
+    platt/mmbert/basic_relation                score=0.7080  pred=1
+    isotonic/mmbert/basic_relation             score=0.7047  pred=1
+    platt/mmbert/llm_relation                  score=0.7075  pred=1
+    isotonic/mmbert/llm_relation               score=0.7067  pred=1
+    platt/mmbert/template_relation             score=0.7082  pred=1
+    isotonic/mmbert/template_relation          score=0.7022  pred=1
+    platt/neodictabert/basic_relation          score=0.7071  pred=1
+    isotonic/neodictabert/basic_relation       score=0.7222  pred=1
+    platt/neodictabert/llm_relation            score=0.7070  pred=1
+    isotonic/neodictabert/llm_relation         score=0.7026  pred=1
+    platt/neodictabert/template_relation       score=0.7075  pred=1
+    isotonic/neodictabert/template_relation    score=0.7217  pred=1
+    platt/xlmroberta/basic_relation            score=0.7043  pred=1
+    isotonic/xlmroberta/basic_relation         score=0.8649  pred=1
+    platt/xlmroberta/llm_relation              score=0.7047  pred=1
+    isotonic/xlmroberta/llm_relation           score=0.8857  pred=1
+    platt/xlmroberta/template_relation         score=0.7077  pred=1
+    isotonic/xlmroberta/template_relation      score=0.8485  pred=1
+    weighted_ensemble                          score=0.9898  pred=1
+    stacking_oof                               score=0.6953  pred=1
+
+  [row 7]  gold=0  predicate=מדינה
+    text    : 'דופטאנה (ברומנית: Doftana) היה בית סוהר ביישוב דופטאנה שבמחוז פרחובה, ברומניה. בשנות העשרים והשלושים של המאה ה-20 שימש בית הסוהר דופטאנה לכליאת אסירים'
+    subject : 'רומנית'
+    object  : 'רומניה'
+    platt/me5large/basic_relation              score=0.7102  pred=1
+    isotonic/me5large/basic_relation           score=0.7020  pred=1
+    platt/me5large/llm_relation                score=0.7091  pred=1
+    isotonic/me5large/llm_relation             score=0.7207  pred=1
+    platt/me5large/template_relation           score=0.7094  pred=1
+    isotonic/me5large/template_relation        score=0.7662  pred=1
+    platt/mmbert/basic_relation                score=0.7079  pred=1
+    isotonic/mmbert/basic_relation             score=0.7047  pred=1
+    platt/mmbert/llm_relation                  score=0.7074  pred=1
+    isotonic/mmbert/llm_relation               score=0.7067  pred=1
+    platt/mmbert/template_relation             score=0.7084  pred=1
+    isotonic/mmbert/template_relation          score=0.7022  pred=1
+    platt/neodictabert/basic_relation          score=0.7084  pred=1
+    isotonic/neodictabert/basic_relation       score=0.7222  pred=1
+    platt/neodictabert/llm_relation            score=0.7073  pred=1
+    isotonic/neodictabert/llm_relation         score=0.7026  pred=1
+    platt/neodictabert/template_relation       score=0.7080  pred=1
+    isotonic/neodictabert/template_relation    score=0.7217  pred=1
+    platt/xlmroberta/basic_relation            score=0.7042  pred=1
+    isotonic/xlmroberta/basic_relation         score=0.8649  pred=1
+    platt/xlmroberta/llm_relation              score=0.7046  pred=1
+    isotonic/xlmroberta/llm_relation           score=0.8857  pred=1
+    platt/xlmroberta/template_relation         score=0.7076  pred=1
+    isotonic/xlmroberta/template_relation      score=0.8485  pred=1
+    weighted_ensemble                          score=0.9882  pred=1
+    stacking_oof                               score=0.6961  pred=1
+
+  [row 9]  gold=0  predicate=ההפך מ־
+    text    : 'ארכיפלג רוס (באנגלית: Ross Archipelago) הוא שמו של ארכיפלג אשר ביחד עם מדף הקרח המצוי בתחומו, מהווה את הגבול המזרחי והדרומי של מצר מקמרדו באנטארקטיקה.'
+    subject : 'מזרח'
+    object  : 'דרומ'
+    platt/me5large/basic_relation              score=0.7170  pred=1
+    isotonic/me5large/basic_relation           score=0.7078  pred=1
+    platt/me5large/llm_relation                score=0.7308  pred=1
+    isotonic/me5large/llm_relation             score=0.6429  pred=1
+    platt/me5large/template_relation           score=0.7301  pred=1
+    isotonic/me5large/template_relation        score=0.7023  pred=1
+    platt/mmbert/basic_relation                score=0.7177  pred=1
+    isotonic/mmbert/basic_relation             score=0.6757  pred=1
+    platt/mmbert/llm_relation                  score=0.7182  pred=1
+    isotonic/mmbert/llm_relation               score=0.6964  pred=1
+    platt/mmbert/template_relation             score=0.7219  pred=1
+    isotonic/mmbert/template_relation          score=0.6957  pred=1
+    platt/neodictabert/basic_relation          score=0.7103  pred=1
+    isotonic/neodictabert/basic_relation       score=0.7120  pred=1
+    platt/neodictabert/llm_relation            score=0.7093  pred=1
+    isotonic/neodictabert/llm_relation         score=0.7033  pred=1
+    platt/neodictabert/template_relation       score=0.7115  pred=1
+    isotonic/neodictabert/template_relation    score=0.6825  pred=1
+    platt/xlmroberta/basic_relation            score=0.7140  pred=1
+    isotonic/xlmroberta/basic_relation         score=0.7064  pred=1
+    platt/xlmroberta/llm_relation              score=0.7129  pred=1
+    isotonic/xlmroberta/llm_relation           score=0.6824  pred=1
+    platt/xlmroberta/template_relation         score=0.7125  pred=1
+    isotonic/xlmroberta/template_relation      score=0.6961  pred=1
+    weighted_ensemble                          score=0.8757  pred=1
+    stacking_oof                               score=0.7451  pred=1
+
+  [row 19]  gold=0  predicate=יחסים דיפלומטיים
+    text    : 'Paper Monsters הוא אלבום הסולו הראשון שהוציא דייב גהאן, סולן להקת דפש מוד, בשנת 2003. דייב גהאן יצא לסיבוב הופעות לקידום האלבום שנקרא Live Monsters. ה'
+    subject : 'ארצות הברית'
+    object  : 'בריטניה'
+    platt/me5large/basic_relation              score=0.7108  pred=1
+    isotonic/me5large/basic_relation           score=0.7117  pred=1
+    platt/me5large/llm_relation                score=0.7211  pred=1
+    isotonic/me5large/llm_relation             score=0.7000  pred=1
+    platt/me5large/template_relation           score=0.7118  pred=1
+    isotonic/me5large/template_relation        score=0.6667  pred=1
+    platt/mmbert/basic_relation                score=0.7097  pred=1
+    isotonic/mmbert/basic_relation             score=0.6951  pred=1
+    platt/mmbert/llm_relation                  score=0.7099  pred=1
+    isotonic/mmbert/llm_relation               score=0.6915  pred=1
+    platt/mmbert/template_relation             score=0.7108  pred=1
+    isotonic/mmbert/template_relation          score=0.6950  pred=1
+    platt/neodictabert/basic_relation          score=0.7062  pred=1
+    isotonic/neodictabert/basic_relation       score=0.7195  pred=1
+    platt/neodictabert/llm_relation            score=0.7065  pred=1
+    isotonic/neodictabert/llm_relation         score=0.7273  pred=1
+    platt/neodictabert/template_relation       score=0.7066  pred=1
+    isotonic/neodictabert/template_relation    score=0.7191  pred=1
+    platt/xlmroberta/basic_relation            score=0.7098  pred=1
+    isotonic/xlmroberta/basic_relation         score=0.6745  pred=1
+    platt/xlmroberta/llm_relation              score=0.7096  pred=1
+    isotonic/xlmroberta/llm_relation           score=0.6682  pred=1
+    platt/xlmroberta/template_relation         score=0.7103  pred=1
+    isotonic/xlmroberta/template_relation      score=0.6667  pred=1
+    weighted_ensemble                          score=0.9369  pred=1
+    stacking_oof                               score=0.7091  pred=1
+
+  [row 27]  gold=0  predicate=בירה של
+    text    : "מגדל האמנות מיטו (ביפנית: 戸 芸 術 館, מיטו גייג'וצוקאן) הוא מתחם אומנויות במיטו, איבראקי, יפן. הוא נפתח בשנת 1990 במסגרת חגיגות המאה של עיריית מיטו. הוא "
+    subject : 'מיטו'
+    object  : 'איבראקי'
+    platt/me5large/basic_relation              score=0.7099  pred=1
+    isotonic/me5large/basic_relation           score=0.7117  pred=1
+    platt/me5large/llm_relation                score=0.7088  pred=1
+    isotonic/me5large/llm_relation             score=0.7207  pred=1
+    platt/me5large/template_relation           score=0.7095  pred=1
+    isotonic/me5large/template_relation        score=0.7283  pred=1
+    platt/mmbert/basic_relation                score=0.7097  pred=1
+    isotonic/mmbert/basic_relation             score=0.6951  pred=1
+    platt/mmbert/llm_relation                  score=0.7100  pred=1
+    isotonic/mmbert/llm_relation               score=0.6915  pred=1
+    platt/mmbert/template_relation             score=0.7108  pred=1
+    isotonic/mmbert/template_relation          score=0.6950  pred=1
+    platt/neodictabert/basic_relation          score=0.7062  pred=1
+    isotonic/neodictabert/basic_relation       score=0.7195  pred=1
+    platt/neodictabert/llm_relation            score=0.7065  pred=1
+    isotonic/neodictabert/llm_relation         score=0.7273  pred=1
+    platt/neodictabert/template_relation       score=0.7066  pred=1
+    isotonic/neodictabert/template_relation    score=0.7458  pred=1
+    platt/xlmroberta/basic_relation            score=0.7052  pred=1
+    isotonic/xlmroberta/basic_relation         score=0.7284  pred=1
+    platt/xlmroberta/llm_relation              score=0.7049  pred=1
+    isotonic/xlmroberta/llm_relation           score=0.6753  pred=1
+    platt/xlmroberta/template_relation         score=0.7077  pred=1
+    isotonic/xlmroberta/template_relation      score=0.7778  pred=1
+    weighted_ensemble                          score=0.9816  pred=1
+    stacking_oof                               score=0.6978  pred=1
+
+  [row 29]  gold=0  predicate=מייסד
+    text    : 'אנ-מן-לו-אנה מבאד-טיבירה היה מלך מיתולוגי של שומר. בתקופת שלטונו, המרכז השלטוני עבר מארידו לבאד-טיבירה. לפי רשימת המלכים השומרית, שלט בתקופה טרום-שושל'
+    subject : 'באד-טיבירה'
+    object  : 'אנ-מן-לו-אנה'
+    platt/me5large/basic_relation              score=0.7099  pred=1
+    isotonic/me5large/basic_relation           score=0.7074  pred=1
+    platt/me5large/llm_relation                score=0.7105  pred=1
+    isotonic/me5large/llm_relation             score=0.7116  pred=1
+    platt/me5large/template_relation           score=0.7092  pred=1
+    isotonic/me5large/template_relation        score=0.7381  pred=1
+    platt/mmbert/basic_relation                score=0.7102  pred=1
+    isotonic/mmbert/basic_relation             score=0.7056  pred=1
+    platt/mmbert/llm_relation                  score=0.7107  pred=1
+    isotonic/mmbert/llm_relation               score=0.7087  pred=1
+    platt/mmbert/template_relation             score=0.7112  pred=1
+    isotonic/mmbert/template_relation          score=0.7053  pred=1
+    platt/neodictabert/basic_relation          score=0.7082  pred=1
+    isotonic/neodictabert/basic_relation       score=0.7199  pred=1
+    platt/neodictabert/llm_relation            score=0.7078  pred=1
+    isotonic/neodictabert/llm_relation         score=0.7090  pred=1
+    platt/neodictabert/template_relation       score=0.7075  pred=1
+    isotonic/neodictabert/template_relation    score=0.7586  pred=1
+    platt/xlmroberta/basic_relation            score=0.7107  pred=1
+    isotonic/xlmroberta/basic_relation         score=0.6942  pred=1
+    platt/xlmroberta/llm_relation              score=0.7116  pred=1
+    isotonic/xlmroberta/llm_relation           score=0.6735  pred=1
+    platt/xlmroberta/template_relation         score=0.7075  pred=1
+    isotonic/xlmroberta/template_relation      score=0.6845  pred=1
+    weighted_ensemble                          score=0.9768  pred=1
+    stacking_oof                               score=0.7099  pred=1
+
+  [row 36]  gold=0  predicate=מדינה
+    text    : 'ממוזער|200px|דגל המשרד משרד החוץ של בלארוס (בבלארוסית: Міністэрства замежных спраў Рэспублікі Беларусь) הוא משרד בממשלת בלארוס המפקח על קשרי החוץ של ב'
+    subject : 'בלארוסית'
+    object  : 'בלארוס'
+    platt/me5large/basic_relation              score=0.7146  pred=1
+    isotonic/me5large/basic_relation           score=0.6792  pred=1
+    platt/me5large/llm_relation                score=0.7046  pred=1
+    isotonic/me5large/llm_relation             score=0.6667  pred=1
+    platt/me5large/template_relation           score=0.7185  pred=1
+    isotonic/me5large/template_relation        score=0.6337  pred=1
+    platt/mmbert/basic_relation                score=0.7210  pred=1
+    isotonic/mmbert/basic_relation             score=0.6250  pred=1
+    platt/mmbert/llm_relation                  score=0.7171  pred=1
+    isotonic/mmbert/llm_relation               score=0.6829  pred=1
+    platt/mmbert/template_relation             score=0.7134  pred=1
+    isotonic/mmbert/template_relation          score=0.6875  pred=1
+    platt/neodictabert/basic_relation          score=0.7517  pred=1
+    isotonic/neodictabert/basic_relation       score=0.6341  pred=1
+    platt/neodictabert/llm_relation            score=0.7569  pred=1
+    isotonic/neodictabert/llm_relation         score=0.6545  pred=1
+    platt/neodictabert/template_relation       score=0.7502  pred=1
+    isotonic/neodictabert/template_relation    score=0.6618  pred=1
+    platt/xlmroberta/basic_relation            score=0.7306  pred=1
+    isotonic/xlmroberta/basic_relation         score=0.6941  pred=1
+    platt/xlmroberta/llm_relation              score=0.7200  pred=1
+    isotonic/xlmroberta/llm_relation           score=0.6781  pred=1
+    platt/xlmroberta/template_relation         score=0.7217  pred=1
+    isotonic/xlmroberta/template_relation      score=0.6812  pred=1
+    weighted_ensemble                          score=0.7871  pred=1
+    stacking_oof                               score=0.8059  pred=1
+
+  [row 38]  gold=0  predicate=מדינה
+    text    : "דודג' ביוטי ווינר (באנגלית: Dodge Beauty Winner) היא מכונית משפחתית אשר יוצרה על ידי חטיבת דודג' בקונצרן הרכב האמריקאי קרייזלר בין השנים 1935–1936. פי"
+    subject : 'קרייזלר'
+    object  : 'האמריקאי'
+    platt/me5large/basic_relation              score=0.7102  pred=1
+    isotonic/me5large/basic_relation           score=0.7020  pred=1
+    platt/me5large/llm_relation                score=0.7092  pred=1
+    isotonic/me5large/llm_relation             score=0.7085  pred=1
+    platt/me5large/template_relation           score=0.7095  pred=1
+    isotonic/me5large/template_relation        score=0.7024  pred=1
+    platt/mmbert/basic_relation                score=0.7082  pred=1
+    isotonic/mmbert/basic_relation             score=0.7047  pred=1
+    platt/mmbert/llm_relation                  score=0.7080  pred=1
+    isotonic/mmbert/llm_relation               score=0.7067  pred=1
+    platt/mmbert/template_relation             score=0.7088  pred=1
+    isotonic/mmbert/template_relation          score=0.7022  pred=1
+    platt/neodictabert/basic_relation          score=0.7071  pred=1
+    isotonic/neodictabert/basic_relation       score=0.7222  pred=1
+    platt/neodictabert/llm_relation            score=0.7070  pred=1
+    isotonic/neodictabert/llm_relation         score=0.7708  pred=1
+    platt/neodictabert/template_relation       score=0.7075  pred=1
+    isotonic/neodictabert/template_relation    score=0.7526  pred=1
+    platt/xlmroberta/basic_relation            score=0.7105  pred=1
+    isotonic/xlmroberta/basic_relation         score=0.6938  pred=1
+    platt/xlmroberta/llm_relation              score=0.7076  pred=1
+    isotonic/xlmroberta/llm_relation           score=0.6790  pred=1
+    platt/xlmroberta/template_relation         score=0.7111  pred=1
+    isotonic/xlmroberta/template_relation      score=0.6942  pred=1
+    weighted_ensemble                          score=0.9790  pred=1
+    stacking_oof                               score=0.7034  pred=1
+  ... and 135 more hard rows
+
+==============================================================================================================
+  SECTION 5 — CONFIDENT MISTAKES
+==============================================================================================================
+
+  [weighted_ensemble]  confident FP (score>=0.85): 142  |  confident FN (score<=0.15): 0
+    FP [row 184] score=0.9964  pred=מדינה  'מחוזות מדינה תאילנד'
+    FP [row 310] score=0.9943  pred=בירה של  'מינסק בירה של בלארוס'
+    FP [row 218] score=0.9943  pred=שפה שבשימוש  'קזחסטן שפה שבשימוש קזחית'
+    FP [row 156] score=0.9910  pred=גובל עם  'פונשל גובל עם סנטנה'
+    FP [row 255] score=0.9910  pred=שפה מדוברת או נכתבת  "ג'ורג' האריס שפה מדוברת או נכתבת אנגלית"
+
+  [stacking_oof]  confident FP (score>=0.85): 1  |  confident FN (score<=0.15): 0
+    FP [row 276] score=0.8522  pred=ההפך מ־  'מערב ההפך מ־ מזרח'
+
+==============================================================================================================

@@ -1,0 +1,675 @@
+2026-05-08 12:55:02  INFO  CUDA_VISIBLE_DEVICES = 2
+2026-05-08 12:55:02  INFO  torch 2.6.0+cu124  CUDA=12.4  available=True
+2026-05-08 12:55:02  INFO  ======================================================================
+2026-05-08 12:55:02  INFO  clean_dataset_with_nli.py  started
+2026-05-08 12:55:02  INFO    input      : /home/nlp/ronke21/hebrew_RE/outputs/ARCHIVE/prepared_gold_dataset_gemma_3_27b_it.csv
+2026-05-08 12:55:02  INFO    output     : /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_classified.csv
+2026-05-08 12:55:02  INFO    log        : /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_classify.log
+2026-05-08 12:55:02  INFO    summary    : /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_summary.txt
+2026-05-08 12:55:02  INFO    error      : /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_error_analysis.txt
+2026-05-08 12:55:02  INFO    label col  : relation_present
+2026-05-08 12:55:02  INFO    thresholds : [0.6, 0.7, 0.8, 0.9]  (fixed)
+2026-05-08 12:55:02  INFO    CV folds   : 5  |  thresh grid: 0.05–0.95 (19 values)
+2026-05-08 12:55:02  INFO    models (4):
+2026-05-08 12:55:02  INFO      [mmbert]  mmBERT-base_hebnli/checkpoint-1000
+2026-05-08 12:55:02  INFO      [me5large]  multilingual-e5-large_hebnli/checkpoint-4000
+2026-05-08 12:55:02  INFO      [neodictabert]  neodictabert_hebnli/checkpoint-4500
+2026-05-08 12:55:02  INFO      [xlmroberta]  xlm-roberta-large_hebnli/checkpoint-2000
+2026-05-08 12:55:02  INFO    pairs (3):
+2026-05-08 12:55:02  INFO      'text' -> 'basic_relation'
+2026-05-08 12:55:02  INFO      'text' -> 'template_relation'
+2026-05-08 12:55:02  INFO      'text' -> 'llm_relation'
+2026-05-08 12:55:02  INFO  ======================================================================
+2026-05-08 12:55:02  INFO  [load]  500 rows
+2026-05-08 12:55:02  INFO  [load]  pos=355  neg=145  (71.0% / 29.0%)
+2026-05-08 12:55:02  INFO  ----------------------------------------------------------------------
+2026-05-08 12:55:02  INFO  [model 1/4]  mmbert
+2026-05-08 12:55:02  INFO      path: /home/nlp/ronke21/hebrew_RE/finetuned_Heb_NLI_encoders/mmBERT-base_hebnli/checkpoint-1000
+2026-05-08 12:55:02  INFO      torch 2.6.0+cu124  CUDA build=12.4  available=True  devices=1
+2026-05-08 12:55:02  INFO      visible GPU: NVIDIA A100-SXM4-80GB
+2026-05-08 12:55:10  WARNING      safetensors load failed (Error no file named model.safetensors found in directory /home/nlp/ronke21/hebrew_RE/finetuned_Heb_NLI_encoders/mmBERT-base_hebnli/checkpoint-1000.), trying normal load.
+2026-05-08 12:55:11  INFO      ready on cuda:0 (308M params)
+2026-05-08 12:55:11  INFO      model loaded in 8s
+2026-05-08 12:55:11  INFO    [1/3]  premise='text'  hypothesis='basic_relation'  → confidence_mmbert_basic_relation
+2026-05-08 12:55:11  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:11  INFO  mmbert/basic_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:16  INFO  mmbert/basic_relation:   2%|2         | 1/42 [00:05<03:46,  5.52s/it]
+2026-05-08 12:55:17  INFO  mmbert/basic_relation:  10%|9         | 4/42 [00:05<00:40,  1.08s/it]
+2026-05-08 12:55:17  INFO  mmbert/basic_relation:  14%|#4        | 6/42 [00:05<00:22,  1.58it/s]
+2026-05-08 12:55:17  INFO  mmbert/basic_relation:  21%|##1       | 9/42 [00:05<00:11,  2.86it/s]
+2026-05-08 12:55:17  INFO      progress: 120/500 rows (24%)  5s
+2026-05-08 12:55:17  INFO  mmbert/basic_relation:  29%|##8       | 12/42 [00:06<00:06,  4.43it/s]
+2026-05-08 12:55:17  INFO  mmbert/basic_relation:  36%|###5      | 15/42 [00:06<00:04,  6.25it/s]
+2026-05-08 12:55:17  INFO  mmbert/basic_relation:  43%|####2     | 18/42 [00:06<00:02,  8.26it/s]
+2026-05-08 12:55:17  INFO      progress: 240/500 rows (48%)  6s
+2026-05-08 12:55:17  INFO  mmbert/basic_relation:  50%|#####     | 21/42 [00:06<00:02, 10.29it/s]
+2026-05-08 12:55:17  INFO  mmbert/basic_relation:  57%|#####7    | 24/42 [00:06<00:01, 12.40it/s]
+2026-05-08 12:55:18  INFO  mmbert/basic_relation:  64%|######4   | 27/42 [00:06<00:01, 14.24it/s]
+2026-05-08 12:55:18  INFO      progress: 360/500 rows (72%)  6s
+2026-05-08 12:55:18  INFO  mmbert/basic_relation:  71%|#######1  | 30/42 [00:06<00:00, 15.85it/s]
+2026-05-08 12:55:18  INFO  mmbert/basic_relation:  79%|#######8  | 33/42 [00:07<00:00, 17.16it/s]
+2026-05-08 12:55:18  INFO  mmbert/basic_relation:  86%|########5 | 36/42 [00:07<00:00, 18.02it/s]
+2026-05-08 12:55:18  INFO  mmbert/basic_relation:  93%|#########2| 39/42 [00:07<00:00, 18.98it/s]
+2026-05-08 12:55:18  INFO      progress: 480/500 rows (96%)  7s
+2026-05-08 12:55:18  INFO      progress: 500/500 rows (100%)  7s
+2026-05-08 12:55:18  INFO  mmbert/basic_relation: 100%|##########| 42/42 [00:07<00:00, 19.42it/s]
+2026-05-08 12:55:18  INFO      done  (7s, 66.9 rows/s)
+2026-05-08 12:55:18  INFO      score stats: mean=0.9180  median=0.9384  min=0.2890  max=0.9957
+2026-05-08 12:55:18  INFO      thresh=0.6  TP=352 FP=145 FN=3 TN=0  acc=0.704 prec=0.708 rec=0.992 F1=0.826
+2026-05-08 12:55:18  INFO      thresh=0.7  TP=347 FP=144 FN=8 TN=1  acc=0.696 prec=0.707 rec=0.977 F1=0.820
+2026-05-08 12:55:18  INFO      thresh=0.8  TP=334 FP=137 FN=21 TN=8  acc=0.684 prec=0.709 rec=0.941 F1=0.809
+2026-05-08 12:55:18  INFO      thresh=0.9  TP=267 FP=112 FN=88 TN=33  acc=0.600 prec=0.704 rec=0.752 F1=0.728
+2026-05-08 12:55:18  INFO      [cv5]  running threshold search …
+2026-05-08 12:55:18  INFO      [cv5]  mean_F1=0.8304 ±0.0000  mean_thresh=0.05  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']  fold_F1s=['0.830', '0.830', '0.830', '0.830', '0.830']
+2026-05-08 12:55:18  INFO    [2/3]  premise='text'  hypothesis='template_relation'  → confidence_mmbert_template_relation
+2026-05-08 12:55:18  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:18  INFO  mmbert/template_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:18  INFO  mmbert/template_relation:   7%|7         | 3/42 [00:00<00:01, 25.51it/s]
+2026-05-08 12:55:19  INFO  mmbert/template_relation:  14%|#4        | 6/42 [00:00<00:01, 22.95it/s]
+2026-05-08 12:55:19  INFO  mmbert/template_relation:  21%|##1       | 9/42 [00:00<00:01, 22.57it/s]
+2026-05-08 12:55:19  INFO      progress: 120/500 rows (24%)  0s
+2026-05-08 12:55:19  INFO  mmbert/template_relation:  29%|##8       | 12/42 [00:00<00:01, 22.43it/s]
+2026-05-08 12:55:19  INFO  mmbert/template_relation:  36%|###5      | 15/42 [00:00<00:01, 21.56it/s]
+2026-05-08 12:55:19  INFO  mmbert/template_relation:  43%|####2     | 18/42 [00:00<00:01, 21.53it/s]
+2026-05-08 12:55:19  INFO      progress: 240/500 rows (48%)  0s
+2026-05-08 12:55:19  INFO  mmbert/template_relation:  50%|#####     | 21/42 [00:00<00:00, 21.37it/s]
+2026-05-08 12:55:19  INFO  mmbert/template_relation:  57%|#####7    | 24/42 [00:01<00:00, 21.64it/s]
+2026-05-08 12:55:20  INFO  mmbert/template_relation:  64%|######4   | 27/42 [00:01<00:00, 21.57it/s]
+2026-05-08 12:55:20  INFO      progress: 360/500 rows (72%)  1s
+2026-05-08 12:55:20  INFO  mmbert/template_relation:  71%|#######1  | 30/42 [00:01<00:00, 21.44it/s]
+2026-05-08 12:55:20  INFO  mmbert/template_relation:  79%|#######8  | 33/42 [00:01<00:00, 21.32it/s]
+2026-05-08 12:55:20  INFO  mmbert/template_relation:  86%|########5 | 36/42 [00:01<00:00, 21.20it/s]
+2026-05-08 12:55:20  INFO  mmbert/template_relation:  93%|#########2| 39/42 [00:01<00:00, 21.21it/s]
+2026-05-08 12:55:20  INFO      progress: 480/500 rows (96%)  1s
+2026-05-08 12:55:20  INFO      progress: 500/500 rows (100%)  1s
+2026-05-08 12:55:20  INFO  mmbert/template_relation: 100%|##########| 42/42 [00:01<00:00, 20.98it/s]
+2026-05-08 12:55:20  INFO      done  (1s, 254.3 rows/s)
+2026-05-08 12:55:20  INFO      score stats: mean=0.9195  median=0.9425  min=0.3399  max=0.9957
+2026-05-08 12:55:20  INFO      thresh=0.6  TP=351 FP=144 FN=4 TN=1  acc=0.704 prec=0.709 rec=0.989 F1=0.826
+2026-05-08 12:55:20  INFO      thresh=0.7  TP=345 FP=144 FN=10 TN=1  acc=0.692 prec=0.706 rec=0.972 F1=0.818
+2026-05-08 12:55:20  INFO      thresh=0.8  TP=332 FP=134 FN=23 TN=11  acc=0.686 prec=0.712 rec=0.935 F1=0.809
+2026-05-08 12:55:20  INFO      thresh=0.9  TP=271 FP=108 FN=84 TN=37  acc=0.616 prec=0.715 rec=0.763 F1=0.738
+2026-05-08 12:55:20  INFO      [cv5]  running threshold search …
+2026-05-08 12:55:20  INFO      [cv5]  mean_F1=0.8304 ±0.0000  mean_thresh=0.05  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']  fold_F1s=['0.830', '0.830', '0.830', '0.830', '0.830']
+2026-05-08 12:55:20  INFO    [3/3]  premise='text'  hypothesis='llm_relation'  → confidence_mmbert_llm_relation
+2026-05-08 12:55:20  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:20  INFO  mmbert/llm_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:20  INFO  mmbert/llm_relation:   7%|7         | 3/42 [00:00<00:01, 22.69it/s]
+2026-05-08 12:55:21  INFO  mmbert/llm_relation:  14%|#4        | 6/42 [00:00<00:01, 21.72it/s]
+2026-05-08 12:55:21  INFO  mmbert/llm_relation:  21%|##1       | 9/42 [00:00<00:01, 22.03it/s]
+2026-05-08 12:55:21  INFO      progress: 120/500 rows (24%)  0s
+2026-05-08 12:55:21  INFO  mmbert/llm_relation:  29%|##8       | 12/42 [00:00<00:01, 21.90it/s]
+2026-05-08 12:55:21  INFO  mmbert/llm_relation:  36%|###5      | 15/42 [00:00<00:01, 21.37it/s]
+2026-05-08 12:55:21  INFO  mmbert/llm_relation:  43%|####2     | 18/42 [00:00<00:01, 21.32it/s]
+2026-05-08 12:55:21  INFO      progress: 240/500 rows (48%)  0s
+2026-05-08 12:55:21  INFO  mmbert/llm_relation:  50%|#####     | 21/42 [00:00<00:00, 21.22it/s]
+2026-05-08 12:55:21  INFO  mmbert/llm_relation:  57%|#####7    | 24/42 [00:01<00:00, 20.09it/s]
+2026-05-08 12:55:22  INFO  mmbert/llm_relation:  64%|######4   | 27/42 [00:01<00:00, 20.74it/s]
+2026-05-08 12:55:22  INFO      progress: 360/500 rows (72%)  1s
+2026-05-08 12:55:22  INFO  mmbert/llm_relation:  71%|#######1  | 30/42 [00:01<00:00, 20.87it/s]
+2026-05-08 12:55:22  INFO  mmbert/llm_relation:  79%|#######8  | 33/42 [00:01<00:00, 19.74it/s]
+2026-05-08 12:55:22  INFO  mmbert/llm_relation:  86%|########5 | 36/42 [00:01<00:00, 20.09it/s]
+2026-05-08 12:55:22  INFO  mmbert/llm_relation:  93%|#########2| 39/42 [00:01<00:00, 20.36it/s]
+2026-05-08 12:55:22  INFO      progress: 480/500 rows (96%)  1s
+2026-05-08 12:55:22  INFO      progress: 500/500 rows (100%)  2s
+2026-05-08 12:55:22  INFO  mmbert/llm_relation: 100%|##########| 42/42 [00:02<00:00, 19.41it/s]
+2026-05-08 12:55:22  INFO      done  (2s, 243.9 rows/s)
+2026-05-08 12:55:22  INFO      score stats: mean=0.9140  median=0.9363  min=0.3386  max=0.9928
+2026-05-08 12:55:22  INFO      thresh=0.6  TP=350 FP=144 FN=5 TN=1  acc=0.702 prec=0.709 rec=0.986 F1=0.824
+2026-05-08 12:55:22  INFO      thresh=0.7  TP=346 FP=143 FN=9 TN=2  acc=0.696 prec=0.708 rec=0.975 F1=0.820
+2026-05-08 12:55:22  INFO      thresh=0.8  TP=328 FP=135 FN=27 TN=10  acc=0.676 prec=0.708 rec=0.924 F1=0.802
+2026-05-08 12:55:22  INFO      thresh=0.9  TP=253 FP=107 FN=102 TN=38  acc=0.582 prec=0.703 rec=0.713 F1=0.708
+2026-05-08 12:55:22  INFO      [cv5]  running threshold search …
+2026-05-08 12:55:22  INFO      [cv5]  mean_F1=0.8304 ±0.0000  mean_thresh=0.05  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']  fold_F1s=['0.830', '0.830', '0.830', '0.830', '0.830']
+2026-05-08 12:55:23  INFO      GPU cache cleared
+2026-05-08 12:55:23  INFO    [mmbert] total: 20s
+2026-05-08 12:55:23  INFO  ----------------------------------------------------------------------
+2026-05-08 12:55:23  INFO  [model 2/4]  me5large
+2026-05-08 12:55:23  INFO      path: /home/nlp/ronke21/hebrew_RE/finetuned_Heb_NLI_encoders/multilingual-e5-large_hebnli/checkpoint-4000
+2026-05-08 12:55:23  INFO      torch 2.6.0+cu124  CUDA build=12.4  available=True  devices=1
+2026-05-08 12:55:23  INFO      visible GPU: NVIDIA A100-SXM4-80GB
+2026-05-08 12:55:25  INFO      ready on cuda:0 (560M params)
+2026-05-08 12:55:25  INFO      model loaded in 2s
+2026-05-08 12:55:25  INFO    [1/3]  premise='text'  hypothesis='basic_relation'  → confidence_me5large_basic_relation
+2026-05-08 12:55:25  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:25  INFO  me5large/basic_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:25  INFO  me5large/basic_relation:   2%|2         | 1/42 [00:00<00:05,  7.45it/s]
+2026-05-08 12:55:25  INFO  me5large/basic_relation:   7%|7         | 3/42 [00:00<00:03, 12.98it/s]
+2026-05-08 12:55:25  INFO  me5large/basic_relation:  12%|#1        | 5/42 [00:00<00:03, 11.35it/s]
+2026-05-08 12:55:25  INFO  me5large/basic_relation:  17%|#6        | 7/42 [00:00<00:03, 10.93it/s]
+2026-05-08 12:55:26  INFO  me5large/basic_relation:  21%|##1       | 9/42 [00:00<00:02, 11.22it/s]
+2026-05-08 12:55:26  INFO      progress: 120/500 rows (24%)  0s
+2026-05-08 12:55:26  INFO  me5large/basic_relation:  26%|##6       | 11/42 [00:00<00:02, 11.12it/s]
+2026-05-08 12:55:26  INFO  me5large/basic_relation:  31%|###       | 13/42 [00:01<00:02, 10.95it/s]
+2026-05-08 12:55:26  INFO  me5large/basic_relation:  36%|###5      | 15/42 [00:01<00:03,  8.98it/s]
+2026-05-08 12:55:26  INFO  me5large/basic_relation:  38%|###8      | 16/42 [00:01<00:02,  9.04it/s]
+2026-05-08 12:55:27  INFO  me5large/basic_relation:  43%|####2     | 18/42 [00:01<00:02,  9.46it/s]
+2026-05-08 12:55:27  INFO      progress: 240/500 rows (48%)  1s
+2026-05-08 12:55:27  INFO  me5large/basic_relation:  48%|####7     | 20/42 [00:01<00:02,  9.73it/s]
+2026-05-08 12:55:27  INFO  me5large/basic_relation:  50%|#####     | 21/42 [00:02<00:02,  9.64it/s]
+2026-05-08 12:55:27  INFO  me5large/basic_relation:  55%|#####4    | 23/42 [00:02<00:01, 10.03it/s]
+2026-05-08 12:55:27  INFO  me5large/basic_relation:  60%|#####9    | 25/42 [00:02<00:01, 10.12it/s]
+2026-05-08 12:55:27  INFO  me5large/basic_relation:  64%|######4   | 27/42 [00:02<00:01,  9.58it/s]
+2026-05-08 12:55:28  INFO  me5large/basic_relation:  67%|######6   | 28/42 [00:02<00:01,  9.27it/s]
+2026-05-08 12:55:28  INFO  me5large/basic_relation:  69%|######9   | 29/42 [00:02<00:01,  9.01it/s]
+2026-05-08 12:55:28  INFO      progress: 360/500 rows (72%)  3s
+2026-05-08 12:55:28  INFO  me5large/basic_relation:  71%|#######1  | 30/42 [00:03<00:01,  8.79it/s]
+2026-05-08 12:55:28  INFO  me5large/basic_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.62it/s]
+2026-05-08 12:55:28  INFO  me5large/basic_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.49it/s]
+2026-05-08 12:55:28  INFO  me5large/basic_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.39it/s]
+2026-05-08 12:55:28  INFO  me5large/basic_relation:  81%|########  | 34/42 [00:03<00:00,  8.32it/s]
+2026-05-08 12:55:28  INFO  me5large/basic_relation:  83%|########3 | 35/42 [00:03<00:00,  8.27it/s]
+2026-05-08 12:55:29  INFO  me5large/basic_relation:  86%|########5 | 36/42 [00:03<00:00,  8.24it/s]
+2026-05-08 12:55:29  INFO  me5large/basic_relation:  88%|########8 | 37/42 [00:03<00:00,  8.21it/s]
+2026-05-08 12:55:29  INFO  me5large/basic_relation:  90%|######### | 38/42 [00:04<00:00,  8.18it/s]
+2026-05-08 12:55:29  INFO  me5large/basic_relation:  93%|#########2| 39/42 [00:04<00:00,  8.13it/s]
+2026-05-08 12:55:29  INFO      progress: 480/500 rows (96%)  4s
+2026-05-08 12:55:29  INFO  me5large/basic_relation:  95%|#########5| 40/42 [00:04<00:00,  8.14it/s]
+2026-05-08 12:55:29  INFO  me5large/basic_relation:  98%|#########7| 41/42 [00:04<00:00,  8.16it/s]
+2026-05-08 12:55:29  INFO      progress: 500/500 rows (100%)  4s
+2026-05-08 12:55:29  INFO  me5large/basic_relation: 100%|##########| 42/42 [00:04<00:00,  8.14it/s]
+2026-05-08 12:55:29  INFO      done  (4s, 108.4 rows/s)
+2026-05-08 12:55:29  INFO      score stats: mean=0.9761  median=0.9932  min=0.1017  max=0.9994
+2026-05-08 12:55:29  INFO      thresh=0.6  TP=351 FP=144 FN=4 TN=1  acc=0.704 prec=0.709 rec=0.989 F1=0.826
+2026-05-08 12:55:29  INFO      thresh=0.7  TP=351 FP=144 FN=4 TN=1  acc=0.704 prec=0.709 rec=0.989 F1=0.826
+2026-05-08 12:55:29  INFO      thresh=0.8  TP=348 FP=142 FN=7 TN=3  acc=0.702 prec=0.710 rec=0.980 F1=0.824
+2026-05-08 12:55:29  INFO      thresh=0.9  TP=339 FP=140 FN=16 TN=5  acc=0.688 prec=0.708 rec=0.955 F1=0.813
+2026-05-08 12:55:29  INFO      [cv5]  running threshold search …
+2026-05-08 12:55:29  INFO      [cv5]  mean_F1=0.8290 ±0.0028  mean_thresh=0.07  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.15']  fold_F1s=['0.830', '0.830', '0.830', '0.830', '0.824']
+2026-05-08 12:55:29  INFO    [2/3]  premise='text'  hypothesis='template_relation'  → confidence_me5large_template_relation
+2026-05-08 12:55:29  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:29  INFO  me5large/template_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:29  INFO  me5large/template_relation:   5%|4         | 2/42 [00:00<00:02, 18.23it/s]
+2026-05-08 12:55:30  INFO  me5large/template_relation:  10%|9         | 4/42 [00:00<00:02, 13.15it/s]
+2026-05-08 12:55:30  INFO  me5large/template_relation:  14%|#4        | 6/42 [00:00<00:03, 11.76it/s]
+2026-05-08 12:55:30  INFO  me5large/template_relation:  19%|#9        | 8/42 [00:00<00:03, 11.33it/s]
+2026-05-08 12:55:30  INFO      progress: 120/500 rows (24%)  0s
+2026-05-08 12:55:30  INFO  me5large/template_relation:  24%|##3       | 10/42 [00:00<00:02, 11.61it/s]
+2026-05-08 12:55:30  INFO  me5large/template_relation:  29%|##8       | 12/42 [00:01<00:02, 11.19it/s]
+2026-05-08 12:55:31  INFO  me5large/template_relation:  33%|###3      | 14/42 [00:01<00:02, 10.81it/s]
+2026-05-08 12:55:31  INFO  me5large/template_relation:  38%|###8      | 16/42 [00:01<00:02, 10.50it/s]
+2026-05-08 12:55:31  INFO  me5large/template_relation:  43%|####2     | 18/42 [00:01<00:02, 10.44it/s]
+2026-05-08 12:55:31  INFO      progress: 240/500 rows (48%)  1s
+2026-05-08 12:55:31  INFO  me5large/template_relation:  48%|####7     | 20/42 [00:01<00:02, 10.39it/s]
+2026-05-08 12:55:31  INFO  me5large/template_relation:  52%|#####2    | 22/42 [00:02<00:01, 10.22it/s]
+2026-05-08 12:55:32  INFO  me5large/template_relation:  57%|#####7    | 24/42 [00:02<00:01, 10.30it/s]
+2026-05-08 12:55:32  INFO  me5large/template_relation:  62%|######1   | 26/42 [00:02<00:01, 10.09it/s]
+2026-05-08 12:55:32  INFO  me5large/template_relation:  67%|######6   | 28/42 [00:02<00:01,  9.41it/s]
+2026-05-08 12:55:32  INFO  me5large/template_relation:  69%|######9   | 29/42 [00:02<00:01,  9.16it/s]
+2026-05-08 12:55:32  INFO      progress: 360/500 rows (72%)  2s
+2026-05-08 12:55:32  INFO  me5large/template_relation:  71%|#######1  | 30/42 [00:02<00:01,  8.93it/s]
+2026-05-08 12:55:32  INFO  me5large/template_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.75it/s]
+2026-05-08 12:55:33  INFO  me5large/template_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.59it/s]
+2026-05-08 12:55:33  INFO  me5large/template_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.47it/s]
+2026-05-08 12:55:33  INFO  me5large/template_relation:  81%|########  | 34/42 [00:03<00:00,  8.38it/s]
+2026-05-08 12:55:33  INFO  me5large/template_relation:  83%|########3 | 35/42 [00:03<00:00,  8.32it/s]
+2026-05-08 12:55:33  INFO  me5large/template_relation:  86%|########5 | 36/42 [00:03<00:00,  8.26it/s]
+2026-05-08 12:55:33  INFO  me5large/template_relation:  88%|########8 | 37/42 [00:03<00:00,  8.20it/s]
+2026-05-08 12:55:33  INFO  me5large/template_relation:  90%|######### | 38/42 [00:03<00:00,  8.19it/s]
+2026-05-08 12:55:33  INFO  me5large/template_relation:  93%|#########2| 39/42 [00:04<00:00,  6.92it/s]
+2026-05-08 12:55:34  INFO      progress: 480/500 rows (96%)  4s
+2026-05-08 12:55:34  INFO  me5large/template_relation:  95%|#########5| 40/42 [00:04<00:00,  7.25it/s]
+2026-05-08 12:55:34  INFO  me5large/template_relation:  98%|#########7| 41/42 [00:04<00:00,  7.49it/s]
+2026-05-08 12:55:34  INFO      progress: 500/500 rows (100%)  4s
+2026-05-08 12:55:34  INFO  me5large/template_relation: 100%|##########| 42/42 [00:04<00:00,  7.67it/s]
+2026-05-08 12:55:34  INFO      done  (4s, 110.4 rows/s)
+2026-05-08 12:55:34  INFO      score stats: mean=0.9791  median=0.9936  min=0.1102  max=0.9994
+2026-05-08 12:55:34  INFO      thresh=0.6  TP=352 FP=145 FN=3 TN=0  acc=0.704 prec=0.708 rec=0.992 F1=0.826
+2026-05-08 12:55:34  INFO      thresh=0.7  TP=352 FP=145 FN=3 TN=0  acc=0.704 prec=0.708 rec=0.992 F1=0.826
+2026-05-08 12:55:34  INFO      thresh=0.8  TP=350 FP=144 FN=5 TN=1  acc=0.702 prec=0.709 rec=0.986 F1=0.824
+2026-05-08 12:55:34  INFO      thresh=0.9  TP=339 FP=138 FN=16 TN=7  acc=0.692 prec=0.711 rec=0.955 F1=0.815
+2026-05-08 12:55:34  INFO      [cv5]  running threshold search …
+2026-05-08 12:55:34  INFO      [cv5]  mean_F1=0.8304 ±0.0000  mean_thresh=0.05  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']  fold_F1s=['0.830', '0.830', '0.830', '0.830', '0.830']
+2026-05-08 12:55:34  INFO    [3/3]  premise='text'  hypothesis='llm_relation'  → confidence_me5large_llm_relation
+2026-05-08 12:55:34  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:34  INFO  me5large/llm_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:34  INFO  me5large/llm_relation:   5%|4         | 2/42 [00:00<00:02, 18.24it/s]
+2026-05-08 12:55:34  INFO  me5large/llm_relation:  10%|9         | 4/42 [00:00<00:02, 13.07it/s]
+2026-05-08 12:55:34  INFO  me5large/llm_relation:  14%|#4        | 6/42 [00:00<00:03, 11.76it/s]
+2026-05-08 12:55:35  INFO  me5large/llm_relation:  19%|#9        | 8/42 [00:00<00:03, 11.24it/s]
+2026-05-08 12:55:35  INFO      progress: 120/500 rows (24%)  0s
+2026-05-08 12:55:35  INFO  me5large/llm_relation:  24%|##3       | 10/42 [00:00<00:02, 11.57it/s]
+2026-05-08 12:55:35  INFO  me5large/llm_relation:  29%|##8       | 12/42 [00:01<00:02, 11.16it/s]
+2026-05-08 12:55:35  INFO  me5large/llm_relation:  33%|###3      | 14/42 [00:01<00:02, 10.86it/s]
+2026-05-08 12:55:35  INFO  me5large/llm_relation:  38%|###8      | 16/42 [00:01<00:02, 10.52it/s]
+2026-05-08 12:55:36  INFO  me5large/llm_relation:  43%|####2     | 18/42 [00:01<00:02, 10.47it/s]
+2026-05-08 12:55:36  INFO      progress: 240/500 rows (48%)  1s
+2026-05-08 12:55:36  INFO  me5large/llm_relation:  48%|####7     | 20/42 [00:01<00:02, 10.41it/s]
+2026-05-08 12:55:36  INFO  me5large/llm_relation:  52%|#####2    | 22/42 [00:02<00:01, 10.21it/s]
+2026-05-08 12:55:36  INFO  me5large/llm_relation:  57%|#####7    | 24/42 [00:02<00:01, 10.32it/s]
+2026-05-08 12:55:36  INFO  me5large/llm_relation:  62%|######1   | 26/42 [00:02<00:01, 10.12it/s]
+2026-05-08 12:55:37  INFO  me5large/llm_relation:  67%|######6   | 28/42 [00:02<00:01,  9.43it/s]
+2026-05-08 12:55:37  INFO  me5large/llm_relation:  69%|######9   | 29/42 [00:02<00:01,  9.17it/s]
+2026-05-08 12:55:37  INFO      progress: 360/500 rows (72%)  2s
+2026-05-08 12:55:37  INFO  me5large/llm_relation:  71%|#######1  | 30/42 [00:02<00:01,  8.94it/s]
+2026-05-08 12:55:37  INFO  me5large/llm_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.75it/s]
+2026-05-08 12:55:37  INFO  me5large/llm_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.59it/s]
+2026-05-08 12:55:37  INFO  me5large/llm_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.46it/s]
+2026-05-08 12:55:37  INFO  me5large/llm_relation:  81%|########  | 34/42 [00:03<00:00,  8.38it/s]
+2026-05-08 12:55:37  INFO  me5large/llm_relation:  83%|########3 | 35/42 [00:03<00:00,  8.31it/s]
+2026-05-08 12:55:38  INFO  me5large/llm_relation:  86%|########5 | 36/42 [00:03<00:00,  8.26it/s]
+2026-05-08 12:55:38  INFO  me5large/llm_relation:  88%|########8 | 37/42 [00:03<00:00,  8.21it/s]
+2026-05-08 12:55:38  INFO  me5large/llm_relation:  90%|######### | 38/42 [00:03<00:00,  8.21it/s]
+2026-05-08 12:55:38  INFO  me5large/llm_relation:  93%|#########2| 39/42 [00:04<00:00,  8.19it/s]
+2026-05-08 12:55:38  INFO      progress: 480/500 rows (96%)  4s
+2026-05-08 12:55:38  INFO  me5large/llm_relation:  95%|#########5| 40/42 [00:04<00:00,  8.17it/s]
+2026-05-08 12:55:38  INFO  me5large/llm_relation:  98%|#########7| 41/42 [00:04<00:00,  8.16it/s]
+2026-05-08 12:55:38  INFO      progress: 500/500 rows (100%)  4s
+2026-05-08 12:55:38  INFO  me5large/llm_relation: 100%|##########| 42/42 [00:04<00:00,  8.16it/s]
+2026-05-08 12:55:38  INFO      done  (4s, 112.3 rows/s)
+2026-05-08 12:55:38  INFO      score stats: mean=0.9707  median=0.9937  min=0.2076  max=0.9996
+2026-05-08 12:55:38  INFO      thresh=0.6  TP=351 FP=142 FN=4 TN=3  acc=0.708 prec=0.712 rec=0.989 F1=0.828
+2026-05-08 12:55:38  INFO      thresh=0.7  TP=349 FP=142 FN=6 TN=3  acc=0.704 prec=0.711 rec=0.983 F1=0.825
+2026-05-08 12:55:38  INFO      thresh=0.8  TP=344 FP=138 FN=11 TN=7  acc=0.702 prec=0.714 rec=0.969 F1=0.822
+2026-05-08 12:55:38  INFO      thresh=0.9  TP=329 FP=138 FN=26 TN=7  acc=0.672 prec=0.704 rec=0.927 F1=0.800
+2026-05-08 12:55:38  INFO      [cv5]  running threshold search …
+2026-05-08 12:55:38  INFO      [cv5]  mean_F1=0.8276 ±0.0055  mean_thresh=0.13  fold_thresholds=['0.05', '0.05', '0.05', '0.45', '0.05']  fold_F1s=['0.830', '0.830', '0.830', '0.817', '0.830']
+2026-05-08 12:55:39  INFO      GPU cache cleared
+2026-05-08 12:55:39  INFO    [me5large] total: 16s
+2026-05-08 12:55:39  INFO  ----------------------------------------------------------------------
+2026-05-08 12:55:39  INFO  [model 3/4]  neodictabert
+2026-05-08 12:55:39  INFO      path: /home/nlp/ronke21/hebrew_RE/finetuned_Heb_NLI_encoders/neodictabert_hebnli/checkpoint-4500
+2026-05-08 12:55:39  INFO      torch 2.6.0+cu124  CUDA build=12.4  available=True  devices=1
+2026-05-08 12:55:39  INFO      visible GPU: NVIDIA A100-SXM4-80GB
+2026-05-08 12:55:41  INFO      ready on cuda:0 (363M params)
+2026-05-08 12:55:41  INFO      model loaded in 2s
+2026-05-08 12:55:41  INFO    [1/3]  premise='text'  hypothesis='basic_relation'  → confidence_neodictabert_basic_relation
+2026-05-08 12:55:41  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:41  INFO  neodictabert/basic_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:42  INFO  neodictabert/basic_relation:   5%|4         | 2/42 [00:00<00:02, 15.16it/s]
+2026-05-08 12:55:42  INFO  neodictabert/basic_relation:  10%|9         | 4/42 [00:00<00:02, 15.26it/s]
+2026-05-08 12:55:42  INFO  neodictabert/basic_relation:  14%|#4        | 6/42 [00:00<00:02, 15.84it/s]
+2026-05-08 12:55:42  INFO  neodictabert/basic_relation:  19%|#9        | 8/42 [00:00<00:02, 16.08it/s]
+2026-05-08 12:55:42  INFO      progress: 120/500 rows (24%)  0s
+2026-05-08 12:55:42  INFO  neodictabert/basic_relation:  24%|##3       | 10/42 [00:00<00:01, 16.96it/s]
+2026-05-08 12:55:42  INFO  neodictabert/basic_relation:  29%|##8       | 12/42 [00:00<00:01, 17.17it/s]
+2026-05-08 12:55:42  INFO  neodictabert/basic_relation:  33%|###3      | 14/42 [00:00<00:01, 17.17it/s]
+2026-05-08 12:55:42  INFO  neodictabert/basic_relation:  38%|###8      | 16/42 [00:00<00:01, 17.69it/s]
+2026-05-08 12:55:43  INFO  neodictabert/basic_relation:  43%|####2     | 18/42 [00:01<00:01, 17.34it/s]
+2026-05-08 12:55:43  INFO      progress: 240/500 rows (48%)  1s
+2026-05-08 12:55:43  INFO  neodictabert/basic_relation:  48%|####7     | 20/42 [00:01<00:01, 17.29it/s]
+2026-05-08 12:55:43  INFO  neodictabert/basic_relation:  52%|#####2    | 22/42 [00:01<00:01, 17.06it/s]
+2026-05-08 12:55:43  INFO  neodictabert/basic_relation:  57%|#####7    | 24/42 [00:01<00:01, 16.89it/s]
+2026-05-08 12:55:43  INFO  neodictabert/basic_relation:  62%|######1   | 26/42 [00:01<00:01, 14.23it/s]
+2026-05-08 12:55:43  INFO  neodictabert/basic_relation:  67%|######6   | 28/42 [00:01<00:01,  9.39it/s]
+2026-05-08 12:55:44  INFO      progress: 360/500 rows (72%)  2s
+2026-05-08 12:55:44  INFO  neodictabert/basic_relation:  71%|#######1  | 30/42 [00:02<00:01,  9.55it/s]
+2026-05-08 12:55:44  INFO  neodictabert/basic_relation:  76%|#######6  | 32/42 [00:02<00:01,  9.95it/s]
+2026-05-08 12:55:44  INFO  neodictabert/basic_relation:  81%|########  | 34/42 [00:02<00:00, 10.01it/s]
+2026-05-08 12:55:44  INFO  neodictabert/basic_relation:  86%|########5 | 36/42 [00:02<00:00,  9.99it/s]
+2026-05-08 12:55:44  INFO  neodictabert/basic_relation:  90%|######### | 38/42 [00:02<00:00, 10.67it/s]
+2026-05-08 12:55:45  INFO      progress: 480/500 rows (96%)  3s
+2026-05-08 12:55:45  INFO  neodictabert/basic_relation:  95%|#########5| 40/42 [00:03<00:00, 10.74it/s]
+2026-05-08 12:55:45  INFO      progress: 500/500 rows (100%)  3s
+2026-05-08 12:55:45  INFO  neodictabert/basic_relation: 100%|##########| 42/42 [00:03<00:00, 10.87it/s]
+2026-05-08 12:55:45  INFO      done  (3s, 149.8 rows/s)
+2026-05-08 12:55:45  INFO      score stats: mean=0.9673  median=0.9983  min=0.0071  max=1.0000
+2026-05-08 12:55:45  INFO      thresh=0.6  TP=344 FP=144 FN=11 TN=1  acc=0.690 prec=0.705 rec=0.969 F1=0.816
+2026-05-08 12:55:45  INFO      thresh=0.7  TP=342 FP=143 FN=13 TN=2  acc=0.688 prec=0.705 rec=0.963 F1=0.814
+2026-05-08 12:55:45  INFO      thresh=0.8  TP=337 FP=141 FN=18 TN=4  acc=0.682 prec=0.705 rec=0.949 F1=0.809
+2026-05-08 12:55:45  INFO      thresh=0.9  TP=330 FP=135 FN=25 TN=10  acc=0.680 prec=0.710 rec=0.930 F1=0.805
+2026-05-08 12:55:45  INFO      [cv5]  running threshold search …
+2026-05-08 12:55:45  INFO      [cv5]  mean_F1=0.8277 ±0.0034  mean_thresh=0.05  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']  fold_F1s=['0.830', '0.830', '0.824', '0.824', '0.830']
+2026-05-08 12:55:45  INFO    [2/3]  premise='text'  hypothesis='template_relation'  → confidence_neodictabert_template_relation
+2026-05-08 12:55:45  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:45  INFO  neodictabert/template_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:45  INFO  neodictabert/template_relation:   7%|7         | 3/42 [00:00<00:01, 20.94it/s]
+2026-05-08 12:55:45  INFO  neodictabert/template_relation:  14%|#4        | 6/42 [00:00<00:01, 18.51it/s]
+2026-05-08 12:55:45  INFO  neodictabert/template_relation:  19%|#9        | 8/42 [00:00<00:01, 17.46it/s]
+2026-05-08 12:55:45  INFO      progress: 120/500 rows (24%)  0s
+2026-05-08 12:55:45  INFO  neodictabert/template_relation:  24%|##3       | 10/42 [00:00<00:01, 18.24it/s]
+2026-05-08 12:55:45  INFO  neodictabert/template_relation:  29%|##8       | 12/42 [00:00<00:01, 17.70it/s]
+2026-05-08 12:55:46  INFO  neodictabert/template_relation:  33%|###3      | 14/42 [00:00<00:01, 17.58it/s]
+2026-05-08 12:55:46  INFO  neodictabert/template_relation:  38%|###8      | 16/42 [00:00<00:01, 17.88it/s]
+2026-05-08 12:55:46  INFO  neodictabert/template_relation:  43%|####2     | 18/42 [00:01<00:01, 17.45it/s]
+2026-05-08 12:55:46  INFO      progress: 240/500 rows (48%)  1s
+2026-05-08 12:55:46  INFO  neodictabert/template_relation:  48%|####7     | 20/42 [00:01<00:01, 17.39it/s]
+2026-05-08 12:55:46  INFO  neodictabert/template_relation:  52%|#####2    | 22/42 [00:01<00:01, 16.98it/s]
+2026-05-08 12:55:46  INFO  neodictabert/template_relation:  57%|#####7    | 24/42 [00:01<00:01, 16.74it/s]
+2026-05-08 12:55:46  INFO  neodictabert/template_relation:  62%|######1   | 26/42 [00:01<00:01, 15.97it/s]
+2026-05-08 12:55:47  INFO  neodictabert/template_relation:  67%|######6   | 28/42 [00:01<00:01, 13.66it/s]
+2026-05-08 12:55:47  INFO      progress: 360/500 rows (72%)  1s
+2026-05-08 12:55:47  INFO  neodictabert/template_relation:  71%|#######1  | 30/42 [00:01<00:00, 12.20it/s]
+2026-05-08 12:55:47  INFO  neodictabert/template_relation:  76%|#######6  | 32/42 [00:02<00:00, 11.80it/s]
+2026-05-08 12:55:47  INFO  neodictabert/template_relation:  81%|########  | 34/42 [00:02<00:00, 11.22it/s]
+2026-05-08 12:55:47  INFO  neodictabert/template_relation:  86%|########5 | 36/42 [00:02<00:00, 10.77it/s]
+2026-05-08 12:55:47  INFO  neodictabert/template_relation:  90%|######### | 38/42 [00:02<00:00, 11.11it/s]
+2026-05-08 12:55:48  INFO      progress: 480/500 rows (96%)  2s
+2026-05-08 12:55:48  INFO  neodictabert/template_relation:  95%|#########5| 40/42 [00:02<00:00, 11.07it/s]
+2026-05-08 12:55:48  INFO      progress: 500/500 rows (100%)  3s
+2026-05-08 12:55:48  INFO  neodictabert/template_relation: 100%|##########| 42/42 [00:03<00:00, 11.10it/s]
+2026-05-08 12:55:48  INFO      done  (3s, 163.3 rows/s)
+2026-05-08 12:55:48  INFO      score stats: mean=0.9700  median=0.9985  min=0.0071  max=1.0000
+2026-05-08 12:55:48  INFO      thresh=0.6  TP=346 FP=144 FN=9 TN=1  acc=0.694 prec=0.706 rec=0.975 F1=0.819
+2026-05-08 12:55:48  INFO      thresh=0.7  TP=345 FP=143 FN=10 TN=2  acc=0.694 prec=0.707 rec=0.972 F1=0.819
+2026-05-08 12:55:48  INFO      thresh=0.8  TP=339 FP=143 FN=16 TN=2  acc=0.682 prec=0.703 rec=0.955 F1=0.810
+2026-05-08 12:55:48  INFO      thresh=0.9  TP=328 FP=136 FN=27 TN=9  acc=0.674 prec=0.707 rec=0.924 F1=0.801
+2026-05-08 12:55:48  INFO      [cv5]  running threshold search …
+2026-05-08 12:55:48  INFO      [cv5]  mean_F1=0.8290 ±0.0028  mean_thresh=0.05  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']  fold_F1s=['0.830', '0.830', '0.830', '0.824', '0.830']
+2026-05-08 12:55:48  INFO    [3/3]  premise='text'  hypothesis='llm_relation'  → confidence_neodictabert_llm_relation
+2026-05-08 12:55:48  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:48  INFO  neodictabert/llm_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:48  INFO  neodictabert/llm_relation:   7%|7         | 3/42 [00:00<00:01, 21.64it/s]
+2026-05-08 12:55:48  INFO  neodictabert/llm_relation:  14%|#4        | 6/42 [00:00<00:01, 18.24it/s]
+2026-05-08 12:55:48  INFO  neodictabert/llm_relation:  19%|#9        | 8/42 [00:00<00:01, 17.61it/s]
+2026-05-08 12:55:48  INFO      progress: 120/500 rows (24%)  0s
+2026-05-08 12:55:48  INFO  neodictabert/llm_relation:  24%|##3       | 10/42 [00:00<00:01, 18.15it/s]
+2026-05-08 12:55:49  INFO  neodictabert/llm_relation:  29%|##8       | 12/42 [00:00<00:01, 17.84it/s]
+2026-05-08 12:55:49  INFO  neodictabert/llm_relation:  33%|###3      | 14/42 [00:00<00:01, 17.70it/s]
+2026-05-08 12:55:49  INFO  neodictabert/llm_relation:  38%|###8      | 16/42 [00:00<00:01, 17.94it/s]
+2026-05-08 12:55:49  INFO  neodictabert/llm_relation:  43%|####2     | 18/42 [00:01<00:01, 17.56it/s]
+2026-05-08 12:55:49  INFO      progress: 240/500 rows (48%)  1s
+2026-05-08 12:55:49  INFO  neodictabert/llm_relation:  48%|####7     | 20/42 [00:01<00:01, 17.38it/s]
+2026-05-08 12:55:49  INFO  neodictabert/llm_relation:  52%|#####2    | 22/42 [00:01<00:01, 17.16it/s]
+2026-05-08 12:55:49  INFO  neodictabert/llm_relation:  57%|#####7    | 24/42 [00:01<00:01, 16.86it/s]
+2026-05-08 12:55:49  INFO  neodictabert/llm_relation:  62%|######1   | 26/42 [00:01<00:00, 16.08it/s]
+2026-05-08 12:55:50  INFO  neodictabert/llm_relation:  67%|######6   | 28/42 [00:01<00:01, 13.71it/s]
+2026-05-08 12:55:50  INFO      progress: 360/500 rows (72%)  1s
+2026-05-08 12:55:50  INFO  neodictabert/llm_relation:  71%|#######1  | 30/42 [00:01<00:00, 12.21it/s]
+2026-05-08 12:55:50  INFO  neodictabert/llm_relation:  76%|#######6  | 32/42 [00:02<00:00, 11.60it/s]
+2026-05-08 12:55:50  INFO  neodictabert/llm_relation:  81%|########  | 34/42 [00:02<00:00, 11.25it/s]
+2026-05-08 12:55:50  INFO  neodictabert/llm_relation:  86%|########5 | 36/42 [00:02<00:00, 10.77it/s]
+2026-05-08 12:55:51  INFO  neodictabert/llm_relation:  90%|######### | 38/42 [00:02<00:00, 11.29it/s]
+2026-05-08 12:55:51  INFO      progress: 480/500 rows (96%)  2s
+2026-05-08 12:55:51  INFO  neodictabert/llm_relation:  95%|#########5| 40/42 [00:02<00:00, 11.19it/s]
+2026-05-08 12:55:51  INFO      progress: 500/500 rows (100%)  3s
+2026-05-08 12:55:51  INFO  neodictabert/llm_relation: 100%|##########| 42/42 [00:03<00:00, 11.16it/s]
+2026-05-08 12:55:51  INFO      done  (3s, 164.0 rows/s)
+2026-05-08 12:55:51  INFO      score stats: mean=0.9616  median=0.9987  min=0.0111  max=1.0000
+2026-05-08 12:55:51  INFO      thresh=0.6  TP=341 FP=143 FN=14 TN=2  acc=0.686 prec=0.705 rec=0.961 F1=0.813
+2026-05-08 12:55:51  INFO      thresh=0.7  TP=339 FP=141 FN=16 TN=4  acc=0.686 prec=0.706 rec=0.955 F1=0.812
+2026-05-08 12:55:51  INFO      thresh=0.8  TP=335 FP=141 FN=20 TN=4  acc=0.678 prec=0.704 rec=0.944 F1=0.806
+2026-05-08 12:55:51  INFO      thresh=0.9  TP=328 FP=135 FN=27 TN=10  acc=0.676 prec=0.708 rec=0.924 F1=0.802
+2026-05-08 12:55:51  INFO      [cv5]  running threshold search …
+2026-05-08 12:55:51  INFO      [cv5]  mean_F1=0.8263 ±0.0055  mean_thresh=0.05  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']  fold_F1s=['0.830', '0.830', '0.817', '0.824', '0.830']
+2026-05-08 12:55:51  INFO      GPU cache cleared
+2026-05-08 12:55:51  INFO    [neodictabert] total: 12s
+2026-05-08 12:55:51  INFO  ----------------------------------------------------------------------
+2026-05-08 12:55:51  INFO  [model 4/4]  xlmroberta
+2026-05-08 12:55:51  INFO      path: /home/nlp/ronke21/hebrew_RE/finetuned_Heb_NLI_encoders/xlm-roberta-large_hebnli/checkpoint-2000
+2026-05-08 12:55:51  INFO      torch 2.6.0+cu124  CUDA build=12.4  available=True  devices=1
+2026-05-08 12:55:51  INFO      visible GPU: NVIDIA A100-SXM4-80GB
+2026-05-08 12:55:53  INFO      ready on cuda:0 (560M params)
+2026-05-08 12:55:53  INFO      model loaded in 2s
+2026-05-08 12:55:53  INFO    [1/3]  premise='text'  hypothesis='basic_relation'  → confidence_xlmroberta_basic_relation
+2026-05-08 12:55:53  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:53  INFO  xlmroberta/basic_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:53  INFO  xlmroberta/basic_relation:   5%|4         | 2/42 [00:00<00:02, 14.83it/s]
+2026-05-08 12:55:54  INFO  xlmroberta/basic_relation:  10%|9         | 4/42 [00:00<00:03, 11.78it/s]
+2026-05-08 12:55:54  INFO  xlmroberta/basic_relation:  14%|#4        | 6/42 [00:00<00:05,  6.57it/s]
+2026-05-08 12:55:54  INFO  xlmroberta/basic_relation:  19%|#9        | 8/42 [00:00<00:04,  7.77it/s]
+2026-05-08 12:55:54  INFO      progress: 120/500 rows (24%)  1s
+2026-05-08 12:55:54  INFO  xlmroberta/basic_relation:  24%|##3       | 10/42 [00:01<00:03,  8.94it/s]
+2026-05-08 12:55:55  INFO  xlmroberta/basic_relation:  29%|##8       | 12/42 [00:01<00:03,  9.42it/s]
+2026-05-08 12:55:55  INFO  xlmroberta/basic_relation:  33%|###3      | 14/42 [00:01<00:02,  9.63it/s]
+2026-05-08 12:55:55  INFO  xlmroberta/basic_relation:  38%|###8      | 16/42 [00:01<00:02,  9.72it/s]
+2026-05-08 12:55:55  INFO  xlmroberta/basic_relation:  43%|####2     | 18/42 [00:01<00:02,  9.91it/s]
+2026-05-08 12:55:55  INFO      progress: 240/500 rows (48%)  2s
+2026-05-08 12:55:55  INFO  xlmroberta/basic_relation:  48%|####7     | 20/42 [00:02<00:02, 10.02it/s]
+2026-05-08 12:55:56  INFO  xlmroberta/basic_relation:  52%|#####2    | 22/42 [00:02<00:02,  9.97it/s]
+2026-05-08 12:55:56  INFO  xlmroberta/basic_relation:  57%|#####7    | 24/42 [00:02<00:01, 10.20it/s]
+2026-05-08 12:55:56  INFO  xlmroberta/basic_relation:  62%|######1   | 26/42 [00:02<00:01,  9.19it/s]
+2026-05-08 12:55:56  INFO  xlmroberta/basic_relation:  64%|######4   | 27/42 [00:02<00:01,  8.99it/s]
+2026-05-08 12:55:56  INFO  xlmroberta/basic_relation:  67%|######6   | 28/42 [00:03<00:01,  8.78it/s]
+2026-05-08 12:55:57  INFO  xlmroberta/basic_relation:  69%|######9   | 29/42 [00:03<00:01,  8.62it/s]
+2026-05-08 12:55:57  INFO      progress: 360/500 rows (72%)  3s
+2026-05-08 12:55:57  INFO  xlmroberta/basic_relation:  71%|#######1  | 30/42 [00:03<00:01,  8.51it/s]
+2026-05-08 12:55:57  INFO  xlmroberta/basic_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.42it/s]
+2026-05-08 12:55:57  INFO  xlmroberta/basic_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.35it/s]
+2026-05-08 12:55:57  INFO  xlmroberta/basic_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.29it/s]
+2026-05-08 12:55:57  INFO  xlmroberta/basic_relation:  81%|########  | 34/42 [00:03<00:00,  8.24it/s]
+2026-05-08 12:55:57  INFO  xlmroberta/basic_relation:  83%|########3 | 35/42 [00:03<00:00,  8.19it/s]
+2026-05-08 12:55:57  INFO  xlmroberta/basic_relation:  86%|########5 | 36/42 [00:04<00:00,  8.15it/s]
+2026-05-08 12:55:57  INFO  xlmroberta/basic_relation:  88%|########8 | 37/42 [00:04<00:00,  8.13it/s]
+2026-05-08 12:55:58  INFO  xlmroberta/basic_relation:  90%|######### | 38/42 [00:04<00:00,  8.15it/s]
+2026-05-08 12:55:58  INFO  xlmroberta/basic_relation:  93%|#########2| 39/42 [00:04<00:00,  8.15it/s]
+2026-05-08 12:55:58  INFO      progress: 480/500 rows (96%)  4s
+2026-05-08 12:55:58  INFO  xlmroberta/basic_relation:  95%|#########5| 40/42 [00:04<00:00,  8.10it/s]
+2026-05-08 12:55:58  INFO  xlmroberta/basic_relation:  98%|#########7| 41/42 [00:04<00:00,  8.13it/s]
+2026-05-08 12:55:58  INFO      progress: 500/500 rows (100%)  4s
+2026-05-08 12:55:58  INFO  xlmroberta/basic_relation: 100%|##########| 42/42 [00:04<00:00,  8.11it/s]
+2026-05-08 12:55:58  INFO      done  (4s, 103.8 rows/s)
+2026-05-08 12:55:58  INFO      score stats: mean=0.9655  median=0.9868  min=0.4692  max=0.9987
+2026-05-08 12:55:58  INFO      thresh=0.6  TP=349 FP=145 FN=6 TN=0  acc=0.698 prec=0.706 rec=0.983 F1=0.822
+2026-05-08 12:55:58  INFO      thresh=0.7  TP=345 FP=145 FN=10 TN=0  acc=0.690 prec=0.704 rec=0.972 F1=0.817
+2026-05-08 12:55:58  INFO      thresh=0.8  TP=339 FP=144 FN=16 TN=1  acc=0.680 prec=0.702 rec=0.955 F1=0.809
+2026-05-08 12:55:58  INFO      thresh=0.9  TP=324 FP=140 FN=31 TN=5  acc=0.658 prec=0.698 rec=0.913 F1=0.791
+2026-05-08 12:55:58  INFO      [cv5]  running threshold search …
+2026-05-08 12:55:58  INFO      [cv5]  mean_F1=0.8304 ±0.0000  mean_thresh=0.05  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']  fold_F1s=['0.830', '0.830', '0.830', '0.830', '0.830']
+2026-05-08 12:55:58  INFO    [2/3]  premise='text'  hypothesis='template_relation'  → confidence_xlmroberta_template_relation
+2026-05-08 12:55:58  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:55:58  INFO  xlmroberta/template_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:55:58  INFO  xlmroberta/template_relation:   5%|4         | 2/42 [00:00<00:02, 18.20it/s]
+2026-05-08 12:55:58  INFO  xlmroberta/template_relation:  10%|9         | 4/42 [00:00<00:02, 13.17it/s]
+2026-05-08 12:55:59  INFO  xlmroberta/template_relation:  14%|#4        | 6/42 [00:00<00:03, 11.76it/s]
+2026-05-08 12:55:59  INFO  xlmroberta/template_relation:  19%|#9        | 8/42 [00:00<00:03, 11.24it/s]
+2026-05-08 12:55:59  INFO      progress: 120/500 rows (24%)  0s
+2026-05-08 12:55:59  INFO  xlmroberta/template_relation:  24%|##3       | 10/42 [00:00<00:02, 11.61it/s]
+2026-05-08 12:55:59  INFO  xlmroberta/template_relation:  29%|##8       | 12/42 [00:01<00:02, 11.19it/s]
+2026-05-08 12:55:59  INFO  xlmroberta/template_relation:  33%|###3      | 14/42 [00:01<00:02, 10.79it/s]
+2026-05-08 12:56:00  INFO  xlmroberta/template_relation:  38%|###8      | 16/42 [00:01<00:02, 10.50it/s]
+2026-05-08 12:56:00  INFO  xlmroberta/template_relation:  43%|####2     | 18/42 [00:01<00:02, 10.44it/s]
+2026-05-08 12:56:00  INFO      progress: 240/500 rows (48%)  1s
+2026-05-08 12:56:00  INFO  xlmroberta/template_relation:  48%|####7     | 20/42 [00:01<00:02, 10.36it/s]
+2026-05-08 12:56:00  INFO  xlmroberta/template_relation:  52%|#####2    | 22/42 [00:02<00:01, 10.21it/s]
+2026-05-08 12:56:00  INFO  xlmroberta/template_relation:  57%|#####7    | 24/42 [00:02<00:01, 10.30it/s]
+2026-05-08 12:56:01  INFO  xlmroberta/template_relation:  62%|######1   | 26/42 [00:02<00:01, 10.09it/s]
+2026-05-08 12:56:01  INFO  xlmroberta/template_relation:  67%|######6   | 28/42 [00:02<00:01,  7.94it/s]
+2026-05-08 12:56:01  INFO  xlmroberta/template_relation:  69%|######9   | 29/42 [00:02<00:01,  7.98it/s]
+2026-05-08 12:56:01  INFO      progress: 360/500 rows (72%)  3s
+2026-05-08 12:56:01  INFO  xlmroberta/template_relation:  71%|#######1  | 30/42 [00:03<00:01,  8.01it/s]
+2026-05-08 12:56:01  INFO  xlmroberta/template_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.04it/s]
+2026-05-08 12:56:01  INFO  xlmroberta/template_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.03it/s]
+2026-05-08 12:56:02  INFO  xlmroberta/template_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.06it/s]
+2026-05-08 12:56:02  INFO  xlmroberta/template_relation:  81%|########  | 34/42 [00:03<00:00,  8.09it/s]
+2026-05-08 12:56:02  INFO  xlmroberta/template_relation:  83%|########3 | 35/42 [00:03<00:00,  8.11it/s]
+2026-05-08 12:56:02  INFO  xlmroberta/template_relation:  86%|########5 | 36/42 [00:03<00:00,  8.12it/s]
+2026-05-08 12:56:02  INFO  xlmroberta/template_relation:  88%|########8 | 37/42 [00:03<00:00,  8.13it/s]
+2026-05-08 12:56:02  INFO  xlmroberta/template_relation:  90%|######### | 38/42 [00:04<00:00,  8.13it/s]
+2026-05-08 12:56:02  INFO  xlmroberta/template_relation:  93%|#########2| 39/42 [00:04<00:00,  8.12it/s]
+2026-05-08 12:56:02  INFO      progress: 480/500 rows (96%)  4s
+2026-05-08 12:56:02  INFO  xlmroberta/template_relation:  95%|#########5| 40/42 [00:04<00:00,  8.11it/s]
+2026-05-08 12:56:03  INFO  xlmroberta/template_relation:  98%|#########7| 41/42 [00:04<00:00,  8.13it/s]
+2026-05-08 12:56:03  INFO      progress: 500/500 rows (100%)  4s
+2026-05-08 12:56:03  INFO  xlmroberta/template_relation: 100%|##########| 42/42 [00:04<00:00,  8.13it/s]
+2026-05-08 12:56:03  INFO      done  (4s, 109.0 rows/s)
+2026-05-08 12:56:03  INFO      score stats: mean=0.9674  median=0.9877  min=0.4071  max=0.9989
+2026-05-08 12:56:03  INFO      thresh=0.6  TP=352 FP=144 FN=3 TN=1  acc=0.706 prec=0.710 rec=0.992 F1=0.827
+2026-05-08 12:56:03  INFO      thresh=0.7  TP=348 FP=144 FN=7 TN=1  acc=0.698 prec=0.707 rec=0.980 F1=0.822
+2026-05-08 12:56:03  INFO      thresh=0.8  TP=344 FP=141 FN=11 TN=4  acc=0.696 prec=0.709 rec=0.969 F1=0.819
+2026-05-08 12:56:03  INFO      thresh=0.9  TP=325 FP=140 FN=30 TN=5  acc=0.660 prec=0.699 rec=0.915 F1=0.793
+2026-05-08 12:56:03  INFO      [cv5]  running threshold search …
+2026-05-08 12:56:03  INFO      [cv5]  mean_F1=0.8304 ±0.0000  mean_thresh=0.05  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']  fold_F1s=['0.830', '0.830', '0.830', '0.830', '0.830']
+2026-05-08 12:56:03  INFO    [3/3]  premise='text'  hypothesis='llm_relation'  → confidence_xlmroberta_llm_relation
+2026-05-08 12:56:03  INFO      rows=500, batch_size=12, n_batches=42
+2026-05-08 12:56:03  INFO  xlmroberta/llm_relation:   0%|          | 0/42 [00:00<?, ?it/s]
+2026-05-08 12:56:03  INFO  xlmroberta/llm_relation:   5%|4         | 2/42 [00:00<00:02, 18.06it/s]
+2026-05-08 12:56:03  INFO  xlmroberta/llm_relation:  10%|9         | 4/42 [00:00<00:02, 13.14it/s]
+2026-05-08 12:56:03  INFO  xlmroberta/llm_relation:  14%|#4        | 6/42 [00:00<00:03, 11.76it/s]
+2026-05-08 12:56:03  INFO  xlmroberta/llm_relation:  19%|#9        | 8/42 [00:00<00:03, 11.24it/s]
+2026-05-08 12:56:04  INFO      progress: 120/500 rows (24%)  0s
+2026-05-08 12:56:04  INFO  xlmroberta/llm_relation:  24%|##3       | 10/42 [00:00<00:02, 11.54it/s]
+2026-05-08 12:56:04  INFO  xlmroberta/llm_relation:  29%|##8       | 12/42 [00:01<00:02, 11.14it/s]
+2026-05-08 12:56:04  INFO  xlmroberta/llm_relation:  33%|###3      | 14/42 [00:01<00:02, 10.84it/s]
+2026-05-08 12:56:04  INFO  xlmroberta/llm_relation:  38%|###8      | 16/42 [00:01<00:02, 10.51it/s]
+2026-05-08 12:56:04  INFO  xlmroberta/llm_relation:  43%|####2     | 18/42 [00:01<00:02, 10.46it/s]
+2026-05-08 12:56:05  INFO      progress: 240/500 rows (48%)  1s
+2026-05-08 12:56:05  INFO  xlmroberta/llm_relation:  48%|####7     | 20/42 [00:01<00:02, 10.38it/s]
+2026-05-08 12:56:05  INFO  xlmroberta/llm_relation:  52%|#####2    | 22/42 [00:02<00:01, 10.17it/s]
+2026-05-08 12:56:05  INFO  xlmroberta/llm_relation:  57%|#####7    | 24/42 [00:02<00:01, 10.30it/s]
+2026-05-08 12:56:05  INFO  xlmroberta/llm_relation:  62%|######1   | 26/42 [00:02<00:01, 10.09it/s]
+2026-05-08 12:56:05  INFO  xlmroberta/llm_relation:  67%|######6   | 28/42 [00:02<00:01,  9.42it/s]
+2026-05-08 12:56:06  INFO  xlmroberta/llm_relation:  69%|######9   | 29/42 [00:02<00:01,  9.16it/s]
+2026-05-08 12:56:06  INFO      progress: 360/500 rows (72%)  2s
+2026-05-08 12:56:06  INFO  xlmroberta/llm_relation:  71%|#######1  | 30/42 [00:02<00:01,  8.94it/s]
+2026-05-08 12:56:06  INFO  xlmroberta/llm_relation:  74%|#######3  | 31/42 [00:03<00:01,  8.75it/s]
+2026-05-08 12:56:06  INFO  xlmroberta/llm_relation:  76%|#######6  | 32/42 [00:03<00:01,  8.59it/s]
+2026-05-08 12:56:06  INFO  xlmroberta/llm_relation:  79%|#######8  | 33/42 [00:03<00:01,  8.47it/s]
+2026-05-08 12:56:06  INFO  xlmroberta/llm_relation:  81%|########  | 34/42 [00:03<00:00,  8.38it/s]
+2026-05-08 12:56:06  INFO  xlmroberta/llm_relation:  83%|########3 | 35/42 [00:03<00:00,  8.32it/s]
+2026-05-08 12:56:06  INFO  xlmroberta/llm_relation:  86%|########5 | 36/42 [00:03<00:00,  8.26it/s]
+2026-05-08 12:56:07  INFO  xlmroberta/llm_relation:  88%|########8 | 37/42 [00:03<00:00,  8.23it/s]
+2026-05-08 12:56:07  INFO  xlmroberta/llm_relation:  90%|######### | 38/42 [00:03<00:00,  8.20it/s]
+2026-05-08 12:56:07  INFO  xlmroberta/llm_relation:  93%|#########2| 39/42 [00:04<00:00,  8.19it/s]
+2026-05-08 12:56:07  INFO      progress: 480/500 rows (96%)  4s
+2026-05-08 12:56:07  INFO  xlmroberta/llm_relation:  95%|#########5| 40/42 [00:04<00:00,  8.17it/s]
+2026-05-08 12:56:07  INFO  xlmroberta/llm_relation:  98%|#########7| 41/42 [00:04<00:00,  8.16it/s]
+2026-05-08 12:56:07  INFO      progress: 500/500 rows (100%)  4s
+2026-05-08 12:56:07  INFO  xlmroberta/llm_relation: 100%|##########| 42/42 [00:04<00:00,  8.12it/s]
+2026-05-08 12:56:07  INFO      done  (4s, 112.2 rows/s)
+2026-05-08 12:56:07  INFO      score stats: mean=0.9668  median=0.9879  min=0.5325  max=0.9988
+2026-05-08 12:56:07  INFO      thresh=0.6  TP=350 FP=145 FN=5 TN=0  acc=0.700 prec=0.707 rec=0.986 F1=0.824
+2026-05-08 12:56:07  INFO      thresh=0.7  TP=347 FP=144 FN=8 TN=1  acc=0.696 prec=0.707 rec=0.977 F1=0.820
+2026-05-08 12:56:07  INFO      thresh=0.8  TP=337 FP=143 FN=18 TN=2  acc=0.678 prec=0.702 rec=0.949 F1=0.807
+2026-05-08 12:56:07  INFO      thresh=0.9  TP=324 FP=142 FN=31 TN=3  acc=0.654 prec=0.695 rec=0.913 F1=0.789
+2026-05-08 12:56:07  INFO      [cv5]  running threshold search …
+2026-05-08 12:56:07  INFO      [cv5]  mean_F1=0.8304 ±0.0000  mean_thresh=0.05  fold_thresholds=['0.05', '0.05', '0.05', '0.05', '0.05']  fold_F1s=['0.830', '0.830', '0.830', '0.830', '0.830']
+2026-05-08 12:56:08  INFO      GPU cache cleared
+2026-05-08 12:56:08  INFO    [xlmroberta] total: 16s
+2026-05-08 12:56:08  INFO  ======================================================================
+2026-05-08 12:56:08  INFO  [ensemble]  building ensemble columns
+2026-05-08 12:56:08  INFO    nli_ensemble_basic_relation: best F1=0.829
+2026-05-08 12:56:08  INFO    nli_ensemble_template_relation: best F1=0.830
+2026-05-08 12:56:08  INFO    nli_ensemble_llm_relation: best F1=0.830
+2026-05-08 12:56:08  INFO    best hyp for mmbert: 'basic_relation'  (F1=0.820)
+2026-05-08 12:56:08  INFO    best hyp for me5large: 'template_relation'  (F1=0.826)
+2026-05-08 12:56:08  INFO    best hyp for neodictabert: 'template_relation'  (F1=0.819)
+2026-05-08 12:56:08  INFO    best hyp for xlmroberta: 'template_relation'  (F1=0.822)
+2026-05-08 12:56:08  INFO    nli_ensemble_best_per_model: best F1=0.830
+2026-05-08 12:56:08  INFO    nli_ensemble_all: best F1=0.830
+2026-05-08 12:56:08  INFO  [save]  500 rows → /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_classified.csv
+2026-05-08 12:56:08  INFO  ==============================================================================================================
+2026-05-08 12:56:08  INFO  ==============================================================================================================
+2026-05-08 12:56:08  INFO  NLI CLASSIFICATION SUMMARY
+2026-05-08 12:56:08  INFO  Total wall time : 1m 5s
+2026-05-08 12:56:08  INFO  Fixed thresholds: [0.6, 0.7, 0.8, 0.9]
+2026-05-08 12:56:08  INFO  CV folds        : 5  |  thresh grid: 0.05–0.95 (19 values, step 0.05)
+2026-05-08 12:56:08  INFO  ==============================================================================================================
+2026-05-08 12:56:08  INFO  
+2026-05-08 12:56:08  INFO  Per-model total inference time:
+2026-05-08 12:56:08  INFO    mmbert            11s
+2026-05-08 12:56:08  INFO    me5large          13s
+2026-05-08 12:56:08  INFO    neodictabert      9s
+2026-05-08 12:56:08  INFO    xlmroberta        13s
+2026-05-08 12:56:08  INFO  
+2026-05-08 12:56:08  INFO  FIXED-THRESHOLD METRICS
+2026-05-08 12:56:08  INFO    model          hypothesis             thresh     acc   prec    rec     f1     TP    FP    FN    TN  mean_conf      time
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    mmbert         basic_relation            0.6   0.704  0.708  0.992  0.826    352   145     3     0     0.9180        7s
+2026-05-08 12:56:08  INFO    mmbert         basic_relation            0.7   0.696  0.707  0.977  0.820    347   144     8     1     0.9180          
+2026-05-08 12:56:08  INFO    mmbert         basic_relation            0.8   0.684  0.709  0.941  0.809    334   137    21     8     0.9180          
+2026-05-08 12:56:08  INFO    mmbert         basic_relation            0.9   0.600  0.704  0.752  0.728    267   112    88    33     0.9180          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    mmbert         template_relation         0.6   0.704  0.709  0.989  0.826    351   144     4     1     0.9195        1s
+2026-05-08 12:56:08  INFO    mmbert         template_relation         0.7   0.692  0.706  0.972  0.818    345   144    10     1     0.9195          
+2026-05-08 12:56:08  INFO    mmbert         template_relation         0.8   0.686  0.712  0.935  0.809    332   134    23    11     0.9195          
+2026-05-08 12:56:08  INFO    mmbert         template_relation         0.9   0.616  0.715  0.763  0.738    271   108    84    37     0.9195          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    mmbert         llm_relation              0.6   0.702  0.709  0.986  0.824    350   144     5     1     0.9140        2s
+2026-05-08 12:56:08  INFO    mmbert         llm_relation              0.7   0.696  0.708  0.975  0.820    346   143     9     2     0.9140          
+2026-05-08 12:56:08  INFO    mmbert         llm_relation              0.8   0.676  0.708  0.924  0.802    328   135    27    10     0.9140          
+2026-05-08 12:56:08  INFO    mmbert         llm_relation              0.9   0.582  0.703  0.713  0.708    253   107   102    38     0.9140          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    me5large       basic_relation            0.6   0.704  0.709  0.989  0.826    351   144     4     1     0.9761        4s
+2026-05-08 12:56:08  INFO    me5large       basic_relation            0.7   0.704  0.709  0.989  0.826    351   144     4     1     0.9761          
+2026-05-08 12:56:08  INFO    me5large       basic_relation            0.8   0.702  0.710  0.980  0.824    348   142     7     3     0.9761          
+2026-05-08 12:56:08  INFO    me5large       basic_relation            0.9   0.688  0.708  0.955  0.813    339   140    16     5     0.9761          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    me5large       template_relation         0.6   0.704  0.708  0.992  0.826    352   145     3     0     0.9791        4s
+2026-05-08 12:56:08  INFO    me5large       template_relation         0.7   0.704  0.708  0.992  0.826    352   145     3     0     0.9791          
+2026-05-08 12:56:08  INFO    me5large       template_relation         0.8   0.702  0.709  0.986  0.824    350   144     5     1     0.9791          
+2026-05-08 12:56:08  INFO    me5large       template_relation         0.9   0.692  0.711  0.955  0.815    339   138    16     7     0.9791          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    me5large       llm_relation              0.6   0.708  0.712  0.989  0.828    351   142     4     3     0.9707        4s
+2026-05-08 12:56:08  INFO    me5large       llm_relation              0.7   0.704  0.711  0.983  0.825    349   142     6     3     0.9707          
+2026-05-08 12:56:08  INFO    me5large       llm_relation              0.8   0.702  0.714  0.969  0.822    344   138    11     7     0.9707          
+2026-05-08 12:56:08  INFO    me5large       llm_relation              0.9   0.672  0.704  0.927  0.800    329   138    26     7     0.9707          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    neodictabert   basic_relation            0.6   0.690  0.705  0.969  0.816    344   144    11     1     0.9673        3s
+2026-05-08 12:56:08  INFO    neodictabert   basic_relation            0.7   0.688  0.705  0.963  0.814    342   143    13     2     0.9673          
+2026-05-08 12:56:08  INFO    neodictabert   basic_relation            0.8   0.682  0.705  0.949  0.809    337   141    18     4     0.9673          
+2026-05-08 12:56:08  INFO    neodictabert   basic_relation            0.9   0.680  0.710  0.930  0.805    330   135    25    10     0.9673          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    neodictabert   template_relation         0.6   0.694  0.706  0.975  0.819    346   144     9     1     0.9700        3s
+2026-05-08 12:56:08  INFO    neodictabert   template_relation         0.7   0.694  0.707  0.972  0.819    345   143    10     2     0.9700          
+2026-05-08 12:56:08  INFO    neodictabert   template_relation         0.8   0.682  0.703  0.955  0.810    339   143    16     2     0.9700          
+2026-05-08 12:56:08  INFO    neodictabert   template_relation         0.9   0.674  0.707  0.924  0.801    328   136    27     9     0.9700          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    neodictabert   llm_relation              0.6   0.686  0.705  0.961  0.813    341   143    14     2     0.9616        3s
+2026-05-08 12:56:08  INFO    neodictabert   llm_relation              0.7   0.686  0.706  0.955  0.812    339   141    16     4     0.9616          
+2026-05-08 12:56:08  INFO    neodictabert   llm_relation              0.8   0.678  0.704  0.944  0.806    335   141    20     4     0.9616          
+2026-05-08 12:56:08  INFO    neodictabert   llm_relation              0.9   0.676  0.708  0.924  0.802    328   135    27    10     0.9616          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    xlmroberta     basic_relation            0.6   0.698  0.706  0.983  0.822    349   145     6     0     0.9655        4s
+2026-05-08 12:56:08  INFO    xlmroberta     basic_relation            0.7   0.690  0.704  0.972  0.817    345   145    10     0     0.9655          
+2026-05-08 12:56:08  INFO    xlmroberta     basic_relation            0.8   0.680  0.702  0.955  0.809    339   144    16     1     0.9655          
+2026-05-08 12:56:08  INFO    xlmroberta     basic_relation            0.9   0.658  0.698  0.913  0.791    324   140    31     5     0.9655          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    xlmroberta     template_relation         0.6   0.706  0.710  0.992  0.827    352   144     3     1     0.9674        4s
+2026-05-08 12:56:08  INFO    xlmroberta     template_relation         0.7   0.698  0.707  0.980  0.822    348   144     7     1     0.9674          
+2026-05-08 12:56:08  INFO    xlmroberta     template_relation         0.8   0.696  0.709  0.969  0.819    344   141    11     4     0.9674          
+2026-05-08 12:56:08  INFO    xlmroberta     template_relation         0.9   0.660  0.699  0.915  0.793    325   140    30     5     0.9674          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    xlmroberta     llm_relation              0.6   0.700  0.707  0.986  0.824    350   145     5     0     0.9668        4s
+2026-05-08 12:56:08  INFO    xlmroberta     llm_relation              0.7   0.696  0.707  0.977  0.820    347   144     8     1     0.9668          
+2026-05-08 12:56:08  INFO    xlmroberta     llm_relation              0.8   0.678  0.702  0.949  0.807    337   143    18     2     0.9668          
+2026-05-08 12:56:08  INFO    xlmroberta     llm_relation              0.9   0.654  0.695  0.913  0.789    324   142    31     3     0.9668          
+2026-05-08 12:56:08  INFO    -----------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO  
+2026-05-08 12:56:08  INFO  K-FOLD CV THRESHOLD OPTIMISATION  (5 folds, stratified, random_state=42)
+2026-05-08 12:56:08  INFO    NOTE: threshold found on train folds, evaluated on held-out fold — honest OOF F1.
+2026-05-08 12:56:08  INFO    model          hypothesis                 cv_f1    ±std  mean_t  fold_thresholds → fold_F1s
+2026-05-08 12:56:08  INFO    ------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    mmbert         basic_relation            0.8304  0.0000    0.05  [0.05  0.05  0.05  0.05  0.05] → [0.830  0.830  0.830  0.830  0.830]
+2026-05-08 12:56:08  INFO    mmbert         template_relation         0.8304  0.0000    0.05  [0.05  0.05  0.05  0.05  0.05] → [0.830  0.830  0.830  0.830  0.830]
+2026-05-08 12:56:08  INFO    mmbert         llm_relation              0.8304  0.0000    0.05  [0.05  0.05  0.05  0.05  0.05] → [0.830  0.830  0.830  0.830  0.830]
+2026-05-08 12:56:08  INFO    me5large       template_relation         0.8304  0.0000    0.05  [0.05  0.05  0.05  0.05  0.05] → [0.830  0.830  0.830  0.830  0.830]
+2026-05-08 12:56:08  INFO    xlmroberta     basic_relation            0.8304  0.0000    0.05  [0.05  0.05  0.05  0.05  0.05] → [0.830  0.830  0.830  0.830  0.830]
+2026-05-08 12:56:08  INFO    xlmroberta     template_relation         0.8304  0.0000    0.05  [0.05  0.05  0.05  0.05  0.05] → [0.830  0.830  0.830  0.830  0.830]
+2026-05-08 12:56:08  INFO    xlmroberta     llm_relation              0.8304  0.0000    0.05  [0.05  0.05  0.05  0.05  0.05] → [0.830  0.830  0.830  0.830  0.830]
+2026-05-08 12:56:08  INFO    me5large       basic_relation            0.8290  0.0028    0.07  [0.05  0.05  0.05  0.05  0.15] → [0.830  0.830  0.830  0.830  0.824]
+2026-05-08 12:56:08  INFO    neodictabert   template_relation         0.8290  0.0028    0.05  [0.05  0.05  0.05  0.05  0.05] → [0.830  0.830  0.830  0.824  0.830]
+2026-05-08 12:56:08  INFO    neodictabert   basic_relation            0.8277  0.0034    0.05  [0.05  0.05  0.05  0.05  0.05] → [0.830  0.830  0.824  0.824  0.830]
+2026-05-08 12:56:08  INFO    me5large       llm_relation              0.8276  0.0055    0.13  [0.05  0.05  0.05  0.45  0.05] → [0.830  0.830  0.830  0.817  0.830]
+2026-05-08 12:56:08  INFO    neodictabert   llm_relation              0.8263  0.0055    0.05  [0.05  0.05  0.05  0.05  0.05] → [0.830  0.830  0.817  0.824  0.830]
+2026-05-08 12:56:08  INFO  
+2026-05-08 12:56:08  INFO  ENSEMBLE COLUMNS  (averaged confidence scores)
+2026-05-08 12:56:08  INFO    column                               thresh     acc   prec    rec     f1     TP    FP    FN    TN  mean_conf  voters
+2026-05-08 12:56:08  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    nli_ensemble_basic_relation             0.6   0.708  0.709  0.997  0.829    354   145     1     0     0.9567       4
+2026-05-08 12:56:08  INFO    nli_ensemble_basic_relation             0.7   0.702  0.708  0.989  0.825    351   145     4     0     0.9567        
+2026-05-08 12:56:08  INFO    nli_ensemble_basic_relation             0.8   0.684  0.704  0.958  0.811    340   143    15     2     0.9567        
+2026-05-08 12:56:08  INFO    nli_ensemble_basic_relation             0.9   0.652  0.698  0.899  0.786    319   138    36     7     0.9567        
+2026-05-08 12:56:08  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    nli_ensemble_template_relation          0.6   0.710  0.710  1.000  0.830    355   145     0     0     0.9590       4
+2026-05-08 12:56:08  INFO    nli_ensemble_template_relation          0.7   0.706  0.709  0.994  0.828    353   145     2     0     0.9590        
+2026-05-08 12:56:08  INFO    nli_ensemble_template_relation          0.8   0.690  0.705  0.969  0.816    344   144    11     1     0.9590        
+2026-05-08 12:56:08  INFO    nli_ensemble_template_relation          0.9   0.664  0.703  0.913  0.794    324   137    31     8     0.9590        
+2026-05-08 12:56:08  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    nli_ensemble_llm_relation               0.6   0.710  0.710  1.000  0.830    355   145     0     0     0.9533       4
+2026-05-08 12:56:08  INFO    nli_ensemble_llm_relation               0.7   0.698  0.706  0.983  0.822    349   145     6     0     0.9533        
+2026-05-08 12:56:08  INFO    nli_ensemble_llm_relation               0.8   0.686  0.705  0.958  0.812    340   142    15     3     0.9533        
+2026-05-08 12:56:08  INFO    nli_ensemble_llm_relation               0.9   0.650  0.704  0.876  0.780    311   131    44    14     0.9533        
+2026-05-08 12:56:08  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    nli_ensemble_best_per_model             0.6   0.710  0.710  1.000  0.830    355   145     0     0     0.9586       4
+2026-05-08 12:56:08  INFO    nli_ensemble_best_per_model             0.7   0.704  0.708  0.992  0.826    352   145     3     0     0.9586        
+2026-05-08 12:56:08  INFO    nli_ensemble_best_per_model             0.8   0.688  0.704  0.966  0.815    343   144    12     1     0.9586        
+2026-05-08 12:56:08  INFO    nli_ensemble_best_per_model             0.9   0.668  0.704  0.918  0.797    326   137    29     8     0.9586        
+2026-05-08 12:56:08  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO    nli_ensemble_all                        0.6   0.710  0.710  1.000  0.830    355   145     0     0     0.9563      12
+2026-05-08 12:56:08  INFO    nli_ensemble_all                        0.7   0.706  0.709  0.994  0.828    353   145     2     0     0.9563        
+2026-05-08 12:56:08  INFO    nli_ensemble_all                        0.8   0.686  0.704  0.963  0.813    342   144    13     1     0.9563        
+2026-05-08 12:56:08  INFO    nli_ensemble_all                        0.9   0.650  0.697  0.896  0.784    318   138    37     7     0.9563        
+2026-05-08 12:56:08  INFO    --------------------------------------------------------------------------------------------------------------------
+2026-05-08 12:56:08  INFO  ==============================================================================================================
+2026-05-08 12:56:08  INFO  ==============================================================================================================
+2026-05-08 12:56:08  INFO  Summary written to /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_summary.txt
+2026-05-08 12:56:08  INFO  [error_analysis]  report → /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_error_analysis.txt
+2026-05-08 12:56:08  INFO  [error_analysis]  predictions TSV → /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_error_analysis_predictions.tsv
+2026-05-08 12:56:08  INFO  Error analysis written to /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_error_analysis.txt
+2026-05-08 12:56:08  INFO  ======================================================================
+2026-05-08 12:56:08  INFO  Done.  Total wall time: 1m 5s
+2026-05-08 12:56:08  INFO    /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_classified.csv
+2026-05-08 12:56:08  INFO    /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_summary.txt
+2026-05-08 12:56:08  INFO    /home/nlp/ronke21/hebrew_RE/outputs/NLI_clean/nli_error_analysis.txt
+2026-05-08 12:56:08  INFO  ======================================================================
