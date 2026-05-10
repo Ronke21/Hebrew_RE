@@ -24,6 +24,7 @@
   gemma3/en/triplet/2s                                     0.901    56    18     0  0.386    0.051
   gemma3/he/triplet/2s                                     0.895    56    22     0  0.386    0.062
   gemma3/he/triplet/5s                                     0.895    56    22     0  0.386    0.062
+  mistral_small24b/he/triplet/2s                           0.892    25    49     0  0.172    0.138
   gemma3/he/template/5s                                    0.891    28    47     0  0.193    0.132
   gemma4_it/en/template/5s                                 0.889    20    55     0  0.138    0.155
   gemma3/he/triplet/0s                                     0.888    58    25     0  0.400    0.070
@@ -44,14 +45,17 @@
   gemma4_it/he/template/5s                                 0.878    22    60     0  0.152    0.169
   cohere_aya32b/he/triplet/5s                              0.876    89     9     0  0.614    0.025
   qwen3/en/triplet/5s                                      0.875    50    40     0  0.345    0.113
+  qwen35_base/en/triplet/5s                                0.875    63    30     0  0.434    0.085
   cohere_aya32b/en/triplet/5s                              0.875    94     6     0  0.648    0.017
   cohere_aya32b/en/template/5s                             0.874    84    14     0  0.579    0.039
   cohere_aya32b/he/triplet/2s                              0.874    97     4     0  0.669    0.011
   cohere_aya32b/en/template/0s                             0.874    74    22     0  0.510    0.062
+  qwen35_base/en/triplet/2s                                0.874    65    29     4  0.448    0.082
   gemma4_it/he/template/0s                                 0.874    20    64     0  0.138    0.180
   cohere_aya32b/en/triplet/2s                              0.874   100     2     0  0.690    0.006
   cohere_aya32b/en/template/2s                             0.874    73    23     0  0.503    0.065
   gemma4_it/he/template/2s                                 0.873    23    62     0  0.159    0.175
+  mistral_small24b/en/triplet/2s                           0.873    36    52     0  0.248    0.146
   qwen3/en/template/5s                                     0.872    64    31     0  0.441    0.087
   cohere_aya32b/he/template/5s                             0.871    88    13     0  0.607    0.037
   qwen3/he/triplet/5s                                      0.871    38    52     0  0.262    0.146
@@ -59,15 +63,28 @@
   gemma4_it/en/triplet/0s                                  0.870    36    54     0  0.248    0.152
   qwen3/he/template/5s                                     0.870    53    41     0  0.366    0.115
   qwen3/en/triplet/2s                                      0.868    65    33     0  0.448    0.093
+  mistral_small24b/he/template/2s                          0.867    24    65     0  0.166    0.183
+  mistral_small24b/en/template/2s                          0.866    17    71     0  0.117    0.200
+  mistral_small24b/he/template/5s                          0.865    19    70     0  0.131    0.197
   cohere_aya32b/he/triplet/0s                              0.864    95    13     0  0.655    0.037
   qwen3/he/triplet/0s                                      0.863    61    39     0  0.421    0.110
   qwen3/en/triplet/0s                                      0.863    81    24     0  0.559    0.068
+  mistral_small24b/he/template/0s                          0.863    18    72     0  0.124    0.203
+  mistral_small24b/he/triplet/5s                           0.862    25    67     0  0.172    0.189
   qwen3/he/template/2s                                     0.862    41    55     0  0.283    0.155
   gemma4_31b_it/en/triplet/0s                              0.861    21    71     0  0.145    0.200
   qwen3/en/template/2s                                     0.857    73    34     0  0.503    0.096
+  mistral_small24b/en/triplet/5s                           0.857    24    71     0  0.166    0.200
+  mistral_small24b/en/template/0s                          0.856    22    73     0  0.152    0.206
+  qwen35_base/he/template/5s                               0.856    65    41     2  0.448    0.115
+  mistral_small24b/en/template/5s                          0.854    18    77     0  0.124    0.217
+  qwen35_base/he/triplet/5s                                0.848    72    41    34  0.497    0.115
   qwen3/en/template/0s                                     0.846    83    34     0  0.572    0.096
+  qwen35_base/en/template/2s                               0.845    69    45     0  0.476    0.127
   qwen3/he/template/0s                                     0.843    65    49     0  0.448    0.138
   dictalm3/en/template/0s                                  0.841    83    37     0  0.572    0.104
+  qwen35_base/he/template/2s                               0.840    43    67     2  0.297    0.189
+  qwen35_base/en/template/5s                               0.838    54    60    19  0.372    0.169
   dictalm3/he/triplet/2s                                   0.837    37    73     0  0.255    0.206
   dictalm3/en/template/5s                                  0.836    53    62     0  0.366    0.175
   dictalm3/he/triplet/5s                                   0.835    20    86     0  0.138    0.242
@@ -77,18 +94,25 @@
   dictalm3/he/template/2s                                  0.785    29   107     0  0.200    0.301
   dictalm3/he/template/5s                                  0.781    38   103     0  0.262    0.290
   gemma4_it/he/triplet/5s                                  0.753     9   135     0  0.062    0.380
+  mistral_small24b/en/triplet/0s                           0.741    14   138     0  0.097    0.389
+  mistral_small24b/he/triplet/0s                           0.738     9   142     0  0.062    0.400
+  qwen35_base/he/triplet/2s                                0.710    32   142   152  0.221    0.400
   dictalm3/en/triplet/0s                                   0.696    29   150     0  0.200    0.423
   dictalm3/he/triplet/0s                                   0.681    17   163     0  0.117    0.459
   dictalm3/en/triplet/2s                                   0.673     8   171     0  0.055    0.482
   dictalm3/he/template/0s                                  0.568     3   213   108  0.021    0.600
   dictalm3/en/triplet/5s                                   0.504     1   235     0  0.007    0.662
+  qwen35_base/he/triplet/0s                                0.497    35   226   271  0.241    0.637
+  qwen35_base/he/template/0s                               0.106     3   335   364  0.021    0.944
+  qwen35_base/en/triplet/0s                                0.006     0   354   499  0.000    0.997
+  qwen35_base/en/template/0s                               0.000     0   355   500  0.000    1.000
 
 ==============================================================================================================
   SECTION 2 — SHOT-LEVEL F1 COMPARISON
 ==============================================================================================================
-  0-shot:  mean F1=0.8437  (across 24 combos)
-  2-shot:  mean F1=0.8667  (across 24 combos)
-  5-shot:  mean F1=0.8587  (across 24 combos)
+  0-shot:  mean F1=0.7518  (across 32 combos)
+  2-shot:  mean F1=0.8615  (across 32 combos)
+  5-shot:  mean F1=0.8582  (across 32 combos)
 
 ==============================================================================================================
   SECTION 3 — FALSE POSITIVES  [best combo]  — 19 total

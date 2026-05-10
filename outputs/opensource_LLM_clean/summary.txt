@@ -1,6 +1,6 @@
 ========================================================================================================================
 OPEN-SOURCE LLM CLASSIFICATION SUMMARY
-Total wall time: 38m 54s
+Total wall time: 43m 42s
 ========================================================================================================================
 
 Per-model total inference time:
@@ -9,7 +9,9 @@ Per-model total inference time:
   cohere_aya32b   0s  (inf rows/s across all combos)
   gemma3          0s  (inf rows/s across all combos)
   gemma4_it       0s  (inf rows/s across all combos)
-  gemma4_31b_it   30m 29s  (3.3 rows/s across all combos)
+  gemma4_31b_it   0s  (inf rows/s across all combos)
+  qwen35_base     21m 13s  (4.7 rows/s across all combos)
+  mistral_small24b  16m 16s  (6.1 rows/s across all combos)
 
 Hard-label metrics (per combo):
   model          lang rel        shot     acc   prec    rec     f1     TP    FP    FN    TN   unk   rows/s      time
@@ -74,18 +76,42 @@ Hard-label metrics (per combo):
   gemma4_it      en   template      0   0.846  0.926  0.851  0.887    302    24    53   121     0      inf        0s
   gemma4_it      en   template      2   0.840  0.928  0.839  0.882    298    23    57   122     0      inf        0s
   gemma4_it      en   template      5   0.850  0.938  0.845  0.889    300    20    55   125     0      inf        0s
-  gemma4_31b_it  he   triplet       0   0.838  0.928  0.837  0.880    297    23    58   122     0      4.5    1m 50s
-  gemma4_31b_it  he   triplet       2   0.886  0.936  0.901  0.918    320    22    35   123     0      2.8     3m 0s
-  gemma4_31b_it  he   triplet       5   0.876  0.943  0.879  0.910    312    19    43   126     0      1.8    4m 43s
-  gemma4_31b_it  he   template      0   0.892  0.947  0.899  0.922    319    18    36   127     0      5.4    1m 31s
-  gemma4_31b_it  he   template      2   0.898  0.947  0.907  0.927    322    18    33   127     0      3.6    2m 20s
-  gemma4_31b_it  he   template      5   0.896  0.944  0.907  0.925    322    19    33   126     0      2.3    3m 33s
-  gemma4_31b_it  en   triplet       0   0.816  0.931  0.800  0.861    284    21    71   124     0      5.2    1m 36s
-  gemma4_31b_it  en   triplet       2   0.898  0.944  0.910  0.927    323    19    32   126     0      3.6    2m 19s
-  gemma4_31b_it  en   triplet       5   0.894  0.949  0.899  0.923    319    17    36   128     0      2.3    3m 34s
-  gemma4_31b_it  en   template      0   0.892  0.936  0.910  0.923    323    22    32   123     0      6.1    1m 22s
-  gemma4_31b_it  en   template      2   0.890  0.936  0.907  0.921    322    22    33   123     0      4.3    1m 55s
-  gemma4_31b_it  en   template      5   0.896  0.942  0.910  0.926    323    20    32   125     0      3.1    2m 41s
+  gemma4_31b_it  he   triplet       0   0.838  0.928  0.837  0.880    297    23    58   122     0      inf        0s
+  gemma4_31b_it  he   triplet       2   0.886  0.936  0.901  0.918    320    22    35   123     0      inf        0s
+  gemma4_31b_it  he   triplet       5   0.876  0.943  0.879  0.910    312    19    43   126     0      inf        0s
+  gemma4_31b_it  he   template      0   0.892  0.947  0.899  0.922    319    18    36   127     0      inf        0s
+  gemma4_31b_it  he   template      2   0.898  0.947  0.907  0.927    322    18    33   127     0      inf        0s
+  gemma4_31b_it  he   template      5   0.896  0.944  0.907  0.925    322    19    33   126     0      inf        0s
+  gemma4_31b_it  en   triplet       0   0.816  0.931  0.800  0.861    284    21    71   124     0      inf        0s
+  gemma4_31b_it  en   triplet       2   0.898  0.944  0.910  0.927    323    19    32   126     0      inf        0s
+  gemma4_31b_it  en   triplet       5   0.894  0.949  0.899  0.923    319    17    36   128     0      inf        0s
+  gemma4_31b_it  en   template      0   0.892  0.936  0.910  0.923    323    22    32   123     0      inf        0s
+  gemma4_31b_it  en   template      2   0.890  0.936  0.907  0.921    322    22    33   123     0      inf        0s
+  gemma4_31b_it  en   template      5   0.896  0.942  0.910  0.926    323    20    32   125     0      inf        0s
+  qwen35_base    he   triplet       0   0.478  0.787  0.363  0.497    129    35   226   110   271      9.3       53s
+  qwen35_base    he   triplet       2   0.652  0.869  0.600  0.710    213    32   142   113   152      2.3    3m 33s
+  qwen35_base    he   triplet       5   0.774  0.813  0.885  0.848    314    72    41    73    34      2.2    3m 52s
+  qwen35_base    he   template      0   0.324  0.870  0.056  0.106     20     3   335   142   364     10.8       46s
+  qwen35_base    he   template      2   0.780  0.870  0.811  0.840    288    43    67   102     2      2.4    3m 28s
+  qwen35_base    he   template      5   0.788  0.828  0.885  0.856    314    65    41    80     2      2.2    3m 45s
+  qwen35_base    en   triplet       0   0.292  1.000  0.003  0.006      1     0   354   145   499     10.6       47s
+  qwen35_base    en   triplet       2   0.812  0.834  0.918  0.874    326    65    29    80     4     10.7       46s
+  qwen35_base    en   triplet       5   0.814  0.838  0.915  0.875    325    63    30    82     0      9.4       53s
+  qwen35_base    en   template      0   0.290  0.000  0.000  0.000      0     0   355   145   500     10.9       45s
+  qwen35_base    en   template      2   0.772  0.818  0.873  0.845    310    69    45    76     0     11.8       42s
+  qwen35_base    en   template      5   0.772  0.845  0.831  0.838    295    54    60    91    19      8.5       58s
+  mistral_small24b he   triplet       0   0.698  0.959  0.600  0.738    213     9   142   136     0      8.2     1m 1s
+  mistral_small24b he   triplet       2   0.852  0.924  0.862  0.892    306    25    49   120     0      5.2    1m 36s
+  mistral_small24b he   triplet       5   0.816  0.920  0.811  0.862    288    25    67   120     0      3.4    2m 26s
+  mistral_small24b he   template      0   0.820  0.940  0.797  0.863    283    18    72   127     0      9.8       51s
+  mistral_small24b he   template      2   0.822  0.924  0.817  0.867    290    24    65   121     0      6.7    1m 15s
+  mistral_small24b he   template      5   0.822  0.938  0.803  0.865    285    19    70   126     0      4.6    1m 48s
+  mistral_small24b en   triplet       0   0.696  0.939  0.611  0.741    217    14   138   131     0      9.3       53s
+  mistral_small24b en   triplet       2   0.824  0.894  0.854  0.873    303    36    52   109     0      6.4    1m 17s
+  mistral_small24b en   triplet       5   0.810  0.922  0.800  0.857    284    24    71   121     0      4.6    1m 49s
+  mistral_small24b en   template      0   0.810  0.928  0.794  0.856    282    22    73   123     0     10.8       46s
+  mistral_small24b en   template      2   0.824  0.944  0.800  0.866    284    17    71   128     0      7.8     1m 3s
+  mistral_small24b en   template      5   0.810  0.939  0.783  0.854    278    18    77   127     0      5.8    1m 26s
 
 Soft-score metrics (best F1 threshold per combo):
   model          lang rel        shot  best_thr     acc   prec    rec     f1     TP    FP    FN    TN
@@ -162,43 +188,67 @@ Soft-score metrics (best F1 threshold per combo):
   gemma4_31b_it  en   template      0      0.30   0.894  0.936  0.913  0.924    324    22    31   123
   gemma4_31b_it  en   template      2      0.30   0.890  0.936  0.907  0.921    322    22    33   123
   gemma4_31b_it  en   template      5      0.50   0.896  0.942  0.910  0.926    323    20    32   125
+  qwen35_base    he   triplet       0      0.30   0.766  0.886  0.769  0.824    273    35    82   110
+  qwen35_base    he   triplet       2      0.30   0.306  1.000  0.023  0.044      8     0   347   145
+  qwen35_base    he   triplet       5      0.30   0.290  0.000  0.000  0.000      0     0   355   145
+  qwen35_base    he   template      0      0.30   0.670  0.899  0.603  0.722    214    24   141   121
+  qwen35_base    he   template      2      0.30   0.366  1.000  0.107  0.193     38     0   317   145
+  qwen35_base    he   template      5      0.30   0.310  1.000  0.028  0.055     10     0   345   145
+  qwen35_base    en   triplet       0      0.50   0.786  0.801  0.930  0.860    330    82    25    63
+  qwen35_base    en   triplet       2      0.60   0.820  0.857  0.896  0.876    318    53    37    92
+  qwen35_base    en   triplet       5      0.50   0.812  0.827  0.930  0.875    330    69    25    76
+  qwen35_base    en   template      0      0.40   0.792  0.819  0.907  0.861    322    71    33    74
+  qwen35_base    en   template      2      0.30   0.766  0.783  0.927  0.849    329    91    26    54
+  qwen35_base    en   template      5      0.30   0.786  0.810  0.913  0.858    324    76    31    69
+  mistral_small24b he   triplet       0      0.30   0.776  0.945  0.727  0.822    258    15    97   130
+  mistral_small24b he   triplet       2      0.40   0.858  0.901  0.899  0.900    319    35    36   110
+  mistral_small24b he   triplet       5      0.30   0.828  0.879  0.879  0.879    312    43    43   102
+  mistral_small24b he   template      0      0.30   0.844  0.926  0.848  0.885    301    24    54   121
+  mistral_small24b he   template      2      0.30   0.842  0.906  0.868  0.886    308    32    47   113
+  mistral_small24b he   template      5      0.40   0.842  0.921  0.851  0.884    302    26    53   119
+  mistral_small24b en   triplet       0      0.30   0.794  0.923  0.775  0.842    275    23    80   122
+  mistral_small24b en   triplet       2      0.30   0.836  0.858  0.921  0.889    327    54    28    91
+  mistral_small24b en   triplet       5      0.30   0.842  0.875  0.907  0.891    322    46    33    99
+  mistral_small24b en   template      0      0.30   0.824  0.899  0.848  0.872    301    34    54   111
+  mistral_small24b en   template      2      0.30   0.840  0.896  0.876  0.886    311    36    44   109
+  mistral_small24b en   template      5      0.30   0.832  0.907  0.851  0.878    302    31    53   114
 
 Uniform majority-vote columns:
   column                                                 acc   prec    rec     f1     TP    FP    FN    TN   unk  voters
   ----------------------------------------------------------------------------------------------------------------------
-  llm_majority_all_models_he_triplet_0s_nc             0.848  0.929  0.851  0.888    302    23    53   122    49       6
-  llm_majority_all_models_he_triplet_2s_nc             0.886  0.938  0.899  0.918    319    21    36   124    41       6
-  llm_majority_all_models_he_triplet_5s_nc             0.866  0.944  0.862  0.901    306    18    49   127    34       6
-  llm_majority_all_models_he_template_0s_nc            0.852  0.924  0.862  0.892    306    25    49   120    26       6
-  llm_majority_all_models_he_template_2s_nc            0.860  0.933  0.865  0.898    307    22    48   123    30       6
-  llm_majority_all_models_he_template_5s_nc            0.866  0.926  0.882  0.903    313    25    42   120    28       6
-  llm_majority_all_models_en_triplet_0s_nc             0.834  0.880  0.887  0.884    315    43    40   102    44       6
-  llm_majority_all_models_en_triplet_2s_nc             0.876  0.920  0.904  0.912    321    28    34   117    37       6
-  llm_majority_all_models_en_triplet_5s_nc             0.884  0.935  0.899  0.917    319    22    36   123    29       6
-  llm_majority_all_models_en_template_0s_nc            0.836  0.872  0.901  0.886    320    47    35    98    27       6
-  llm_majority_all_models_en_template_2s_nc            0.844  0.888  0.893  0.890    317    40    38   105    28       6
-  llm_majority_all_models_en_template_5s_nc            0.858  0.899  0.901  0.900    320    36    35   109    23       6
-  llm_majority_best_per_model                          0.886  0.928  0.910  0.919    323    25    32   120    43       6
-  llm_majority_all                                     0.870  0.901  0.918  0.909    326    36    29   109     2      72
+  llm_majority_all_models_he_triplet_0s_nc             0.842  0.921  0.851  0.884    302    26    53   119    23       8
+  llm_majority_all_models_he_triplet_2s_nc             0.892  0.936  0.910  0.923    323    22    32   123    18       8
+  llm_majority_all_models_he_triplet_5s_nc             0.862  0.936  0.865  0.899    307    21    48   124    28       8
+  llm_majority_all_models_he_template_0s_nc            0.848  0.924  0.856  0.889    304    25    51   120    14       8
+  llm_majority_all_models_he_template_2s_nc            0.846  0.921  0.856  0.888    304    26    51   119    17       8
+  llm_majority_all_models_he_template_5s_nc            0.868  0.926  0.885  0.905    314    25    41   120    21       8
+  llm_majority_all_models_en_triplet_0s_nc             0.834  0.878  0.890  0.884    316    44    39   101     0       8
+  llm_majority_all_models_en_triplet_2s_nc             0.868  0.907  0.907  0.907    322    33    33   112    24       8
+  llm_majority_all_models_en_triplet_5s_nc             0.878  0.927  0.899  0.913    319    25    36   120    21       8
+  llm_majority_all_models_en_template_0s_nc            0.836  0.870  0.904  0.887    321    48    34    97     0       8
+  llm_majority_all_models_en_template_2s_nc            0.838  0.896  0.873  0.884    310    36    45   109    35       8
+  llm_majority_all_models_en_template_5s_nc            0.852  0.903  0.887  0.895    315    34    40   111    24       8
+  llm_majority_best_per_model                          0.882  0.918  0.915  0.917    325    29    30   116    27       8
+  llm_majority_all                                     0.874  0.912  0.910  0.911    323    31    32   114     1      96
 
 F1-weighted majority-vote columns:
-  llm_wmajority_best_per_model                        acc=0.890  prec=0.914  rec=0.932  f1=0.923  unk=0  voters=6
-  llm_wmajority_all                                   acc=0.864  prec=0.893  rec=0.918  f1=0.906  unk=0  voters=72
+  llm_wmajority_best_per_model                        acc=0.882  prec=0.909  rec=0.927  f1=0.918  unk=0  voters=8
+  llm_wmajority_all                                   acc=0.872  prec=0.908  rec=0.913  f1=0.910  unk=0  voters=96
 
 Soft-score ensemble columns (best F1 threshold):
   column                                              best_thr     acc   prec    rec     f1     TP    FP    FN    TN  voters
   --------------------------------------------------------------------------------------------------------------------------
-  llm_soft_ens_all_models_en_template_2s_nc               0.60   0.858  0.908  0.890  0.899    316    32    39   113       6
-  llm_soft_ens_all_models_he_triplet_2s_nc                0.40   0.886  0.931  0.907  0.919    322    24    33   121       6
-  llm_soft_ens_all_models_he_template_2s_nc               0.40   0.868  0.926  0.885  0.905    314    25    41   120       6
-  llm_soft_ens_all_models_he_triplet_5s_nc                0.40   0.878  0.938  0.887  0.912    315    21    40   124       6
-  llm_soft_ens_all_models_he_triplet_0s_nc                0.30   0.856  0.877  0.927  0.901    329    46    26    99       6
-  llm_soft_ens_all_models_en_triplet_0s_nc                0.60   0.842  0.890  0.887  0.889    315    39    40   106       6
-  llm_soft_ens_all_models_en_triplet_2s_nc                0.60   0.876  0.922  0.901  0.912    320    27    35   118       6
-  llm_soft_ens_all_models_en_template_0s_nc               0.70   0.868  0.931  0.879  0.904    312    23    43   122       6
-  llm_soft_ens_all_models_en_template_5s_nc               0.60   0.864  0.914  0.893  0.903    317    30    38   115       6
-  llm_soft_ens_all_models_he_template_5s_nc               0.30   0.880  0.909  0.924  0.916    328    33    27   112       6
-  llm_soft_ens_all_models_he_template_0s_nc               0.30   0.864  0.902  0.907  0.904    322    35    33   110       6
-  llm_soft_ens_all_models_en_triplet_5s_nc                0.60   0.882  0.935  0.896  0.915    318    22    37   123       6
-  llm_soft_ens_all_nocot                                  0.50   0.888  0.928  0.913  0.920    324    25    31   120      72
+  llm_soft_ens_all_models_he_triplet_2s_nc                0.40   0.886  0.946  0.890  0.917    316    18    39   127       8
+  llm_soft_ens_all_models_he_template_5s_nc               0.30   0.880  0.925  0.904  0.915    321    26    34   119       8
+  llm_soft_ens_all_models_he_template_0s_nc               0.30   0.860  0.904  0.899  0.901    319    34    36   111       8
+  llm_soft_ens_all_models_en_triplet_0s_nc                0.60   0.846  0.904  0.876  0.890    311    33    44   112       8
+  llm_soft_ens_all_models_he_triplet_0s_nc                0.30   0.860  0.884  0.924  0.904    328    43    27   102       8
+  llm_soft_ens_all_models_en_triplet_2s_nc                0.70   0.882  0.957  0.873  0.913    310    14    45   131       8
+  llm_soft_ens_all_models_en_template_2s_nc               0.50   0.852  0.891  0.901  0.896    320    39    35   106       8
+  llm_soft_ens_all_models_en_template_5s_nc               0.40   0.852  0.869  0.932  0.899    331    50    24    95       8
+  llm_soft_ens_all_models_en_triplet_5s_nc                0.60   0.880  0.935  0.893  0.914    317    22    38   123       8
+  llm_soft_ens_all_models_he_template_2s_nc               0.40   0.866  0.936  0.870  0.902    309    21    46   124       8
+  llm_soft_ens_all_models_en_template_0s_nc               0.70   0.864  0.939  0.865  0.900    307    20    48   125       8
+  llm_soft_ens_all_models_he_triplet_5s_nc                0.30   0.868  0.914  0.899  0.906    319    30    36   115       8
+  llm_soft_ens_all_nocot                                  0.50   0.894  0.942  0.907  0.924    322    20    33   125      96
 ========================================================================================================================
